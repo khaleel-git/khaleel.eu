@@ -42,6 +42,9 @@
                     maxWidth: {
                         '8xl': '88rem',
                         '9xl': '96rem',
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                     }
                 }
             }
@@ -186,6 +189,7 @@
         const outputDiv = document.getElementById('output');
         const inputField = document.getElementById('cmd-input');
         const cursor = document.getElementById('custom-cursor');
+        const inputLine = document.getElementById('input-line');
         
         let isAnimating = false;
 
@@ -205,44 +209,42 @@
             'whoami': {
                 type: 'html',
                 content: `
-                    <div class="flex flex-col lg:flex-row gap-10 mb-6">
-                        <div class="text-term-green whitespace-pre leading-none text-xs lg:text-base hidden lg:block select-none font-bold">
-      _    _           _            _ 
-     | |  | |         | |          | |
-     | |  | |__   __ _| | ___  ___ | |
-     | |/\\| '_ \\ / _\` | |/ _ \\/ _ \\| |
-     \\  /\\  / | | (_| | |  __/  __/| |
-      \\/  \\/|_|  \\__,_|_|\\___|\\___||_|
+                    <div class="flex flex-col lg:flex-row gap-12 mb-8 items-center lg:items-start pl-2">
+                        <!-- Photo Section with Glow Effect -->
+                        <div class="relative group flex-shrink-0">
+                            <div class="absolute -inset-1 bg-gradient-to-r from-term-green to-term-blue rounded-full lg:rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-1000 group-hover:duration-200"></div>
+                            <img src="https://raw.githubusercontent.com/khaleel-git/khaleel.eu/master/assets/img/linked_photo_dp.png" 
+                                 alt="Khaleel Ahmad" 
+                                 class="relative w-40 h-40 lg:w-64 lg:h-64 rounded-full lg:rounded-2xl object-cover border-2 border-gray-800 shadow-2xl" />
                         </div>
-                        <div class="flex-1">
-                            <p class="text-3xl md:text-4xl font-bold text-white mb-3">Khaleel Ahmad</p>
-                            <p class="text-gray-400 mb-3 text-base md:text-xl">Data Platform Engineer | DevOps | Linux SysAdmin</p>
-                            <p class="mb-6 text-base md:text-lg">Based in <span class="text-term-yellow">Berlin, Germany</span> <span class="text-gray-500 text-sm">(Open to Full-time/Werkstudent)</span></p>
+
+                        <div class="flex-1 text-center lg:text-left">
+                            <h1 class="text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight">Khaleel Ahmad</h1>
+                            <p class="text-gray-400 mb-4 text-lg md:text-2xl font-light">Data Platform Engineer | DevOps | Linux SysAdmin</p>
+                            <p class="mb-8 text-base md:text-xl text-gray-500">Based in <span class="text-term-yellow">Berlin, Germany</span> <span class="text-xs border border-gray-800 px-2 py-0.5 rounded ml-2 bg-white/5">Open to Work</span></p>
                             
-                            <div class="flex flex-wrap gap-4 mt-2 mb-8">
-                                <a href="https://github.com/khaleel-git" target="_blank" rel="noopener noreferrer" class="text-term-cyan no-underline hover:text-white transition-colors flex items-center gap-2 bg-white/5 px-4 py-2 rounded border border-gray-800 text-base">
+                            <div class="flex flex-wrap gap-4 justify-center lg:justify-start mt-2 mb-8">
+                                <a href="https://github.com/khaleel-git" target="_blank" rel="noopener noreferrer" class="text-term-cyan no-underline hover:text-white transition-colors flex items-center gap-2 bg-white/5 px-5 py-2.5 rounded-lg border border-gray-800 text-lg hover:border-term-cyan/30">
                                     <i class="fab fa-github"></i> khaleel-git
                                 </a>
-                                <a href="https://www.linkedin.com/in/khaleel-ahmad/" target="_blank" rel="noopener noreferrer" class="text-term-blue no-underline hover:text-white transition-colors flex items-center gap-2 bg-white/5 px-4 py-2 rounded border border-gray-800 text-base">
+                                <a href="https://www.linkedin.com/in/khaleel-ahmad/" target="_blank" rel="noopener noreferrer" class="text-term-blue no-underline hover:text-white transition-colors flex items-center gap-2 bg-white/5 px-5 py-2.5 rounded-lg border border-gray-800 text-lg hover:border-term-blue/30">
                                     <i class="fab fa-linkedin"></i> in/khaleel-ahmad
                                 </a>
                             </div>
 
-                            <p class="text-gray-300 max-w-4xl text-base md:text-xl leading-relaxed mb-6">
+                            <p class="text-gray-300 text-lg md:text-xl leading-relaxed mb-8 max-w-4xl">
                                 Infrastructure and Data Platform Engineer with <strong class="text-white">3+ years</strong> of experience managing hybrid cloud/on-prem environments. Currently pursuing M.Sc. in AI at BTU Cottbus-Senftenberg.
                             </p>
                             
-                            <p class="text-term-pink font-bold text-lg mb-3">Core Expertise:</p>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-base md:text-lg text-gray-300">
-                                <div><span class="text-term-green">➜</span> <span class="font-bold text-gray-200">IaC:</span> Terraform, Ansible, VMware, AWS.</div>
-                                <div><span class="text-term-green">➜</span> <span class="font-bold text-gray-200">Data:</span> Python, MSSQL, Airflow.</div>
-                                <div><span class="text-term-green">➜</span> <span class="font-bold text-gray-200">Orchestration:</span> Kubernetes (CKA).</div>
-                                <div><span class="text-term-green">➜</span> <span class="font-bold text-gray-200">Ops:</span> Linux Admin, Network Security.</div>
+                            <div class="bg-white/5 p-6 rounded-xl border border-gray-800 text-left">
+                                <p class="text-term-pink font-bold text-lg mb-4 uppercase tracking-wider text-xs">Core Expertise</p>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-base md:text-lg text-gray-300">
+                                    <div class="flex items-center gap-2"><span class="text-term-green">➜</span> <span><strong>IaC:</strong> Terraform, Ansible, VMware, AWS</span></div>
+                                    <div class="flex items-center gap-2"><span class="text-term-green">➜</span> <span><strong>Data:</strong> Python, MSSQL, Airflow</span></div>
+                                    <div class="flex items-center gap-2"><span class="text-term-green">➜</span> <span><strong>K8s:</strong> Kubernetes (CKA Certified)</span></div>
+                                    <div class="flex items-center gap-2"><span class="text-term-green">➜</span> <span><strong>Ops:</strong> Linux Admin, Security</span></div>
+                                </div>
                             </div>
-
-                            <p class="text-gray-400 text-sm italic border-l-4 border-term-gray pl-4 py-3 mt-6 bg-white/5 rounded-r">
-                                "I sit at the intersection of infrastructure and data, building reliable platforms for data-intensive workloads."
-                            </p>
                         </div>
                     </div>
                 `
@@ -346,6 +348,7 @@
                         }
                     ];
 
+                    // Responsive Grid Layout instead of Table
                     let html = `<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mt-4">`;
 
                     projects.forEach(p => {
@@ -496,7 +499,7 @@
                     <div class="flex flex-col">
                         <a href="https://www.credly.com/badges/2e7916a9-0972-4971-a1b5-374d22c5a24b" target="_blank" rel="noopener noreferrer" class="font-bold text-gray-200 group-hover:text-term-cyan transition-colors hover:underline text-lg">CKA: Certified Kubernetes Administrator</a>
                         <div class="text-gray-500 text-sm mt-1">— Linux Foundation</div>
-                        <div class="text-sm text-gray-600 font-mono mt-1">Jul 2025</div>
+                        <div class="text-sm text-gray-600 font-mono mt-1">Jul 2025 - Jul 2027</div>
                     </div>
                  </div>
             </div>
@@ -811,6 +814,7 @@
             const div = document.createElement('div');
             div.className = 'cmd-output mb-6';
             div.innerHTML = html;
+            div.style.fontSize = '1.2vw';
             
             // Initial hide of elements
             const elementsToAnimate = div.querySelectorAll('p, li, h3, h4, .grid > div, .flex-col > div');
