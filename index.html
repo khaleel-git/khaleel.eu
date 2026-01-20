@@ -42,9 +42,6 @@
                     maxWidth: {
                         '8xl': '88rem',
                         '9xl': '96rem',
-                    },
-                    animation: {
-                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                     }
                 }
             }
@@ -167,14 +164,14 @@
             </div>
             
             <!-- Helper Buttons (Visible on all devices now) -->
-            <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-7 gap-4 mt-10 border-t border-gray-800 pt-6">
-                <button onclick="runCmd('whoami')" class="px-4 py-4 bg-gray-800 text-sm md:text-base rounded text-term-green border border-gray-700 hover:bg-gray-700 transition-colors font-mono font-bold tracking-wide">whoami</button>
-                <button onclick="runCmd('projects')" class="px-4 py-4 bg-gray-800 text-sm md:text-base rounded text-term-blue border border-gray-700 hover:bg-gray-700 transition-colors font-mono font-bold tracking-wide">projects</button>
-                <button onclick="runCmd('skills')" class="px-4 py-4 bg-gray-800 text-sm md:text-base rounded text-term-yellow border border-gray-700 hover:bg-gray-700 transition-colors font-mono font-bold tracking-wide">skills</button>
-                <button onclick="runCmd('experience')" class="px-4 py-4 bg-gray-800 text-sm md:text-base rounded text-gray-300 border border-gray-700 hover:bg-gray-700 transition-colors font-mono font-bold tracking-wide">experience</button>
-                <button onclick="runCmd('education')" class="px-4 py-4 bg-gray-800 text-sm md:text-base rounded text-term-purple border border-gray-700 hover:bg-gray-700 transition-colors font-mono font-bold tracking-wide">education</button>
-                <button onclick="runCmd('certifications')" class="px-4 py-4 bg-gray-800 text-sm md:text-base rounded text-term-cyan border border-gray-700 hover:bg-gray-700 transition-colors font-mono font-bold tracking-wide">certs</button>
-                <button onclick="runCmd('contact')" class="px-4 py-4 bg-gray-800 text-sm md:text-base rounded text-term-pink border border-gray-700 hover:bg-gray-700 transition-colors font-mono font-bold tracking-wide">contact</button>
+            <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-7 gap-3 md:gap-4 mt-10 border-t border-gray-800 pt-6">
+                <button onclick="runCmd('whoami')" class="px-2 md:px-4 py-3 md:py-4 bg-gray-800 text-[10px] md:text-sm lg:text-base rounded text-term-green border border-gray-700 hover:bg-gray-700 transition-colors font-mono font-bold tracking-wide break-words">whoami</button>
+                <button onclick="runCmd('projects')" class="px-2 md:px-4 py-3 md:py-4 bg-gray-800 text-[10px] md:text-sm lg:text-base rounded text-term-blue border border-gray-700 hover:bg-gray-700 transition-colors font-mono font-bold tracking-wide break-words">projects</button>
+                <button onclick="runCmd('skills')" class="px-2 md:px-4 py-3 md:py-4 bg-gray-800 text-[10px] md:text-sm lg:text-base rounded text-term-yellow border border-gray-700 hover:bg-gray-700 transition-colors font-mono font-bold tracking-wide break-words">skills</button>
+                <button onclick="runCmd('experience')" class="px-2 md:px-4 py-3 md:py-4 bg-gray-800 text-[10px] md:text-sm lg:text-base rounded text-gray-300 border border-gray-700 hover:bg-gray-700 transition-colors font-mono font-bold tracking-wide break-words">experience</button>
+                <button onclick="runCmd('education')" class="px-2 md:px-4 py-3 md:py-4 bg-gray-800 text-[10px] md:text-sm lg:text-base rounded text-term-purple border border-gray-700 hover:bg-gray-700 transition-colors font-mono font-bold tracking-wide break-words">education</button>
+                <button onclick="runCmd('certifications')" class="px-2 md:px-4 py-3 md:py-4 bg-gray-800 text-[10px] md:text-sm lg:text-base rounded text-term-cyan border border-gray-700 hover:bg-gray-700 transition-colors font-mono font-bold tracking-wide break-words">certs</button>
+                <button onclick="runCmd('contact')" class="px-2 md:px-4 py-3 md:py-4 bg-gray-800 text-[10px] md:text-sm lg:text-base rounded text-term-pink border border-gray-700 hover:bg-gray-700 transition-colors font-mono font-bold tracking-wide break-words">contact</button>
             </div>
 
         </div>
