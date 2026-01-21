@@ -121,25 +121,24 @@
     <div class="scanline"></div>
 
     <!-- Terminal Window -->
-    <!-- Expanded max-width for better Desktop experience (85vw) -->
     <div class="w-full max-w-[85vw] mx-auto border border-gray-800 bg-black/90 rounded-lg shadow-2xl overflow-hidden min-h-[85vh] md:min-h-[90vh] flex flex-col relative z-20">
         
         <!-- Top Bar -->
         <div class="bg-gray-900 border-b border-gray-800 px-3 py-2 md:px-4 md:py-3 flex items-center justify-between sticky top-0 z-30">
             <!-- Left Controls -->
-            <div class="flex gap-1.5 md:gap-2 items-center">
+            <div class="flex gap-1.5 md:gap-2 items-center min-w-[50px]">
                 <div class="w-2.5 h-2.5 md:w-3.5 md:h-3.5 rounded-full bg-red-500 hover:bg-red-600 transition-colors"></div>
                 <div class="w-2.5 h-2.5 md:w-3.5 md:h-3.5 rounded-full bg-yellow-500 hover:bg-yellow-600 transition-colors"></div>
                 <div class="w-2.5 h-2.5 md:w-3.5 md:h-3.5 rounded-full bg-green-500 hover:bg-green-600 transition-colors"></div>
             </div>
             
             <!-- Title -->
-            <div class="text-[10px] md:text-sm text-gray-500 font-mono truncate px-2">
+            <div class="text-[10px] md:text-sm text-gray-500 font-mono truncate px-2 text-center flex-1">
                 user@khaleel.eu — zsh — 80x24
             </div>
             
             <!-- Social Icons -->
-            <div class="flex gap-3 text-gray-500 text-base md:text-lg">
+            <div class="flex gap-3 text-gray-500 text-base md:text-lg min-w-[50px] justify-end">
                 <a href="https://github.com/khaleel-git" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors" aria-label="GitHub"><i class="fab fa-github"></i></a>
                 <a href="https://www.linkedin.com/in/khaleel-ahmad/" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
             </div>
@@ -168,7 +167,7 @@
                 </div>
             </div>
             
-            <!-- Helper Buttons (Visible on all devices now) -->
+            <!-- Helper Buttons -->
             <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-7 gap-2 md:gap-4 mt-8 border-t border-gray-800 pt-4">
                 <button onclick="runCmd('whoami')" class="px-2 py-3 bg-gray-800 text-[10px] md:text-sm rounded text-term-green border border-gray-700 hover:bg-gray-700 transition-colors font-mono font-bold tracking-wide break-words">whoami</button>
                 <button onclick="runCmd('projects')" class="px-2 py-3 bg-gray-800 text-[10px] md:text-sm rounded text-term-blue border border-gray-700 hover:bg-gray-700 transition-colors font-mono font-bold tracking-wide break-words">projects</button>
@@ -191,11 +190,10 @@
         const outputDiv = document.getElementById('output');
         const inputField = document.getElementById('cmd-input');
         const cursor = document.getElementById('custom-cursor');
-        const inputLine = document.getElementById('input-line');
         
         let isAnimating = false;
 
-        // Simple HTML Sanitizer for user input display
+        // Simple HTML Sanitizer
         function escapeHtml(text) {
             if (!text) return text;
             return text
@@ -212,7 +210,7 @@
                 type: 'html',
                 content: `
                     <div class="flex flex-col lg:flex-row gap-8 mb-6 items-center lg:items-start pl-2">
-                        <!-- Photo Section with Glow Effect -->
+                        <!-- Photo -->
                         <div class="relative group flex-shrink-0">
                             <div class="absolute -inset-1 bg-gradient-to-r from-term-green to-term-blue rounded-full lg:rounded-xl blur opacity-20 group-hover:opacity-40 transition duration-1000 group-hover:duration-200"></div>
                             <img src="https://raw.githubusercontent.com/khaleel-git/khaleel.eu/master/assets/img/linked_photo_dp.png" 
@@ -222,14 +220,14 @@
 
                         <div class="flex-1 text-center lg:text-left">
                             <h1 class="text-3xl md:text-4xl font-bold text-white mb-3 tracking-tight">Khaleel Ahmad</h1>
-                            <p class="text-gray-400 mb-3 text-base md:text-xl font-light">Data Platform Engineer | DevOps | Linux SysAdmin</p>
+                            <p class="text-gray-400 mb-3 text-base md:text-lg font-light">Data Platform Engineer | DevOps | Linux SysAdmin</p>
                             <p class="mb-6 text-sm md:text-base text-gray-500">Based in <span class="text-term-yellow">Berlin, Germany</span> <span class="text-[10px] border border-gray-800 px-2 py-0.5 rounded ml-2 bg-white/5">Open to Work</span></p>
                             
                             <div class="flex flex-wrap gap-3 justify-center lg:justify-start mt-2 mb-6">
-                                <a href="https://github.com/khaleel-git" target="_blank" rel="noopener noreferrer" class="text-term-cyan no-underline hover:text-white transition-colors flex items-center gap-2 bg-white/5 px-4 py-2 rounded-lg border border-gray-800 text-sm md:text-base hover:border-term-cyan/30">
+                                <a href="https://github.com/khaleel-git" target="_blank" rel="noopener noreferrer" class="text-term-cyan no-underline hover:text-white transition-colors flex items-center gap-2 bg-white/5 px-4 py-2 rounded-lg border border-gray-800 text-sm hover:border-term-cyan/30">
                                     <i class="fab fa-github"></i> khaleel-git
                                 </a>
-                                <a href="https://www.linkedin.com/in/khaleel-ahmad/" target="_blank" rel="noopener noreferrer" class="text-term-blue no-underline hover:text-white transition-colors flex items-center gap-2 bg-white/5 px-4 py-2 rounded-lg border border-gray-800 text-sm md:text-base hover:border-term-blue/30">
+                                <a href="https://www.linkedin.com/in/khaleel-ahmad/" target="_blank" rel="noopener noreferrer" class="text-term-blue no-underline hover:text-white transition-colors flex items-center gap-2 bg-white/5 px-4 py-2 rounded-lg border border-gray-800 text-sm hover:border-term-blue/30">
                                     <i class="fab fa-linkedin"></i> in/khaleel-ahmad
                                 </a>
                             </div>
@@ -257,7 +255,7 @@
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
     <div class="bg-white/5 p-5 rounded border border-gray-800 hover:border-gray-600 transition-colors">
         <h3 class="text-term-pink font-bold border-b border-gray-700 mb-3 pb-2 text-lg">Languages</h3>
-        <ul class="list-none pl-0 space-y-2 text-sm md:text-base">
+        <ul class="list-none pl-0 space-y-2 text-sm">
             <li><span class="text-term-green">✔</span> Python (Expert)</li>
             <li><span class="text-term-green">✔</span> SQL / T-SQL</li>
             <li><span class="text-term-green">✔</span> Bash / Shell</li>
@@ -266,7 +264,7 @@
     </div>
     <div class="bg-white/5 p-5 rounded border border-gray-800 hover:border-gray-600 transition-colors">
         <h3 class="text-term-blue font-bold border-b border-gray-700 mb-3 pb-2 text-lg">DevOps & Cloud</h3>
-        <ul class="list-none pl-0 space-y-2 text-sm md:text-base">
+        <ul class="list-none pl-0 space-y-2 text-sm">
             <li><span class="text-term-blue">➜</span> Kubernetes (CKA)</li>
             <li><span class="text-term-blue">➜</span> Docker & Ansible</li>
             <li><span class="text-term-blue">➜</span> Terraform (HCL)</li>
@@ -276,7 +274,7 @@
     </div>
     <div class="bg-white/5 p-5 rounded border border-gray-800 hover:border-gray-600 transition-colors">
         <h3 class="text-term-yellow font-bold border-b border-gray-700 mb-3 pb-2 text-lg">Data Engineering</h3>
-        <ul class="list-none pl-0 space-y-2 text-sm md:text-base">
+        <ul class="list-none pl-0 space-y-2 text-sm">
             <li><span class="text-term-yellow">★</span> Apache Airflow</li>
             <li><span class="text-term-yellow">★</span> PostgreSQL / MSSQL</li>
             <li><span class="text-term-yellow">★</span> MongoDB</li>
@@ -354,8 +352,8 @@
 
                     projects.forEach(p => {
                         const nameHtml = p.link 
-                            ? `<a href="${p.link}" target="_blank" rel="noopener noreferrer" class="text-term-cyan font-bold hover:underline cursor-pointer text-base md:text-lg">${p.name} <i class="fas fa-external-link-alt text-xs ml-1"></i></a>`
-                            : `<span class="text-term-cyan font-bold text-base md:text-lg">${p.name}</span>`;
+                            ? `<a href="${p.link}" target="_blank" rel="noopener noreferrer" class="text-term-cyan font-bold hover:underline cursor-pointer text-base">${p.name} <i class="fas fa-external-link-alt text-xs ml-1"></i></a>`
+                            : `<span class="text-term-cyan font-bold text-base">${p.name}</span>`;
 
                         html += `
                         <div class="border border-gray-800 bg-white/5 p-4 rounded hover:border-gray-600 transition-all flex flex-col h-full group">
@@ -363,7 +361,7 @@
                                 ${nameHtml}
                                 <span class="text-xs border border-gray-700 text-gray-400 px-2 py-0.5 rounded font-mono bg-black/50">${p.lang}</span>
                             </div>
-                            <div class="text-gray-300 text-sm md:text-base leading-relaxed mb-4 flex-grow opacity-90">
+                            <div class="text-gray-300 text-sm leading-relaxed mb-4 flex-grow opacity-90">
                                 ${p.desc}
                             </div>
                             <div class="flex justify-between items-center text-xs text-gray-500 font-mono mt-auto pt-3 border-t border-gray-800">
@@ -374,7 +372,7 @@
                     });
 
                     html += `</div>`;
-                    html += `<div class="mt-6 text-gray-500 flex flex-wrap gap-4 items-center border-t border-gray-800 pt-4 text-sm md:text-base">
+                    html += `<div class="mt-6 text-gray-500 flex flex-wrap gap-4 items-center border-t border-gray-800 pt-4 text-sm">
                         <span class="text-term-yellow"><i class="fas fa-info-circle"></i> Total ${projects.length} repositories found.</span>
                         <a href="https://github.com/khaleel-git" target="_blank" rel="noopener noreferrer" class="text-term-blue hover:text-white hover:underline transition-colors">
                             View on GitHub <i class="fas fa-external-link-alt text-xs"></i>
@@ -394,13 +392,13 @@
     <!-- Ericsson -->
     <div class="relative group">
         <div class="absolute -left-[35px] md:-left-[41px] top-1.5 w-3.5 h-3.5 bg-term-green rounded-full shadow-[0_0_10px_rgba(74,246,38,0.5)] group-hover:scale-125 transition-transform"></div>
-        <h4 class="text-white font-bold text-lg md:text-xl leading-tight">Data (Platform) & AI Engineer @ Ericsson</h4>
+        <h4 class="text-white font-bold text-lg leading-tight">Data (Platform) & AI Engineer @ Ericsson</h4>
         <div class="flex gap-3 text-xs md:text-sm text-term-gray mb-2 font-mono mt-1">
             <span>Aug 2022 - Feb 2025</span>
             <span>•</span>
             <span>On-site</span>
         </div>
-        <ul class="list-disc pl-4 text-gray-300 text-sm md:text-base leading-relaxed max-w-4xl space-y-2">
+        <ul class="list-disc pl-4 text-gray-300 text-sm leading-relaxed max-w-4xl space-y-2">
             <li>Engineered and automated data pipelines using <strong>Apache Airflow</strong> and Python.</li>
             <li>Managed high-availability on-prem <strong>VMware (ESXi/vCenter)</strong> & physical infrastructure.</li>
             <li>Implemented proactive monitoring systems using Python for RAID/CPU/Disk health.</li>
@@ -411,13 +409,13 @@
     <!-- APKFuel -->
     <div class="relative group">
         <div class="absolute -left-[35px] md:-left-[41px] top-1.5 w-3.5 h-3.5 bg-term-purple rounded-full group-hover:scale-125 transition-transform"></div>
-        <h4 class="text-white font-bold text-lg md:text-xl leading-tight">Founder & Developer (Python/Cloud) @ APKFuel</h4>
+        <h4 class="text-white font-bold text-lg leading-tight">Founder & Developer (Python/Cloud) @ APKFuel</h4>
         <div class="flex gap-3 text-xs md:text-sm text-term-gray mb-2 font-mono mt-1">
             <span>Mar 2018 - Oct 2024</span>
             <span>•</span>
             <span>Remote (Exit: $18k)</span>
         </div>
-        <ul class="list-disc pl-4 text-gray-300 text-sm md:text-base leading-relaxed max-w-4xl space-y-2">
+        <ul class="list-disc pl-4 text-gray-300 text-sm leading-relaxed max-w-4xl space-y-2">
             <li>Built a profitable platform scaling to <strong>96k/mo views</strong>, culminating in an <strong>$18k exit</strong>.</li>
             <li>Developed custom scrapers with <strong>Python (Selenium, BS4)</strong> and integrated APIs.</li>
             <li>Managed multi-cloud hosting (AWS, GCP) and monetized via AdSense/YouTube.</li>
@@ -427,13 +425,13 @@
     <!-- HelloApp -->
     <div class="relative group">
         <div class="absolute -left-[35px] md:-left-[41px] top-1.5 w-3.5 h-3.5 bg-term-blue rounded-full group-hover:scale-125 transition-transform"></div>
-        <h4 class="text-white font-bold text-lg md:text-xl leading-tight">Linux System Administrator & Python Dev @ HelloApp</h4>
+        <h4 class="text-white font-bold text-lg leading-tight">Linux System Administrator & Python Dev @ HelloApp</h4>
         <div class="flex gap-3 text-xs md:text-sm text-term-gray mb-2 font-mono mt-1">
             <span>Mar 2021 - Feb 2023</span>
             <span>•</span>
             <span>Singapore (Remote)</span>
         </div>
-        <ul class="list-disc pl-4 text-gray-300 text-sm md:text-base leading-relaxed max-w-4xl space-y-2">
+        <ul class="list-disc pl-4 text-gray-300 text-sm leading-relaxed max-w-4xl space-y-2">
             <li>Deployed Python apps on <strong>Google App Engine, AWS, & Linode</strong>.</li>
             <li>Built robust data scraping solutions with Selenium & Scrapy.</li>
         </ul>
@@ -442,13 +440,13 @@
     <!-- Fiverr -->
     <div class="relative group">
         <div class="absolute -left-[35px] md:-left-[41px] top-1.5 w-3.5 h-3.5 bg-term-yellow rounded-full group-hover:scale-125 transition-transform"></div>
-        <h4 class="text-white font-bold text-lg md:text-xl leading-tight">Linux System Administrator @ Fiverr (Freelance)</h4>
+        <h4 class="text-white font-bold text-lg leading-tight">Linux System Administrator @ Fiverr (Freelance)</h4>
         <div class="flex gap-3 text-xs md:text-sm text-term-gray mb-2 font-mono mt-1">
             <span>Jun 2019 - Mar 2021</span>
             <span>•</span>
             <span>Remote</span>
         </div>
-        <ul class="list-disc pl-4 text-gray-300 text-sm md:text-base leading-relaxed max-w-4xl space-y-2">
+        <ul class="list-disc pl-4 text-gray-300 text-sm leading-relaxed max-w-4xl space-y-2">
             <li>Managed Linux server security, SSL configs, and DNS systems.</li>
             <li>Deployed web hosting solutions (cPanel/WHM) on AWS & DigitalOcean.</li>
         </ul>
@@ -463,10 +461,10 @@
     <!-- Masters -->
     <div class="relative group">
         <div class="absolute -left-[35px] md:-left-[41px] top-1.5 w-3.5 h-3.5 bg-term-pink rounded-full shadow-[0_0_10px_rgba(236,72,153,0.5)] group-hover:scale-125 transition-transform"></div>
-        <h4 class="text-white font-bold text-lg md:text-xl leading-tight">Master of Science in Artificial Intelligence</h4>
-        <div class="text-term-cyan text-base md:text-lg mb-1">BTU Cottbus-Senftenberg, Germany</div>
+        <h4 class="text-white font-bold text-lg leading-tight">Master of Science in Artificial Intelligence</h4>
+        <div class="text-term-cyan text-base mb-1">BTU Cottbus-Senftenberg, Germany</div>
         <div class="text-xs md:text-sm text-gray-500 font-mono mb-3">Apr 2025 – Present</div>
-        <div class="text-gray-300 text-sm md:text-base">
+        <div class="text-gray-300 text-sm">
             <span class="text-term-yellow font-bold">Relevant Coursework:</span> Network and System Security, Distributed Computing in ML, Logic in Databases
         </div>
     </div>
@@ -474,8 +472,8 @@
     <!-- Bachelors -->
     <div class="relative group">
         <div class="absolute -left-[35px] md:-left-[41px] top-1.5 w-3.5 h-3.5 bg-term-blue rounded-full group-hover:scale-125 transition-transform"></div>
-        <h4 class="text-white font-bold text-lg md:text-xl leading-tight">Bachelor of Science in Computer Science</h4>
-        <div class="text-term-cyan text-base md:text-lg mb-1">Information Technology University, Pakistan</div>
+        <h4 class="text-white font-bold text-lg leading-tight">Bachelor of Science in Computer Science</h4>
+        <div class="text-term-cyan text-base mb-1">Information Technology University, Pakistan</div>
         <div class="text-xs md:text-sm text-gray-500 font-mono mb-3">Sep 2016 – Feb 2021</div>
     </div>
 </div>
@@ -487,51 +485,43 @@
 <div class="mt-4">
     <div class="flex justify-between items-end border-b border-gray-800 pb-3 mb-6">
         <h3 class="text-term-pink font-bold text-lg md:text-xl">Certifications & Licenses</h3>
-        <span class="text-xs md:text-sm text-gray-500 font-mono">22 found</span>
+        <span class="text-xs md:text-sm text-gray-500 font-mono">10 Selected</span>
     </div>
 
-    <!-- Section: Kubernetes & Cloud (Priority) -->
+    <!-- Section: Kubernetes & Cloud -->
     <div class="mb-8">
         <h4 class="text-term-blue text-xs md:text-sm font-bold uppercase tracking-wider mb-4 opacity-80 border-l-4 border-term-blue pl-3">Kubernetes & Cloud</h4>
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-3 md:gap-4">
+            <!-- CKA -->
             <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start hover:bg-white/5 p-3 rounded transition-colors group border border-transparent hover:border-gray-800">
                  <div class="flex items-start gap-3">
                     <span class="text-term-yellow text-base mt-1"><i class="fas fa-crown"></i></span>
                     <div class="flex flex-col">
-                        <a href="https://www.credly.com/badges/2e7916a9-0972-4971-a1b5-374d22c5a24b" target="_blank" rel="noopener noreferrer" class="font-bold text-gray-200 group-hover:text-term-cyan transition-colors hover:underline text-sm md:text-base">CKA: Certified Kubernetes Administrator</a>
+                        <a href="https://www.credly.com/badges/2e7916a9-0972-4971-a1b5-374d22c5a24b" target="_blank" rel="noopener noreferrer" class="font-bold text-gray-200 group-hover:text-term-cyan transition-colors hover:underline text-sm">CKA: Certified Kubernetes Administrator</a>
                         <div class="text-gray-500 text-xs mt-1">— Linux Foundation</div>
                         <div class="text-xs text-gray-600 font-mono mt-1">Jul 2025 - Jul 2027</div>
                     </div>
                  </div>
             </div>
 
+            <!-- AWS -->
             <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start hover:bg-white/5 p-3 rounded transition-colors group border border-transparent hover:border-gray-800">
                  <div class="flex items-start gap-3">
                     <span class="text-term-yellow text-base mt-1"><i class="fas fa-star"></i></span>
                     <div class="flex flex-col">
-                        <a href="https://www.coursera.org/account/accomplishments/verify/FYK1HP4OXYOQ" target="_blank" rel="noopener noreferrer" class="font-bold text-gray-200 group-hover:text-term-cyan transition-colors hover:underline text-sm md:text-base">Containerized Applications on AWS</a>
+                        <a href="https://www.coursera.org/account/accomplishments/verify/FYK1HP4OXYOQ" target="_blank" rel="noopener noreferrer" class="font-bold text-gray-200 group-hover:text-term-cyan transition-colors hover:underline text-sm">Containerized Applications on AWS</a>
                         <div class="text-gray-500 text-xs mt-1">— AWS</div>
                         <div class="text-xs text-gray-600 font-mono mt-1">Dec 2024</div>
                     </div>
                  </div>
             </div>
 
+            <!-- GKE -->
             <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start hover:bg-white/5 p-3 rounded transition-colors group border border-transparent hover:border-gray-800">
                  <div class="flex items-start gap-3">
                     <span class="text-term-green text-base mt-1">✔</span>
                     <div class="flex flex-col">
-                        <a href="https://www.credly.com/badges/ba352293-ec5d-471a-8c16-6873f6b779d7" target="_blank" rel="noopener noreferrer" class="font-bold text-gray-300 group-hover:text-term-cyan transition-colors hover:underline text-sm md:text-base">Container & Kubernetes Essentials V2</a>
-                        <div class="text-gray-500 text-xs mt-1">— IBM</div>
-                        <div class="text-xs text-gray-600 font-mono mt-1">Aug 2023</div>
-                    </div>
-                 </div>
-            </div>
-
-            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start hover:bg-white/5 p-3 rounded transition-colors group border border-transparent hover:border-gray-800">
-                 <div class="flex items-start gap-3">
-                    <span class="text-term-green text-base mt-1">✔</span>
-                    <div class="flex flex-col">
-                        <a href="https://www.coursera.org/account/accomplishments/certificate/U3NHYYZ4QSSN" target="_blank" rel="noopener noreferrer" class="font-bold text-gray-300 group-hover:text-term-cyan transition-colors hover:underline text-sm md:text-base">Getting Started with GKE</a>
+                        <a href="https://www.coursera.org/account/accomplishments/certificate/U3NHYYZ4QSSN" target="_blank" rel="noopener noreferrer" class="font-bold text-gray-300 group-hover:text-term-cyan transition-colors hover:underline text-sm">Getting Started with GKE</a>
                         <div class="text-gray-500 text-xs mt-1">— Google Cloud</div>
                         <div class="text-xs text-gray-600 font-mono mt-1">Jul 2023</div>
                     </div>
@@ -544,198 +534,86 @@
     <div class="mb-8">
         <h4 class="text-term-blue text-xs md:text-sm font-bold uppercase tracking-wider mb-4 opacity-80 border-l-4 border-term-blue pl-3">DevOps & Infrastructure</h4>
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+             <!-- LFCS -->
              <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start hover:bg-white/5 p-3 rounded transition-colors group border border-transparent hover:border-gray-800">
                  <div class="flex items-start gap-3">
                     <span class="text-term-yellow text-base mt-1"><i class="fas fa-terminal"></i></span>
                     <div class="flex flex-col">
-                        <a href="https://learn.kodekloud.com/certificate/44f85db1-bef8-4c10-800e-70737749617a" target="_blank" rel="noopener noreferrer" class="font-bold text-gray-200 group-hover:text-term-cyan transition-colors hover:underline text-sm md:text-base">Linux Foundation Certified SysAdmin</a>
+                        <a href="https://learn.kodekloud.com/certificate/44f85db1-bef8-4c10-800e-70737749617a" target="_blank" rel="noopener noreferrer" class="font-bold text-gray-200 group-hover:text-term-cyan transition-colors hover:underline text-sm">Linux Foundation Certified SysAdmin</a>
                         <div class="text-gray-500 text-xs mt-1">— Linux Foundation (LFCS)</div>
                         <div class="text-xs text-gray-600 font-mono mt-1">Dec 2024</div>
                     </div>
                  </div>
             </div>
             
+             <!-- GitHub Actions -->
              <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start hover:bg-white/5 p-3 rounded transition-colors group border border-transparent hover:border-gray-800">
                  <div class="flex items-start gap-3">
                     <span class="text-term-green text-base mt-1">✔</span>
                     <div class="flex flex-col">
-                        <a href="https://learn.kodekloud.com/certificate/b82ecfc8-25be-4e5b-9e7f-6c3ee5feba8b" target="_blank" rel="noopener noreferrer" class="font-bold text-gray-300 group-hover:text-term-cyan transition-colors hover:underline text-sm md:text-base">GitHub Actions</a>
+                        <a href="https://learn.kodekloud.com/certificate/b82ecfc8-25be-4e5b-9e7f-6c3ee5feba8b" target="_blank" rel="noopener noreferrer" class="font-bold text-gray-300 group-hover:text-term-cyan transition-colors hover:underline text-sm">GitHub Actions</a>
                         <div class="text-gray-500 text-xs mt-1">— KodeKloud</div>
                         <div class="text-xs text-gray-600 font-mono mt-1">Dec 2024</div>
                     </div>
                  </div>
             </div>
             
+            <!-- Terraform -->
             <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start hover:bg-white/5 p-3 rounded transition-colors group border border-transparent hover:border-gray-800">
                  <div class="flex items-start gap-3">
                     <span class="text-term-green text-base mt-1">✔</span>
                     <div class="flex flex-col">
-                        <a href="https://learn.kodekloud.com/certificate/ff06d805-7f72-48fd-b735-c19943f5184f" target="_blank" rel="noopener noreferrer" class="font-bold text-gray-300 group-hover:text-term-cyan transition-colors hover:underline text-sm md:text-base">GIT</a>
-                        <div class="text-gray-500 text-xs mt-1">— KodeKloud</div>
-                        <div class="text-xs text-gray-600 font-mono mt-1">Oct 2024</div>
-                    </div>
-                 </div>
-            </div>
-
-            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start hover:bg-white/5 p-3 rounded transition-colors group border border-transparent hover:border-gray-800">
-                 <div class="flex items-start gap-3">
-                    <span class="text-term-green text-base mt-1">✔</span>
-                    <div class="flex flex-col">
-                        <a href="https://learn.kodekloud.com/certificate/37adbbc9-54b9-4ad8-86b6-6020e2ace57c" target="_blank" rel="noopener noreferrer" class="font-bold text-gray-300 group-hover:text-term-cyan transition-colors hover:underline text-sm md:text-base">Ansible Advanced Course</a>
-                        <div class="text-gray-500 text-xs mt-1">— KodeKloud</div>
-                        <div class="text-xs text-gray-600 font-mono mt-1">Sep 2024</div>
-                    </div>
-                 </div>
-            </div>
-            
-             <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start hover:bg-white/5 p-3 rounded transition-colors group border border-transparent hover:border-gray-800">
-                 <div class="flex items-start gap-3">
-                    <span class="text-term-green text-base mt-1">✔</span>
-                    <div class="flex flex-col">
-                        <a href="https://learn.kodekloud.com/certificate/bab25f20-871b-4980-bf10-c7cfdbefb90b" target="_blank" rel="noopener noreferrer" class="font-bold text-gray-300 group-hover:text-term-cyan transition-colors hover:underline text-sm md:text-base">Learning Linux Basics</a>
-                        <div class="text-gray-500 text-xs mt-1">— KodeKloud</div>
-                        <div class="text-xs text-gray-600 font-mono mt-1">Sep 2024</div>
-                    </div>
-                 </div>
-            </div>
-
-             <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start hover:bg-white/5 p-3 rounded transition-colors group border border-transparent hover:border-gray-800">
-                 <div class="flex items-start gap-3">
-                    <span class="text-term-green text-base mt-1">✔</span>
-                    <div class="flex flex-col">
-                        <a href="https://kodekloud.com/certificate-verification/2DEA7D860FCE-2DEA7780C771-2DEA71F5B500/" target="_blank" rel="noopener noreferrer" class="font-bold text-gray-300 group-hover:text-term-cyan transition-colors hover:underline text-sm md:text-base">Learn Ansible Basics</a>
-                        <div class="text-gray-500 text-xs mt-1">— KodeKloud</div>
-                        <div class="text-xs text-gray-600 font-mono mt-1">Jul 2024</div>
-                    </div>
-                 </div>
-            </div>
-            
-            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start hover:bg-white/5 p-3 rounded transition-colors group border border-transparent hover:border-gray-800">
-                 <div class="flex items-start gap-3">
-                    <span class="text-term-green text-base mt-1">✔</span>
-                    <div class="flex flex-col">
-                        <a href="https://kodekloud.com/certificate-verification/2DEA7D860FCE-2DEA77903058-2DEA71F5B500/" target="_blank" rel="noopener noreferrer" class="font-bold text-gray-300 group-hover:text-term-cyan transition-colors hover:underline text-sm md:text-base">Terraform Basics Training</a>
+                        <a href="https://kodekloud.com/certificate-verification/2DEA7D860FCE-2DEA77903058-2DEA71F5B500/" target="_blank" rel="noopener noreferrer" class="font-bold text-gray-300 group-hover:text-term-cyan transition-colors hover:underline text-sm">Terraform Basics Training</a>
                         <div class="text-gray-500 text-xs mt-1">— KodeKloud</div>
                         <div class="text-xs text-gray-600 font-mono mt-1">Jun 2024</div>
                     </div>
                  </div>
             </div>
 
+            <!-- Ansible -->
+            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start hover:bg-white/5 p-3 rounded transition-colors group border border-transparent hover:border-gray-800">
+                 <div class="flex items-start gap-3">
+                    <span class="text-term-green text-base mt-1">✔</span>
+                    <div class="flex flex-col">
+                        <a href="https://learn.kodekloud.com/certificate/37adbbc9-54b9-4ad8-86b6-6020e2ace57c" target="_blank" rel="noopener noreferrer" class="font-bold text-gray-300 group-hover:text-term-cyan transition-colors hover:underline text-sm">Ansible Advanced Course</a>
+                        <div class="text-gray-500 text-xs mt-1">— KodeKloud</div>
+                        <div class="text-xs text-gray-600 font-mono mt-1">Sep 2024</div>
+                    </div>
+                 </div>
+            </div>
+
+             <!-- Jenkins -->
              <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start hover:bg-white/5 p-3 rounded transition-colors group border border-transparent hover:border-gray-800">
                  <div class="flex items-start gap-3">
                     <span class="text-term-green text-base mt-1">✔</span>
                     <div class="flex flex-col">
-                        <a href="https://kodekloud.com/certificate-verification/2DEA7D860FCE-2DF3EB640DDD-2DEA71F5B500/" target="_blank" rel="noopener noreferrer" class="font-bold text-gray-300 group-hover:text-term-cyan transition-colors hover:underline text-sm md:text-base">Jenkins</a>
+                        <a href="https://kodekloud.com/certificate-verification/2DEA7D860FCE-2DF3EB640DDD-2DEA71F5B500/" target="_blank" rel="noopener noreferrer" class="font-bold text-gray-300 group-hover:text-term-cyan transition-colors hover:underline text-sm">Jenkins</a>
                         <div class="text-gray-500 text-xs mt-1">— KodeKloud</div>
                         <div class="text-xs text-gray-600 font-mono mt-1">Mar 2024</div>
                     </div>
                  </div>
             </div>
             
+            <!-- Network Auto -->
             <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start hover:bg-white/5 p-3 rounded transition-colors group border border-transparent hover:border-gray-800">
                  <div class="flex items-start gap-3">
                     <span class="text-term-green text-base mt-1">✔</span>
                     <div class="flex flex-col">
-                        <a href="https://www.coursera.org/account/accomplishments/certificate/BAJ24JH7XB39" target="_blank" rel="noopener noreferrer" class="font-bold text-gray-300 group-hover:text-term-cyan transition-colors hover:underline text-sm md:text-base">Ansible for Network Automation</a>
+                        <a href="https://www.coursera.org/account/accomplishments/certificate/BAJ24JH7XB39" target="_blank" rel="noopener noreferrer" class="font-bold text-gray-300 group-hover:text-term-cyan transition-colors hover:underline text-sm">Ansible for Network Automation</a>
                         <div class="text-gray-500 text-xs mt-1">— Cisco</div>
                         <div class="text-xs text-gray-600 font-mono mt-1">Sep 2023</div>
                     </div>
                  </div>
             </div>
 
-             <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start hover:bg-white/5 p-3 rounded transition-colors group border border-transparent hover:border-gray-800">
-                 <div class="flex items-start gap-3">
-                    <span class="text-term-green text-base mt-1">✔</span>
-                    <div class="flex flex-col">
-                        <a href="https://www.coursera.org/account/accomplishments/verify/6HPAZT4TY4R7" target="_blank" rel="noopener noreferrer" class="font-bold text-gray-300 group-hover:text-term-cyan transition-colors hover:underline text-sm md:text-base">Mastering Ansible Automation</a>
-                        <div class="text-gray-500 text-xs mt-1">— Codio</div>
-                        <div class="text-xs text-gray-600 font-mono mt-1">Sep 2023</div>
-                    </div>
-                 </div>
-            </div>
-            
-            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start hover:bg-white/5 p-3 rounded transition-colors group border border-transparent hover:border-gray-800">
-                 <div class="flex items-start gap-3">
-                    <span class="text-term-green text-base mt-1">✔</span>
-                    <div class="flex flex-col">
-                        <a href="https://www.coursera.org/account/accomplishments/verify/HX2EUQ9S9FWJ" target="_blank" rel="noopener noreferrer" class="font-bold text-gray-300 group-hover:text-term-cyan transition-colors hover:underline text-sm md:text-base">Hands-on Linux Shell Scripting</a>
-                        <div class="text-gray-500 text-xs mt-1">— IBM</div>
-                        <div class="text-xs text-gray-600 font-mono mt-1">Aug 2023</div>
-                    </div>
-                 </div>
-            </div>
-
-            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start hover:bg-white/5 p-3 rounded transition-colors group border border-transparent hover:border-gray-800">
-                 <div class="flex items-start gap-3">
-                    <span class="text-term-green text-base mt-1">✔</span>
-                    <div class="flex flex-col">
-                        <a href="https://coursera.org/share/b0a0894e3ee7679791dbca09d9ff3901" target="_blank" rel="noopener noreferrer" class="font-bold text-gray-300 group-hover:text-term-cyan transition-colors hover:underline text-sm md:text-base">CI/CD & DevOps</a>
-                        <div class="text-gray-500 text-xs mt-1">— IBM</div>
-                        <div class="text-xs text-gray-600 font-mono mt-1">Jun 2023</div>
-                    </div>
-                 </div>
-            </div>
-    </div>
-
-    <!-- Section: Corporate & Other -->
-    <div class="mb-4">
-        <h4 class="text-term-blue text-xs md:text-sm font-bold uppercase tracking-wider mb-4 opacity-80 border-l-4 border-term-blue pl-3">Corporate (Ericsson) & Other</h4>
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <!-- Python -->
             <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start hover:bg-white/5 p-3 rounded transition-colors group border border-transparent hover:border-gray-800">
                  <div class="flex items-start gap-3">
                     <span class="text-term-green text-base mt-1">●</span>
                     <div class="flex flex-col">
-                        <a href="https://github.com/khaleel-git/Ericsson-Certifications/blob/master/Trainings/Automation-101.pdf" target="_blank" rel="noopener noreferrer" class="font-bold text-gray-400 group-hover:text-term-cyan transition-colors hover:underline text-sm md:text-base">Automation 101</a>
-                        <div class="text-gray-500 text-xs mt-1">— Ericsson</div>
-                    </div>
-                 </div>
-            </div>
-             <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start hover:bg-white/5 p-3 rounded transition-colors group border border-transparent hover:border-gray-800">
-                 <div class="flex items-start gap-3">
-                    <span class="text-term-green text-base mt-1">●</span>
-                    <div class="flex flex-col">
-                        <a href="https://github.com/khaleel-git/Ericsson-Certifications/blob/master/Trainings/Data-Science-Overview.pdf" target="_blank" rel="noopener noreferrer" class="font-bold text-gray-400 group-hover:text-term-cyan transition-colors hover:underline text-sm md:text-base">Data Science Overview</a>
-                        <div class="text-gray-500 text-xs mt-1">— Ericsson</div>
-                    </div>
-                 </div>
-            </div>
-             <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start hover:bg-white/5 p-3 rounded transition-colors group border border-transparent hover:border-gray-800">
-                 <div class="flex items-start gap-3">
-                    <span class="text-term-green text-base mt-1">●</span>
-                    <div class="flex flex-col">
-                        <a href="https://github.com/khaleel-git/Ericsson-Certifications/blob/master/Trainings/Introduction-to-Artificial_Intelligence.pdf" target="_blank" rel="noopener noreferrer" class="font-bold text-gray-400 group-hover:text-term-cyan transition-colors hover:underline text-sm md:text-base">Intro to Artificial Intelligence</a>
-                        <div class="text-gray-500 text-xs mt-1">— Ericsson</div>
-                    </div>
-                 </div>
-            </div>
-             <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start hover:bg-white/5 p-3 rounded transition-colors group border border-transparent hover:border-gray-800">
-                 <div class="flex items-start gap-3">
-                    <span class="text-term-green text-base mt-1">●</span>
-                    <div class="flex flex-col">
-                        <a href="https://github.com/khaleel-git/Ericsson-Certifications/blob/master/Trainings/Introduction-to-Machine-Learning.pdf" target="_blank" rel="noopener noreferrer" class="font-bold text-gray-400 group-hover:text-term-cyan transition-colors hover:underline text-sm md:text-base">Intro to Machine Learning</a>
-                        <div class="text-gray-500 text-xs mt-1">— Ericsson</div>
-                    </div>
-                 </div>
-            </div>
-            
-            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start hover:bg-white/5 p-3 rounded transition-colors group border border-transparent hover:border-gray-800">
-                 <div class="flex items-start gap-3">
-                    <span class="text-term-green text-base mt-1">●</span>
-                    <div class="flex flex-col">
-                        <a href="https://www.coursera.org/account/accomplishments/certificate/PHKQ9TWLDS63" target="_blank" rel="noopener noreferrer" class="font-bold text-gray-400 group-hover:text-term-cyan transition-colors hover:underline text-sm md:text-base">Python Data Structures</a>
+                        <a href="https://www.coursera.org/account/accomplishments/certificate/PHKQ9TWLDS63" target="_blank" rel="noopener noreferrer" class="font-bold text-gray-400 group-hover:text-term-cyan transition-colors hover:underline text-sm">Python Data Structures</a>
                         <div class="text-gray-500 text-xs mt-1">— Coursera</div>
                         <div class="text-xs text-gray-600 font-mono mt-1">Apr 2022</div>
-                    </div>
-                 </div>
-            </div>
-
-            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start hover:bg-white/5 p-3 rounded transition-colors group border border-transparent hover:border-gray-800">
-                 <div class="flex items-start gap-3">
-                    <span class="text-term-green text-base mt-1">●</span>
-                    <div class="flex flex-col">
-                        <a href="https://www.coursera.org/account/accomplishments/verify/D33A844ACT9V" target="_blank" rel="noopener noreferrer" class="font-bold text-gray-400 group-hover:text-term-cyan transition-colors hover:underline text-sm md:text-base">Web App Tech & Django</a>
-                        <div class="text-gray-500 text-xs mt-1">— Coursera</div>
-                        <div class="text-xs text-gray-600 font-mono mt-1">Feb 2022</div>
                     </div>
                  </div>
             </div>
@@ -749,20 +627,20 @@
                 content: `
 <div class="p-6 md:p-8 border border-dashed border-gray-700 bg-white/5 rounded-lg mt-6 max-w-3xl">
     <div class="grid grid-cols-1 md:grid-cols-[120px_1fr] gap-4 md:gap-6 items-center">
-        <span class="text-gray-500 font-mono text-base md:text-lg">Email:</span>
-        <a href="mailto:khaleel.eu@gmail.com" class="text-term-cyan hover:text-white hover:underline text-base md:text-xl break-all">khaleel.eu@gmail.com</a>
+        <span class="text-gray-500 font-mono text-sm md:text-base">Email:</span>
+        <a href="mailto:khaleel.eu@gmail.com" class="text-term-cyan hover:text-white hover:underline text-sm md:text-lg break-all">khaleel.eu@gmail.com</a>
         
-        <span class="text-gray-500 font-mono text-base md:text-lg">GitHub:</span>
-        <a href="https://github.com/khaleel-git" target="_blank" rel="noopener noreferrer" class="text-term-cyan hover:text-white hover:underline text-base md:text-xl">khaleel-git</a>
+        <span class="text-gray-500 font-mono text-sm md:text-base">GitHub:</span>
+        <a href="https://github.com/khaleel-git" target="_blank" rel="noopener noreferrer" class="text-term-cyan hover:text-white hover:underline text-sm md:text-lg">khaleel-git</a>
         
-        <span class="text-gray-500 font-mono text-base md:text-lg">LinkedIn:</span>
-        <a href="https://www.linkedin.com/in/khaleel-ahmad/" target="_blank" rel="noopener noreferrer" class="text-term-cyan hover:text-white hover:underline text-base md:text-xl">in/khaleel-ahmad</a>
+        <span class="text-gray-500 font-mono text-sm md:text-base">LinkedIn:</span>
+        <a href="https://www.linkedin.com/in/khaleel-ahmad/" target="_blank" rel="noopener noreferrer" class="text-term-cyan hover:text-white hover:underline text-sm md:text-lg">in/khaleel-ahmad</a>
         
-        <span class="text-gray-500 font-mono text-base md:text-lg">Phone:</span>
-        <span class="text-term-yellow text-base md:text-xl">+49 155 63611714</span>
+        <span class="text-gray-500 font-mono text-sm md:text-base">Phone:</span>
+        <span class="text-term-yellow text-sm md:text-lg">+49 155 63611714</span>
 
-        <span class="text-gray-500 font-mono text-base md:text-lg">Resume:</span>
-        <a href="https://khaleel.eu/assets/resume/Khaleel_Resume.pdf" target="_blank" rel="noopener noreferrer" class="text-term-pink hover:underline text-base md:text-xl font-bold"><i class="fas fa-file-pdf mr-2"></i> Download PDF</a>
+        <span class="text-gray-500 font-mono text-sm md:text-base">Resume:</span>
+        <a href="https://khaleel.eu/assets/resume/Khaleel_Resume.pdf" target="_blank" rel="noopener noreferrer" class="text-term-pink hover:underline text-sm md:text-lg font-bold"><i class="fas fa-file-pdf mr-2"></i> Download PDF</a>
     </div>
 </div>
                 `
@@ -773,35 +651,35 @@
 <div class="flex flex-col gap-3 mt-6 max-w-4xl">
     <div onclick="runCmd('whoami')" class="grid grid-cols-[140px_1fr] md:grid-cols-[180px_1fr] gap-4 md:gap-6 p-3 border border-gray-800 rounded hover:bg-white/5 transition-colors items-center cursor-pointer">
         <div class="text-term-yellow font-bold font-mono text-base md:text-lg">whoami</div>
-        <div class="text-gray-400 text-sm md:text-base">Display professional summary and social links</div>
+        <div class="text-gray-400 text-sm">Display professional summary and social links</div>
     </div>
     <div onclick="runCmd('projects')" class="grid grid-cols-[140px_1fr] md:grid-cols-[180px_1fr] gap-4 md:gap-6 p-3 border border-gray-800 rounded hover:bg-white/5 transition-colors items-center cursor-pointer">
         <div class="text-term-yellow font-bold font-mono text-base md:text-lg">projects</div>
-        <div class="text-gray-400 text-sm md:text-base">View GitHub repositories and portfolio work</div>
+        <div class="text-gray-400 text-sm">View GitHub repositories and portfolio work</div>
     </div>
     <div onclick="runCmd('skills')" class="grid grid-cols-[140px_1fr] md:grid-cols-[180px_1fr] gap-4 md:gap-6 p-3 border border-gray-800 rounded hover:bg-white/5 transition-colors items-center cursor-pointer">
         <div class="text-term-yellow font-bold font-mono text-base md:text-lg">skills</div>
-        <div class="text-gray-400 text-sm md:text-base">List technical skills and technology stack</div>
+        <div class="text-gray-400 text-sm">List technical skills and technology stack</div>
     </div>
     <div onclick="runCmd('experience')" class="grid grid-cols-[140px_1fr] md:grid-cols-[180px_1fr] gap-4 md:gap-6 p-3 border border-gray-800 rounded hover:bg-white/5 transition-colors items-center cursor-pointer">
         <div class="text-term-yellow font-bold font-mono text-base md:text-lg">experience</div>
-        <div class="text-gray-400 text-sm md:text-base">Show detailed work history and roles</div>
+        <div class="text-gray-400 text-sm">Show detailed work history and roles</div>
     </div>
     <div onclick="runCmd('education')" class="grid grid-cols-[140px_1fr] md:grid-cols-[180px_1fr] gap-4 md:gap-6 p-3 border border-gray-800 rounded hover:bg-white/5 transition-colors items-center cursor-pointer">
         <div class="text-term-yellow font-bold font-mono text-base md:text-lg">education</div>
-        <div class="text-gray-400 text-sm md:text-base">List academic degrees and universities</div>
+        <div class="text-gray-400 text-sm">List academic degrees and universities</div>
     </div>
     <div onclick="runCmd('certifications')" class="grid grid-cols-[140px_1fr] md:grid-cols-[180px_1fr] gap-4 md:gap-6 p-3 border border-gray-800 rounded hover:bg-white/5 transition-colors items-center cursor-pointer">
         <div class="text-term-yellow font-bold font-mono text-base md:text-lg">certifications</div>
-        <div class="text-gray-400 text-sm md:text-base">View professional certifications and licenses</div>
+        <div class="text-gray-400 text-sm">View professional certifications and licenses</div>
     </div>
     <div onclick="runCmd('contact')" class="grid grid-cols-[140px_1fr] md:grid-cols-[180px_1fr] gap-4 md:gap-6 p-3 border border-gray-800 rounded hover:bg-white/5 transition-colors items-center cursor-pointer">
         <div class="text-term-yellow font-bold font-mono text-base md:text-lg">contact</div>
-        <div class="text-gray-400 text-sm md:text-base">Show contact information and resume</div>
+        <div class="text-gray-400 text-sm">Show contact information and resume</div>
     </div>
     <div onclick="runCmd('clear')" class="grid grid-cols-[140px_1fr] md:grid-cols-[180px_1fr] gap-4 md:gap-6 p-3 border border-gray-800 rounded hover:bg-white/5 transition-colors items-center cursor-pointer">
         <div class="text-term-yellow font-bold font-mono text-base md:text-lg">clear</div>
-        <div class="text-gray-400 text-sm md:text-base">Clear the terminal screen</div>
+        <div class="text-gray-400 text-sm">Clear the terminal screen</div>
     </div>
 </div>
                 `
@@ -817,9 +695,7 @@
             div.innerHTML = html;
             
             // Adjust font size specifically for desktop vs mobile in output
-            if (window.innerWidth >= 768) {
-                 div.style.fontSize = '1vw'; // Reduced from 1.2vw for desktop
-            }
+            // Removed specific vw sizing to rely on Tailwind classes for cleaner scaling
             
             // Initial hide of elements
             const elementsToAnimate = div.querySelectorAll('p, li, h3, h4, .grid > div, .flex-col > div');
