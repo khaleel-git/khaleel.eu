@@ -3,403 +3,234 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Psychophysiology Grand Mock Exam</title>
+    <title>Psychophysiology - Final Mock Examination</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        .reveal-btn { transition: all 0.3s ease; }
-        .answer-content { display: none; }
-        .question-card { border-left: 4px solid #3b82f6; }
-        .correct-highlight { color: #059669; font-weight: bold; }
+        @media print {
+            .no-print { display: none; }
+            .print-only { display: block; }
+            body { background-color: white; }
+            .question-container { break-inside: avoid; }
+        }
+        .correct { background-color: #d1fae5; border-color: #10b981; }
+        .incorrect { background-color: #fee2e2; border-color: #ef4444; }
+        .selected { border-color: #3b82f6; background-color: #eff6ff; }
     </style>
 </head>
-<body class="bg-slate-50 min-h-screen p-4 md:p-8 font-sans text-slate-800">
+<body class="bg-gray-100 min-h-screen font-sans text-gray-900 pb-20">
 
-    <div class="max-w-4xl mx-auto">
-        <header class="mb-10 text-center">
-            <h1 class="text-4xl font-bold text-slate-900 mb-2">Psychophysiology Grand Mock Exam</h1>
-            <p class="text-lg text-slate-600">50 Questions covering Chapters 1-8 & Past Papers</p>
-            <div class="mt-4 flex justify-center gap-4">
-                <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">Interactive Mode</span>
-                <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">Includes Corrective Notes</span>
+    <div id="app" class="max-w-4xl mx-auto p-4 md:p-8">
+        <!-- Header -->
+        <header class="bg-white rounded-xl shadow-sm p-6 mb-8 border-b-4 border-blue-600">
+            <h1 class="text-3xl font-bold text-gray-800">Psychophysiology: Final Mock Exam</h1>
+            <p class="text-gray-500 mt-2">Time: 90 Minutes | Total Marks: 100</p>
+            <div class="mt-4 flex flex-wrap gap-2 no-print">
+                <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-bold uppercase">Chapters 1-8</span>
+                <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-bold uppercase">Past Paper Style</span>
+                <span class="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-xs font-bold uppercase">Interactive Grading</span>
             </div>
         </header>
 
-        <div id="exam-container" class="space-y-6">
-            <!-- Questions will be injected here -->
+        <!-- Exam Content -->
+        <div id="exam-view">
+            <form id="quiz-form">
+                <div id="questions-list" class="space-y-6">
+                    <!-- Questions will be dynamically loaded here -->
+                </div>
+
+                <div class="mt-12 flex justify-center no-print">
+                    <button type="button" onclick="gradeExam()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-12 rounded-full shadow-lg transition-transform active:scale-95 text-xl">
+                        Check Score Now
+                    </button>
+                </div>
+            </form>
         </div>
 
-        <footer class="mt-12 py-8 border-t border-slate-200 text-center text-slate-500 text-sm">
-            End of Mock Examination. Good luck with your studies!
-        </footer>
+        <!-- Results View (Hidden initially) -->
+        <div id="results-view" class="hidden space-y-8 animate-in fade-in duration-500">
+            <div class="bg-white rounded-xl shadow-md p-8 text-center border-t-8 border-green-500">
+                <h2 class="text-4xl font-extrabold text-gray-800">Examination Results</h2>
+                <div class="my-6">
+                    <span id="score-display" class="text-6xl font-black text-blue-600">0/50</span>
+                    <p id="grade-comment" class="text-xl text-gray-600 mt-2 font-medium"></p>
+                </div>
+                <button onclick="window.print()" class="no-print bg-gray-800 text-white px-6 py-2 rounded-lg hover:bg-gray-700 transition">
+                    Save as PDF / Print Results
+                </button>
+            </div>
+
+            <div class="bg-yellow-50 border-l-8 border-yellow-400 p-8 rounded-r-xl shadow-sm">
+                <h3 class="text-2xl font-bold text-yellow-800 mb-4 flex items-center">
+                    <svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 20 20"><path d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"></path></svg>
+                    Important Topics to Remember
+                </h3>
+                <div id="study-notes" class="grid grid-cols-1 md:grid-cols-2 gap-6 text-yellow-900 leading-relaxed">
+                    <!-- Dynamic review topics based on weak areas could go here, but we will show the top 5 must-knows -->
+                    <div>
+                        <h4 class="font-bold border-b border-yellow-200 pb-1 mb-2">1. The EEG Source</h4>
+                        <p class="text-sm">Never confuse EEG with action potentials. It is the summation of <strong>Post-synaptic Potentials (PSPs)</strong> in pyramidal cells. Synchronous firing and parallel orientation are requirements for detection at the scalp.</p>
+                    </div>
+                    <div>
+                        <h4 class="font-bold border-b border-yellow-200 pb-1 mb-2">2. Autonomic Specificity</h4>
+                        <p class="text-sm">EDA is your "Gold Standard" for pure <strong>Sympathetic</strong> arousal. Unlike the heart (dual-innervated), skin sweat glands lack parasympathetic input. High HRV is a sign of good parasympathetic (Vagal) tone.</p>
+                    </div>
+                    <div>
+                        <h4 class="font-bold border-b border-yellow-200 pb-1 mb-2">3. Signal Processing Rules</h4>
+                        <p class="text-sm">Always sample at least <strong>twice</strong> the frequency of your signal (Nyquist). Use <strong>Notch filters</strong> specifically for power line noise (50/60Hz). Rectify EMG to turn negative dips into positive power.</p>
+                    </div>
+                    <div>
+                        <h4 class="font-bold border-b border-yellow-200 pb-1 mb-2">4. Design Validity</h4>
+                        <p class="text-sm"><strong>Internal Validity</strong> is about causal control; <strong>Ecological Validity</strong> is about real-world relevance. Use <strong>Counterbalancing</strong> to eliminate order effects like fatigue in within-subject designs.</p>
+                    </div>
+                    <div>
+                        <h4 class="font-bold border-b border-yellow-200 pb-1 mb-2">5. ERP Methodology</h4>
+                        <p class="text-sm">Individual EEG trials are noisy. We use <strong>Averaging</strong> to increase the Signal-to-Noise Ratio (SNR). The ERP is the portion of the signal that is time-locked to the specific event.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="review-list" class="space-y-4">
+                <h3 class="text-2xl font-bold text-gray-800 px-2">Detailed Answer Review</h3>
+                <!-- Re-rendered list of questions with correct answers highlighted -->
+            </div>
+        </div>
     </div>
 
     <script>
-        const questions = [
-            // CHAPTER 1: INTRO & HISTORY
-            {
-                q: "Psychophysiological research focuses on which variable relationship?",
-                options: ["IV is physiological, DV is behavioral", "IV is behavioral/psychological, DV is physiological", "Both are behavioral", "Both are physiological"],
-                a: "b",
-                note: "As defined by Stern (1964), the independent variable is behavioral and the dependent variable is physiological."
-            },
-            {
-                q: "Which philosophical position argues that the mind and body are separate entities?",
-                options: ["Monism", "Dualism", "Phrenology", "Functionalism"],
-                a: "b",
-                note: "Dualists believe separate things are needed to explain mind and body."
-            },
-            {
-                q: "Where did Descartes believe the 'seat of the soul' was located?",
-                options: ["Heart", "Pineal Gland", "Cerebellum", "Frontal Lobe"],
-                a: "b",
-                note: "Descartes thought the pineal gland was the interaction point for the mind-body problem."
-            },
-            {
-                q: "Which theory suggests: 'We feel afraid because we are sweating'?",
-                options: ["Cannon-Bard Theory", "James-Lange Theory", "Two-Factor Theory", "Somatic Marker Hypothesis"],
-                a: "b",
-                note: "James-Lange posits that emotion is the result of physiological experiences."
-            },
-            {
-                q: "Who performed the first EEG measurements on a living human brain in 1924?",
-                options: ["Luigi Galvani", "Hans Berger", "Richard Caton", "Charles Féré"],
-                a: "b",
-                note: "Hans Berger published his findings in 1929 after the first 1924 recording."
-            },
+        const questionBank = [
+            // Chapter 1 & 2
+            { q: "In psychophysiological research, what is typically the Independent Variable (IV)?", options: ["The physiological measure", "A behavioral or psychological manipulation", "Both are physiological", "The personality of the participant"], a: 1 },
+            { q: "Which philosophical view suggests that the mind and body are one and the same?", options: ["Dualism", "Phrenology", "Monism", "Structuralism"], a: 2 },
+            { q: "The central nervous system (CNS) consists of:", options: ["The brain and nerves", "The brain and spinal cord", "The autonomic and somatic systems", "The nerves in the limbs"], a: 1 },
+            { q: "Which system is referred to as the 'Fight or Flight' system?", options: ["Parasympathetic", "Somatic", "Sympathetic", "Peripheral"], a: 2 },
+            { q: "Afferent neurons carry information:", options: ["Away from the CNS to the muscles", "Towards the CNS from the sensors", "Between the two hemispheres", "To the digestive tract only"], a: 1 },
+            { q: "Which ion rushing into the cell causes depolarization in an action potential?", options: ["Potassium (K+)", "Chloride (Cl-)", "Sodium (Na+)", "Calcium (Ca2+)"], a: 2 },
+            { q: "The 'All-or-None' law applies to which of the following?", options: ["Muscle contraction strength", "The firing of an action potential", "Graded potentials", "The speed of digestion"], a: 1 },
+            { q: "The 'gap' in the myelin sheath that allows saltatory conduction is called:", options: ["The Synapse", "Node of Ranvier", "Axon Hillock", "Dendritic Spine"], a: 1 },
+            { q: "Which part of the brain is the primary relay station for sensory information?", options: ["Hypothalamus", "Cerebellum", "Thalamus", "Hippocampus"], a: 2 },
+            { q: "The Occipital lobe is primarily responsible for:", options: ["Hearing", "Vision", "Motor Control", "Personality"], a: 1 },
 
-            // CHAPTER 2: NERVOUS SYSTEM & NEURONS
-            {
-                q: "What does the Central Nervous System (CNS) comprise?",
-                options: ["Brain and peripheral nerves", "Spinal cord and autonomic system", "Brain and spinal cord", "Somatic and Autonomic systems"],
-                a: "c",
-                note: "CNS is structurally defined as the brain and spinal cord."
-            },
-            {
-                q: "Which system is responsible for 'Rest and Digest'?",
-                options: ["Sympathetic", "Somatic", "Parasympathetic", "Central"],
-                a: "c",
-                note: "The parasympathetic system promotes energy conservation."
-            },
-            {
-                q: "Afferent neurons carry information in which direction?",
-                options: ["Towards the CNS", "Away from the CNS", "Only between hemispheres", "To the muscles"],
-                a: "a",
-                note: "Afferent = Sensory (towards CNS); Efferent = Motor (away from CNS)."
-            },
-            {
-                q: "What is the primary role of the Sodium-Potassium pump?",
-                options: ["Transport K+ out and Na+ in", "Keep Na+ out and K+ in", "Open channels for action potentials", "Release neurotransmitters"],
-                a: "b",
-                note: "It maintains the resting potential by pumping 3 Na+ out for every 2 K+ in."
-            },
-            {
-                q: "The 'All-or-None' Law refers to:",
-                options: ["The strength of a muscle contraction", "The threshold for synaptic release", "The firing of an action potential", "The intensity of a sensation"],
-                a: "c",
-                note: "An action potential either occurs at full strength or not at all."
-            },
-            {
-                q: "Saltatory conduction occurs because of:",
-                options: ["Stronger voltage", "Myelination and Nodes of Ranvier", "Larger dendrites", "Fast neurotransmitters"],
-                a: "b",
-                note: "Myelin allows signals to 'jump' between nodes, increasing speed."
-            },
-            {
-                q: "Which brain lobe is primarily associated with visual processing?",
-                options: ["Frontal", "Parietal", "Temporal", "Occipital"],
-                a: "d",
-                note: "The occipital lobe contains the primary visual cortex."
-            },
-            {
-                q: "Which structure acts as the primary relay station for sensory info?",
-                options: ["Hypothalamus", "Thalamus", "Amygdala", "Hippocampus"],
-                a: "b",
-                note: "The thalamus directs sensory activity to the cortex."
-            },
+            // Chapter 3 & 4
+            { q: "Impedance is a measure of resistance specifically for:", options: ["Direct Current (DC)", "Alternating Current (AC)", "Static electricity", "Biological heat"], a: 1 },
+            { q: "What is the Nyquist frequency if your sampling rate is 500 Hz?", options: ["1000 Hz", "250 Hz", "500 Hz", "100 Hz"], a: 1 },
+            { q: "Which filter is used to remove a specific frequency like 50 Hz power line noise?", options: ["High-pass filter", "Low-pass filter", "Notch filter", "Band-pass filter"], a: 2 },
+            { q: "A 'Within-Subjects' design is preferred because:", options: ["It requires more participants", "It controls for individual differences (lower variability)", "It is easier to set up", "It prevents fatigue"], a: 1 },
+            { q: "Counterbalancing is a technique used to eliminate:", options: ["Experimental bias", "Hardware noise", "Order effects (like fatigue/learning)", "Confederates"], a: 2 },
+            { q: "Ecological validity refers to:", options: ["The precision of the electrodes", "Generalization to real-world settings", "The causal control in a lab", "The ethics of the study"], a: 1 },
+            { q: "A 'Control Variable' is one that is:", options: ["Manipulated by the experimenter", "Measured as the result", "Kept constant to prevent confounding", "The same as the Dependent Variable"], a: 2 },
+            { q: "Tonic activity in psychophysiology refers to:", options: ["A sudden response to a loud noise", "The slow-varying baseline level", "The speed of neural transmission", "The strength of a muscle"], a: 1 },
+            { q: "Which validity is threatened if an experiment has a 'Confound'?", options: ["Internal Validity", "External Validity", "Predictive Validity", "Face Validity"], a: 0 },
+            { q: "Habituation refers to:", options: ["An increase in response over time", "A decrease in response to repeated identical stimuli", "A permanent change in personality", "The process of skin preparation"], a: 1 },
 
-            // CHAPTER 3: MEASUREMENT
-            {
-                q: "What is the difference between biosignals and physiological parameters?",
-                options: ["Biosignals are constant, parameters are varying", "Biosignals are directly measurable, parameters are derived", "Biosignals are mechanical, parameters are electrical", "None of the above"],
-                a: "b",
-                note: "Parameters (like Heart Rate) are derivations of biosignals (like ECG)."
-            },
-            {
-                q: "Impedance is defined as:",
-                options: ["Resistance to direct current", "Potential for current flow", "Resistance for alternating currents (AC)", "Flow of charged particles"],
-                a: "c",
-                note: "Measured in Ohms (Ω), impedance is the AC equivalent of resistance."
-            },
-            {
-                q: "The Nyquist frequency is defined as:",
-                options: ["The sampling rate divided by 2", "The total recording time", "Twice the highest frequency", "The frequency of line noise"],
-                a: "a",
-                note: "Sampling at < 2x the signal frequency causes aliasing."
-            },
-            {
-                q: "To remove 50Hz power line noise, which filter is best?",
-                options: ["High-pass", "Low-pass", "Notch", "Band-pass"],
-                a: "c",
-                note: "Notch filters attenuate a single specific frequency."
-            },
-            {
-                q: "A unipolar recording means:",
-                options: ["One electrode is used total", "All channels share one reference electrode", "Positive and negative poles are on the same muscle", "No ground is needed"],
-                a: "b",
-                note: "In reference recordings, all active electrodes are compared to one shared site."
-            },
+            // Chapter 5 & 6
+            { q: "A 'Motor Unit' consists of:", options: ["A group of muscles working together", "One motor neuron and all muscle fibers it innervates", "The brain's motor cortex only", "One muscle fiber and one neuron"], a: 1 },
+            { q: "Which facial muscle is typically associated with smiling?", options: ["Corrugator supercilii", "Orbicularis oculi", "Zygomaticus major", "Masseter"], a: 2 },
+            { q: "The process of 'Rectification' in EMG processing means:", options: ["Filtering out high frequencies", "Converting negative amplitudes to positive", "Smoothing the data for an average", "Changing the sampling rate"], a: 1 },
+            { q: "Which neurotransmitter is released at the neuromuscular junction?", options: ["Dopamine", "Serotonin", "Acetylcholine (ACh)", "GABA"], a: 2 },
+            { q: "The 'pacemaker' of the heart is the:", options: ["AV Node", "Bundle of His", "SA Node (Sinoatrial)", "Purkinje Fibers"], a: 2 },
+            { q: "In an ECG, the P-wave represents:", options: ["Ventricular contraction", "Atrial contraction", "Ventricular recovery", "Heart valve closing"], a: 1 },
+            { q: "The QRS complex in an ECG specifically indicates:", options: ["Atrial recovery", "Ventricular depolarization", "Aortic pressure", "Blood volume"], a: 1 },
+            { q: "High Heart Rate Variability (HRV) is generally associated with:", options: ["High stress levels", "Better emotional regulation/Vagal tone", "Chronic fatigue", "Impending heart failure"], a: 1 },
+            { q: "Blood Pressure is usually reported as:", options: ["Diastolic / Systolic", "Systolic / Diastolic", "Pulse / Pressure", "Mean / Average"], a: 1 },
+            { q: "Plethysmography measures changes in:", options: ["Electrical potential", "Blood volume", "Heart sound", "Sweat production"], a: 1 },
 
-            // CHAPTER 4: EXPERIMENTAL DESIGN
-            {
-                q: "Why is a 'Within-Subjects' design often preferred in psychophysiology?",
-                options: ["It requires fewer participants", "Variability within persons is lower than between persons", "It is easier to analyze", "It avoids the use of confederates"],
-                a: "b",
-                note: "Comparing a person to themselves reduces the noise of individual differences."
-            },
-            {
-                q: "Counterbalancing is used to control for:",
-                options: ["Equipment failure", "Order effects (like fatigue or learning)", "Participant gender", "Electrode impedance"],
-                a: "b",
-                note: "Varying task order ensures results aren't just due to the passage of time."
-            },
-            {
-                q: "Which validity refers to generalization to the real world?",
-                options: ["Internal Validity", "Construct Validity", "Ecological Validity", "Statistical Validity"],
-                a: "c",
-                note: "Ecological validity measures if the lab results hold true in real life."
-            },
-            {
-                q: "Tonic activity refers to:",
-                options: ["Rapid responses to a stimulus", "Slow-varying baseline levels", "Muscle contractions", "Action potentials"],
-                a: "b",
-                note: "Tonic = Level/Baseline. Phasic = Response/Peak."
-            },
-            {
-                q: "A 'Confederate' is:",
-                options: ["A piece of recording software", "A participant who is part of the research team", "A type of reference electrode", "An outlier in the data"],
-                a: "b",
-                note: "Confederates follow a script to manipulate the actual participant's state."
-            },
+            // Chapter 7 & 8
+            { q: "EDA (Electrodermal Activity) is primarily controlled by which glands?", options: ["Apocrine glands", "Eccrine glands", "Sebaceous glands", "Thyroid glands"], a: 1 },
+            { q: "Unlike the heart, the EDA response has NO innervation from which system?", options: ["Sympathetic", "Parasympathetic", "Somatic", "Central"], a: 1 },
+            { q: "Skin Conductance (SC) is measured in:", options: ["Millivolts (mV)", "Ohms (Ω)", "Microsiemens (µS)", "Amperes (A)"], a: 2 },
+            { q: "An 'SCR' (Skin Conductance Response) is which type of activity?", options: ["Tonic", "Phasic", "Spontaneous only", "Slow-moving baseline"], a: 1 },
+            { q: "EDA is a highly sensitive measure of emotional:", options: ["Valence (positive/negative)", "Arousal", "Complexity", "Duration"], a: 1 },
+            { q: "What is the primary physiological source of scalp-recorded EEG?", options: ["Action Potentials", "Post-synaptic Potentials (PSPs)", "Brain blood flow", "Skull vibration"], a: 1 },
+            { q: "In the 10-20 EEG system, odd-numbered electrodes (e.g., F3, P7) are on the:", options: ["Right hemisphere", "Left hemisphere", "Midline", "Cerebellum"], a: 1 },
+            { q: "The 'Alpha' rhythm (8-13 Hz) is most prominent when a person is:", options: ["In deep sleep", "Awake but relaxed with eyes closed", "Engaged in complex math", "Frightened"], a: 1 },
+            { q: "Event-Related Potentials (ERPs) are found by:", options: ["Filtering for 50Hz noise", "Averaging multiple trials", "Measuring skull thickness", "Applying gel"], a: 1 },
+            { q: "Volume conduction in the brain means that:", options: ["The brain is a poor conductor", "Activity from one area spread and is seen by many electrodes", "Sound is amplified in the skull", "EEG signals are only seen directly above the source"], a: 1 },
 
-            // CHAPTER 5: EMG
-            {
-                q: "A motor unit consists of:",
-                options: ["One muscle and its blood supply", "One motor neuron and all muscle fibers it innervates", "All neurons in one muscle", "The brain's motor cortex"],
-                a: "b",
-                note: "This is the smallest functional unit of muscle contraction."
-            },
-            {
-                q: "Which muscle is used to measure the Startle Blink Response?",
-                options: ["Corrugator supercilii", "Zygomaticus major", "Orbicularis oculi", "Masseter"],
-                a: "c",
-                note: "Orbicularis oculi handles the reflexive eye-blink."
-            },
-            {
-                q: "The standard order for EMG signal processing is:",
-                options: ["Smoothing > Rectification > Integration", "Rectification > Smoothing/Integration", "Integration > Rectification > High-pass", "None of the above"],
-                a: "b",
-                note: "Rectify (all positive) then smooth (envelope)."
-            },
-            {
-                q: "Which muscle activity correlates with negative affect/frowning?",
-                options: ["Zygomaticus major", "Corrugator supercilii", "Frontalis", "Orbicularis oris"],
-                a: "b",
-                note: "The corrugator 'furrows' the brow during negative states."
-            },
-            {
-                q: "Why apply a high-pass filter (e.g., 20Hz) to raw EMG?",
-                options: ["To remove slow movement artifacts", "To capture individual action potentials", "To speed up the computer", "To increase amplitude"],
-                a: "a",
-                note: "Raw EMG contains slow drifts that aren't muscle activity."
-            },
-
-            // CHAPTER 6: CARDIOVASCULAR
-            {
-                q: "The SA Node is often called the heart's:",
-                options: ["Relay", "Brake", "Pacemaker", "Valve"],
-                a: "c",
-                note: "The Sinoatrial Node initiates the heartbeat rhythm."
-            },
-            {
-                q: "In an ECG, the QRS complex represents:",
-                options: ["Atrial contraction", "Ventricular contraction", "Ventricular recovery", "Heart valve closing"],
-                a: "b",
-                note: "QRS is the depolarization of the ventricles."
-            },
-            {
-                q: "Heart Rate Variability (HRV) is used to assess:",
-                options: ["Maximum heart strength", "Balance of sympathetic and parasympathetic input", "Total blood volume", "Lung capacity"],
-                a: "b",
-                note: "High HRV often indicates better emotional regulation/parasympathetic tone."
-            },
-            {
-                q: "Which chamber pumps blood to the systemic circulation (the body)?",
-                options: ["Right Atrium", "Right Ventricle", "Left Atrium", "Left Ventricle"],
-                a: "d",
-                note: "The Left Ventricle is the most muscular chamber for body-wide pumping."
-            },
-            {
-                q: "Systole refers to which phase?",
-                options: ["Filling/Relaxation", "Contraction/Pumping", "Resting between beats", "Electrical delay"],
-                a: "b",
-                note: "Systole = Pumping. Diastole = Filling."
-            },
-
-            // CHAPTER 7: EDA
-            {
-                q: "EDA measures activity in which glands?",
-                options: ["Apocrine", "Eccrine", "Sebaceous", "Thyroid"],
-                a: "b",
-                note: "Eccrine sweat glands on palms/soles are the source of EDA."
-            },
-            {
-                q: "Which statement about EDA control is TRUE?",
-                options: ["It is dual-innervated", "It is exclusively Parasympathetic", "It is exclusively Sympathetic", "It is not controlled by the NS"],
-                a: "c",
-                note: "CRITICAL: EDA is a 'pure' measure of the Sympathetic nervous system."
-            },
-            {
-                q: "Skin Conductance (SC) is the inverse of:",
-                options: ["Skin Potential", "Skin Resistance", "Heart Rate", "Impedance"],
-                a: "b",
-                note: "Conductance (G) = 1 / Resistance (R)."
-            },
-            {
-                q: "What is the standard unit for Skin Conductance?",
-                options: ["Millivolts (mV)", "Microsiemens (µS)", "Amperes (A)", "Ohms (Ω)"],
-                a: "b",
-                note: "EDA is reported in Siemens/microsiemens."
-            },
-            {
-                q: "Non-specific SCRs are:",
-                options: ["Errors in recording", "Spontaneous responses without a stimulus", "Responses to light", "Muscle artifacts"],
-                a: "b",
-                note: "They reflect baseline 'lability' of the individual."
-            },
-
-            // CHAPTER 8: EEG
-            {
-                q: "The primary source of the EEG signal on the scalp is:",
-                options: ["Action potentials", "Post-synaptic potentials (PSPs)", "Blood flow", "Cerebrospinal fluid"],
-                a: "b",
-                note: "PSPs in pyramidal cells last long enough to summate and be detected."
-            },
-            {
-                q: "In the 10-20 system, even numbers (e.g. C4) represent:",
-                options: ["Midline", "Left hemisphere", "Right hemisphere", "Frontal lobe only"],
-                a: "c",
-                note: "Even = Right. Odd = Left. z = Midline."
-            },
-            {
-                q: "Which frequency band is 8-13 Hz?",
-                options: ["Delta", "Theta", "Alpha", "Beta"],
-                a: "c",
-                note: "Alpha is prominent during eyes-closed relaxation."
-            },
-            {
-                q: "Event-Related Potentials (ERPs) are extracted via:",
-                options: ["High-pass filtering", "Averaging multiple trials", "Measuring skull thickness", "Increasing voltage"],
-                a: "b",
-                note: "Averaging cancels out random noise, leaving the stimulus-locked signal."
-            },
-            {
-                q: "Volume Conduction refers to:",
-                options: ["The speed of sound in the brain", "Electrical spread through the brain/skull to the scalp", "The amount of blood in a vessel", "Noise from the amplifier"],
-                a: "b",
-                note: "This causes signals from one region to be visible across many electrodes."
-            },
-            {
-                q: "Comparing EEG to fMRI:",
-                options: ["EEG has better spatial resolution", "EEG has better temporal resolution", "fMRI is cheaper", "fMRI is non-invasive"],
-                a: "b",
-                note: "EEG captures millisecond-level changes; fMRI is slow (seconds)."
-            },
-
-            // MIXED/PAST PAPERS TRAPS
-            {
-                q: "Which property allows heart cells to beat without nerve input?",
-                options: ["Conductivity", "Autorhythmicity", "Myelin", "Synaptic gap"],
-                a: "b",
-                note: "The heart has internal pacemaker cells."
-            },
-            {
-                q: "Habituation is defined as:",
-                options: ["Increased response over time", "Decreased response to repeated stimuli", "Learning a new skill", "Electrode gel drying out"],
-                a: "b",
-                note: "The brain/body stops reacting strongly to 'old' news."
-            },
-            {
-                q: "If you want to study responses to a brief image of a duck, use:",
-                options: ["Continuous analysis", "Event-related analysis", "Tonic analysis", "Spectral density"],
-                a: "b",
-                note: "Phasic/Event-related is for brief stimulus reactions."
-            },
-            {
-                q: "The Mu rhythm desynchronizes when:",
-                options: ["Eyes are closed", "A person moves or imagines movement", "During deep sleep", "When hearing a loud noise"],
-                a: "b",
-                note: "Mu is associated with the motor cortex; activity 'breaks' the rhythm."
-            },
-            {
-                q: "Which is an 'endosomatic' measurement?",
-                options: ["Skin Conductance", "Skin Potential", "Skin Resistance", "Impedance"],
-                a: "b",
-                note: "Endosomatic measures the skin's own potential (Tarkhanov method)."
-            },
-            {
-                q: "RSA (Respiratory Sinus Arrhythmia) refers to:",
-                options: ["A heart disease", "HR variation synchronized with breathing", "A breathing disorder", "Blood pressure drop"],
-                a: "b",
-                note: "HR increases during inhale, decreases during exhale."
-            }
+            // Bonus/Past Paper Mix
+            { q: "Which philosophical position was Descartes associated with?", options: ["Dualism", "Monism", "Behaviorism", "Connectionism"], a: 0 },
+            { q: "The 'Mu' rhythm (8-13 Hz) desynchronizes when a person:", options: ["Closes their eyes", "Moves or imagines movement", "Starts dreaming", "Breathes deeply"], a: 1 },
+            { q: "A 'Spontaneous' SCR occurs:", options: ["Only when a light flashes", "Without an identifiable external stimulus", "When the participant talks", "Only in the morning"], a: 1 },
+            { q: "The 'Orienting Response' is triggered by:", options: ["Familiar stimuli", "Novel or significant stimuli", "Closing eyes", "Eating"], a: 1 },
+            { q: "EEG has excellent ______ resolution but poor ______ resolution.", options: ["Spatial, Temporal", "Temporal, Spatial", "Visual, Auditory", "Internal, External"], a: 1 },
+            { q: "A low-pass filter allows ______ frequencies to pass through.", options: ["Only high", "Only low", "All", "No"], a: 1 },
+            { q: "RSA (Respiratory Sinus Arrhythmia) is a modulation of HR by:", options: ["Light", "Breathing", "Temperature", "Pain"], a: 1 },
+            { q: "What is the 'Ibn Sina' method related to in history?", options: ["EEG", "Pulse/Heart rate during love-sickness", "Brain surgery", "Skin conductance"], a: 1 },
+            { q: "Electrocorticography (ECoG) is different from EEG because:", options: ["It uses light", "Electrodes are placed directly on the brain surface (invasive)", "It is much cheaper", "It only measures the skin"], a: 1 },
+            { q: "Psychophysiological inference is usually:", options: ["One-to-One", "Many-to-Many or Many-to-One", "Simple and direct", "Always causal"], a: 1 }
         ];
 
-        const container = document.getElementById('exam-container');
+        let userAnswers = new Array(questionBank.length).fill(null);
 
-        questions.forEach((item, index) => {
-            const card = document.createElement('div');
-            card.className = "bg-white p-6 rounded-xl shadow-sm question-card";
-            
-            const optionsHtml = item.options.map((opt, i) => {
-                const letter = String.fromCharCode(97 + i);
-                return `<li class="ml-4 py-1">${letter}) ${opt}</li>`;
-            }).join('');
-
-            card.innerHTML = `
-                <div class="flex justify-between items-start mb-4">
-                    <h3 class="text-lg font-semibold text-slate-900">Question ${index + 1}</h3>
-                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Chapter ${Math.floor(index/5) + 1} focus</span>
-                </div>
-                <p class="text-slate-700 mb-4">${item.q}</p>
-                <ul class="text-slate-600 mb-6 space-y-1">
-                    ${optionsHtml}
-                </ul>
-                <button onclick="toggleAnswer(${index})" id="btn-${index}" class="reveal-btn bg-slate-100 hover:bg-blue-600 hover:text-white text-slate-600 px-4 py-2 rounded-lg text-sm font-medium">
-                    Reveal Answer
-                </button>
-                <div id="ans-${index}" class="answer-content mt-4 p-4 bg-blue-50 rounded-lg border border-blue-100">
-                    <p class="mb-2"><span class="correct-highlight">Correct Answer: ${item.a.toUpperCase()}</span></p>
-                    <p class="text-sm text-blue-800 italic">Note: ${item.note}</p>
-                </div>
-            `;
-            container.appendChild(card);
-        });
-
-        function toggleAnswer(idx) {
-            const content = document.getElementById(`ans-${idx}`);
-            const btn = document.getElementById(`btn-${idx}`);
-            if (content.style.display === "block") {
-                content.style.display = "none";
-                btn.innerText = "Reveal Answer";
-                btn.classList.remove('bg-blue-600', 'text-white');
-                btn.classList.add('bg-slate-100', 'text-slate-600');
-            } else {
-                content.style.display = "block";
-                btn.innerText = "Hide Answer";
-                btn.classList.add('bg-blue-600', 'text-white');
-                btn.classList.remove('bg-slate-100', 'text-slate-600');
-            }
+        function renderQuestions() {
+            const list = document.getElementById('questions-list');
+            list.innerHTML = '';
+            questionBank.forEach((qObj, index) => {
+                const div = document.createElement('div');
+                div.className = "bg-white p-6 rounded-xl shadow-sm border border-gray-200 question-container";
+                div.innerHTML = `
+                    <p class="font-bold text-gray-800 mb-4">${index + 1}. ${qObj.q}</p>
+                    <div class="space-y-2">
+                        ${qObj.options.map((opt, optIdx) => `
+                            <label class="block p-3 border rounded-lg cursor-pointer hover:bg-blue-50 transition flex items-center space-x-3" id="label-${index}-${optIdx}">
+                                <input type="radio" name="q${index}" value="${optIdx}" onclick="saveAnswer(${index}, ${optIdx})" class="w-4 h-4 text-blue-600">
+                                <span class="text-gray-700">${opt}</span>
+                            </label>
+                        `).join('')}
+                    </div>
+                `;
+                list.appendChild(div);
+            });
         }
+
+        function saveAnswer(qIdx, optIdx) {
+            userAnswers[qIdx] = optIdx;
+            // Clear previous highlighting
+            for(let i=0; i<4; i++){
+                document.getElementById(`label-${qIdx}-${i}`).classList.remove('selected');
+            }
+            document.getElementById(`label-${qIdx}-${optIdx}`).classList.add('selected');
+        }
+
+        function gradeExam() {
+            let score = 0;
+            const reviewList = document.getElementById('review-list');
+            reviewList.innerHTML = '<h3 class="text-2xl font-bold text-gray-800 px-2 mt-8 mb-4">Detailed Answer Review</h3>';
+
+            questionBank.forEach((qObj, index) => {
+                const isCorrect = userAnswers[index] === qObj.a;
+                if (isCorrect) score++;
+
+                const reviewDiv = document.createElement('div');
+                reviewDiv.className = `p-4 rounded-lg border mb-4 ${isCorrect ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'}`;
+                
+                reviewDiv.innerHTML = `
+                    <p class="font-bold text-sm mb-1">Question ${index + 1}: ${isCorrect ? '✅ Correct' : '❌ Incorrect'}</p>
+                    <p class="text-gray-800">${qObj.q}</p>
+                    <p class="text-sm mt-2 font-medium">
+                        Your answer: <span class="${isCorrect ? 'text-green-700' : 'text-red-700'}">${userAnswers[index] !== null ? qObj.options[userAnswers[index]] : 'Not Answered'}</span><br>
+                        Correct answer: <span class="text-green-700 font-bold">${qObj.options[qObj.a]}</span>
+                    </p>
+                `;
+                reviewList.appendChild(reviewDiv);
+            });
+
+            document.getElementById('score-display').innerText = `${score} / ${questionBank.length}`;
+            
+            let comment = "";
+            if(score >= 45) comment = "Excellent! You have a mastery level understanding.";
+            else if(score >= 35) comment = "Great job! You are well-prepared for the exam.";
+            else if(score >= 25) comment = "Good effort, but review the 'Important Topics' section below.";
+            else comment = "Review the materials and try again. Focus on the core principles.";
+            
+            document.getElementById('grade-comment').innerText = comment;
+
+            // Scroll to results
+            document.getElementById('results-view').classList.remove('hidden');
+            document.getElementById('results-view').scrollIntoView({ behavior: 'smooth' });
+            document.getElementById('exam-view').classList.add('no-print');
+        }
+
+        window.onload = renderQuestions;
     </script>
 </body>
 </html>
