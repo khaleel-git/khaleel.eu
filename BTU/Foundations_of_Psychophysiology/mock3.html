@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Psychophysiology - Mock Exam 3 (60% Similarity)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .option-label { transition: all 0.2s ease; }
+        .option-label:hover { background-color: #f0f7ff; }
+        .selected-option { border-color: #2563eb; background-color: #eff6ff; }
+        .correct-ans { background-color: #d1fae5; border-color: #10b981; }
+        .wrong-ans { background-color: #fee2e2; border-color: #ef4444; }
+        @media print { .no-print { display: none; } }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen font-sans text-gray-900 pb-20">
+
+    <div id="main-container" class="max-w-4xl mx-auto p-4 md:p-8">
+        <!-- Header -->
+        <header class="bg-white rounded-2xl shadow-sm p-8 mb-8 border-l-8 border-blue-500">
+            <h1 class="text-3xl font-black text-gray-800 italic uppercase">Mock Exam 3: Mastery</h1>
+            <p class="text-gray-500 mt-1">Foundations of Psychophysiology | 50 Questions</p>
+            <div class="flex gap-2 mt-4 no-print">
+                <span class="bg-blue-100 text-blue-700 text-[10px] font-bold px-2 py-1 rounded">60% REINFORCEMENT</span>
+                <span class="bg-orange-100 text-orange-700 text-[10px] font-bold px-2 py-1 rounded">40% DEEP DIVE</span>
+            </div>
+        </header>
+
+        <!-- Quiz Section -->
+        <div id="quiz-container" class="space-y-6">
+            <!-- Questions injected here -->
+        </div>
+
+        <!-- Grading Button -->
+        <div id="action-bar" class="mt-12 flex justify-center no-print">
+            <button onclick="calculateScore()" class="bg-blue-600 hover:bg-blue-700 text-white font-black py-4 px-16 rounded-full shadow-2xl transform transition hover:scale-105 active:scale-95 text-xl uppercase tracking-widest">
+                Check Score Now
+            </button>
+        </div>
+
+        <!-- Results Section (Hidden) -->
+        <div id="results-section" class="hidden mt-12 space-y-8 animate-in fade-in">
+            <div class="bg-white rounded-3xl shadow-2xl p-10 text-center border-t-8 border-green-500">
+                <h2 class="text-5xl font-black text-gray-800 mb-2">SCORE: <span id="final-score">0</span>/50</h2>
+                <p id="performance-msg" class="text-xl text-gray-600 font-medium"></p>
+                <div class="mt-6 flex justify-center gap-4 no-print">
+                    <button onclick="window.print()" class="bg-gray-800 text-white px-6 py-2 rounded-xl hover:bg-gray-700 font-bold">Save Results as PDF</button>
+                    <button onclick="location.reload()" class="bg-blue-100 text-blue-700 px-6 py-2 rounded-xl hover:bg-blue-200 font-bold">Retake Exam</button>
+                </div>
+            </div>
+
+            <!-- Important Topics Summary -->
+            <div class="bg-blue-900 text-white rounded-3xl p-10 shadow-xl">
+                <h3 class="text-2xl font-bold mb-6 flex items-center">
+                    <span class="mr-3 text-3xl">📝</span> Final Mastery Checklist
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h4 class="font-bold text-blue-300 uppercase text-xs tracking-widest mb-2 underline decoration-blue-500 underline-offset-4">Cellular Basics</h4>
+                        <ul class="text-sm space-y-2 opacity-90">
+                            <li>• <strong>Dipoles:</strong> Created by parallel pyramidal cells (the source of EEG).</li>
+                            <li>• <strong>Na+/K+ Pump:</strong> Pushes 3 Sodium (Na+) OUT and 2 Potassium (K+) IN.</li>
+                            <li>• <strong>Nodes of Ranvier:</strong> Gaps in myelin allowing Saltatory Conduction.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-blue-300 uppercase text-xs tracking-widest mb-2 underline decoration-blue-500 underline-offset-4">The "Pure" Measure</h4>
+                        <ul class="text-sm space-y-2 opacity-90">
+                            <li>• <strong>EDA:</strong> Controlled <em>only</em> by the Sympathetic branch. No parasympathetic input.</li>
+                            <li>• <strong>Conductance (G):</strong> Measured in &mu;S. Directly proportional to the number of active sweat glands.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-blue-300 uppercase text-xs tracking-widest mb-2 underline decoration-blue-500 underline-offset-4">Technical Rules</h4>
+                        <ul class="text-sm space-y-2 opacity-90">
+                            <li>• <strong>Nyquist:</strong> Minimum sampling rate = 2 x highest frequency of interest.</li>
+                            <li>• <strong>Rectification:</strong> The first step in EMG processing (Absolute value).</li>
+                            <li>• <strong>SNR:</strong> Averaging improves Signal-to-Noise Ratio by canceling random EEG.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-blue-300 uppercase text-xs tracking-widest mb-2 underline decoration-blue-500 underline-offset-4">Anatomy & Ethics</h4>
+                        <ul class="text-sm space-y-2 opacity-90">
+                            <li>• <strong>Contralateral:</strong> Brain maps (Motor/Vision) represent the opposite side of the body.</li>
+                            <li>• <strong>Helsinki:</strong> Ethics guideline stating participant well-being always comes before research.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detailed Answer Key -->
+            <div id="answer-key" class="space-y-4">
+                <h3 class="text-2xl font-bold text-gray-800 px-4">Review Your Answers</h3>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            // REINFORCEMENT (SIMILAR TO PAST PAPERS)
+            { q: "What is the primary study focus of psychophysiology?", options: ["How physiology affects behavior (IV is Physio)", "How mental states are reflected in physical changes (IV is Psychological)", "The structure of the brain only", "Chemical interactions in the blood"], a: 1 },
+            { q: "The Central Nervous System (CNS) is structurally comprised of:", options: ["The brain and cranial nerves", "The brain and spinal cord", "The spinal cord and peripheral nerves", "The autonomic and somatic systems"], a: 1 },
+            { q: "In the Autonomic Nervous System, 'Fight or Flight' is regulated by which branch?", options: ["Parasympathetic", "Somatic", "Sympathetic", "Afferent"], a: 2 },
+            { q: "Which philosophical position claims that mind and body are the same thing?", options: ["Dualism", "Monism", "Phrenology", "Functionalism"], a: 1 },
+            { q: "The Sodium-Potassium pump works by:", options: ["Keeping Na+ in and K+ out", "Moving 3 Na+ ions out and 2 K+ ions in", "Releasing ions during the action potential", "Generating myelin"], a: 1 },
+            { q: "Which type of neuron carries sensory signals towards the CNS?", options: ["Efferent", "Motor", "Afferent", "Glial"], a: 2 },
+            { q: "The 'All-or-None' law states that:", options: ["All neurons fire at once", "A neuron fires at full strength or not at all", "Muscle contraction is proportional to current", "All brain regions work together"], a: 1 },
+            { q: "The Thalamus serves as a primary relay for:", options: ["Emotion", "Motor coordination", "Sensory information", "Hormones"], a: 2 },
+            { q: "Biosignals are defined as:", options: ["Mechanical constants", "Directly measurable, time-varying physiological parameters", "Derived mathematical models", "Subjective feelings"], a: 1 },
+            { q: "Impedance is the resistance offered to:", options: ["Direct Current (DC)", "Alternating Current (AC)", "Static electricity", "Biological heat"], a: 1 },
+            { q: "To prevent 'aliasing', the sampling rate must be:", options: ["Equal to the signal frequency", "At least twice the highest frequency of the signal", "At least 1000 Hz always", "Half the signal frequency"], a: 1 },
+            { q: "A 'Notch Filter' is most commonly used to remove:", options: ["Low frequency drift", "High frequency muscle noise", "Power line noise (50/60 Hz)", "Eye blinks"], a: 2 },
+            { q: "A 'Within-Subjects' design is useful because it:", options: ["Saves time", "Reduces variability by using participants as their own control", "Is more ethical", "Requires no electrodes"], a: 1 },
+            { q: "Habituation is the ______ in response to a repeated stimulus.", options: ["Increase", "Decrease", "Stabilization", "Reversal"], a: 1 },
+            { q: "A 'Motor Unit' is defined as:", options: ["A single muscle", "One motor neuron and all muscle fibers it innervates", "All neurons in the motor cortex", "The junction between two muscles"], a: 1 },
+            { q: "Which neurotransmitter is released at the Neuromuscular Junction?", options: ["Dopamine", "Serotonin", "Acetylcholine (ACh)", "Glutamate"], a: 2 },
+            { q: "In EMG processing, 'Rectification' converts negative values into:", options: ["Zero", "Positive values (Absolute value)", "Smoothed averages", "Filters"], a: 1 },
+            { q: "Which heart chamber pumps oxygenated blood to the whole body (Systemic circulation)?", options: ["Right Atrium", "Right Ventricle", "Left Atrium", "Left Ventricle"], a: 3 },
+            { q: "The SA Node is the heart's natural:", options: ["Valve", "Pacemaker", "Filter", "Aorta"], a: 1 },
+            { q: "RSA (Respiratory Sinus Arrhythmia) describes heart rate ______ during inhalation.", options: ["Decreasing", "Increasing", "Stopping", "Staying constant"], a: 1 },
+            { q: "Heart Rate Variability (HRV) is a reliable indicator of:", options: ["Total blood volume", "Autonomic/Vagal tone balance", "Maximum heart strength", "Lung size"], a: 1 },
+            { q: "EDA is unique because it is exclusively innervated by the:", options: ["Parasympathetic system", "Sympathetic system", "Somatic system", "Cranial nerves"], a: 1 },
+            { q: "The unit of measurement for Skin Conductance is:", options: ["Millivolts (mV)", "Ohms (Ω)", "Microsiemens (µS)", "Amperes (A)"], a: 2 },
+            { q: "The primary source of the EEG signal is:", options: ["Action Potentials", "Post-synaptic Potentials (PSPs) in pyramidal cells", "Brain blood flow", "Magnetic fields"], a: 1 },
+            { q: "In the 10-20 system, odd numbers (e.g. F3) designate the:", options: ["Midline", "Right Hemisphere", "Left Hemisphere", "Occipital lobe"], a: 2 },
+            { q: "Which EEG frequency band (8-13 Hz) appears during eyes-closed relaxation?", options: ["Delta", "Theta", "Alpha", "Beta"], a: 2 },
+            { q: "ERP Averaging is used to improve the:", options: ["Speed of the computer", "Signal-to-Noise Ratio (SNR)", "Voltage of the brain", "Comfort of the participant"], a: 1 },
+            { q: "Volume Conduction refers to the spread of:", options: ["Blood in the brain", "Electrical fields through brain tissue and skull", "Sound through the head", "Oxygen in the vessels"], a: 1 },
+            { q: "Counterbalancing is a design technique used to control for:", options: ["Electrode gel quality", "Order effects like fatigue or learning", "Participant height", "Room temperature"], a: 1 },
+            { q: "The P300 component of an ERP is typically associated with:", options: ["Initial sensory processing", "Attention and stimulus evaluation", "Motor execution", "Deep sleep"], a: 1 },
+
+            // NEW VARIATIONS & DEEP DIVES (40%)
+            { q: "In EDA history, who discovered the 'Endosomatic' (potential) method without a current?", options: ["Charles Féré", "Ivan Tarkhanov", "Carl Jung", "Hans Berger"], a: 1 },
+            { q: "Anatomically, the term 'Caudal' in humans refers to which direction?", options: ["Towards the head", "Towards the tail/feet", "Towards the back", "Towards the sides"], a: 2 },
+            { q: "The crossing of nerve fibers from one side of the body to the other side of the brain is called:", options: ["Summation", "Decussation", "Inhibition", "Innervation"], a: 1 },
+            { q: "Myelinated neurons use ______ conduction to speed up signal transmission.", options: ["Continuous", "Saltatory", "Passive", "Chemical"], a: 1 },
+            { q: "The 'Sodium-Potassium Pump' is an example of ______ transport.", options: ["Passive", "Active", "Diffusion", "Osmotic"], a: 1 },
+            { q: "Which brain structure regulates basic vital functions like thirst, hunger, and temperature?", options: ["Thalamus", "Hypothalamus", "Hippocampus", "Amygdala"], a: 1 },
+            { q: "The resting membrane potential of a typical neuron is approximately:", options: ["0 mV", "-70 mV", "+40 mV", "-55 mV"], a: 1 },
+            { q: "In 'Exosomatic' EDA measurement, we measure changes in conductance by:", options: ["Applying a weak external current", "Recording the skin's own potential", "Using ultrasound", "Drawing blood"], a: 0 },
+            { q: "Which ethics document established the 'informed consent' requirement in 1964?", options: ["The Belmont Report", "The Declaration of Helsinki", "The Nuremberg Code", "The APA Ethics Code"], a: 1 },
+            { q: "When two variables (Ψ and Φ) are mapped where one psychological state leads to many physiological outcomes, it is a ______ relation.", options: ["One-to-One", "One-to-Many", "Many-to-One", "Null"], a: 1 },
+            { q: "In the cardiac cycle, the phase of ventricular relaxation and filling is called:", options: ["Systole", "Diastole", "Fibrillation", "Tachycardia"], a: 1 },
+            { q: "Which frequency band in HRV analysis (0.15 - 0.40 Hz) relates directly to respiration and parasympathetic activity?", options: ["VLF", "LF", "HF", "UHF"], a: 2 },
+            { q: "The 'Labile' individual in EDA research is defined by:", options: ["Having very thick skin", "A high frequency of non-specific/spontaneous SCRs", "A lack of sweat glands", "Slow heart rate"], a: 1 },
+            { q: "In EEG, the 'Dipole' is created because pyramidal cells are oriented ______ to the cortical surface.", options: ["Parallel", "Perpendicular", "Randomly", "Tangentially"], a: 1 },
+            { q: "A 'High-Pass' filter is used to eliminate ______ components from a signal.", options: ["High-frequency", "Low-frequency/Slow drift", "Medium", "All"], a: 1 },
+            { q: "Which EEG rhythm (4-8 Hz) is commonly seen during light sleep or meditation?", options: ["Delta", "Theta", "Alpha", "Gamma"], a: 1 },
+            { q: "The 'Mu' rhythm (8-13 Hz) is found over the ______ cortex.", options: ["Visual", "Motor", "Auditory", "Prefrontal"], a: 1 },
+            { q: "Which neuroimaging method uses near-infrared light to detect blood oxygenation changes?", options: ["MEG", "fMRI", "fNIRS", "PET"], a: 2 },
+            { q: "The ______ electrode provides a common zero-point for all other electrodes in a circuit.", options: ["Active", "Reference", "Ground", "Bipolar"], a: 2 },
+            { q: "What happens to the Mu rhythm when a person executes or even imagines a movement?", options: ["It Synchronizes (increases)", "It Desynchronizes (decreases)", "It stays the same", "It disappears forever"], a: 1 }
+        ];
+
+        let userSelections = new Array(questions.length).fill(null);
+
+        function renderQuestions() {
+            const container = document.getElementById('quiz-container');
+            questions.forEach((q, i) => {
+                const card = document.createElement('div');
+                card.className = "bg-white p-6 rounded-2xl shadow-sm border border-gray-100 question-box";
+                card.innerHTML = `
+                    <p class="font-bold text-gray-800 mb-4">${i+1}. ${q.q}</p>
+                    <div class="space-y-2">
+                        ${q.options.map((opt, optIdx) => `
+                            <label id="label-${i}-${optIdx}" class="option-label block p-3 border rounded-xl cursor-pointer flex items-center space-x-3">
+                                <input type="radio" name="q${i}" value="${optIdx}" onclick="selectAnswer(${i}, ${optIdx})" class="w-4 h-4 text-blue-600 focus:ring-blue-500">
+                                <span class="text-gray-700 text-sm">${opt}</span>
+                            </label>
+                        `).join('')}
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function selectAnswer(qIdx, optIdx) {
+            userSelections[qIdx] = optIdx;
+            // Visual feedback for selection
+            for(let i=0; i<questions[qIdx].options.length; i++) {
+                document.getElementById(`label-${qIdx}-${i}`).classList.remove('selected-option');
+            }
+            document.getElementById(`label-${qIdx}-${optIdx}`).classList.add('selected-option');
+        }
+
+        function calculateScore() {
+            let score = 0;
+            const keyContainer = document.getElementById('answer-key');
+            keyContainer.innerHTML = '<h3 class="text-2xl font-bold text-gray-800 px-4 mt-8 mb-4">Detailed Answer Review</h3>';
+
+            questions.forEach((q, i) => {
+                const isCorrect = userSelections[i] === q.a;
+                if (isCorrect) score++;
+
+                // Build review card
+                const reviewCard = document.createElement('div');
+                reviewCard.className = `p-4 rounded-2xl border mb-4 ${isCorrect ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'}`;
+                reviewCard.innerHTML = `
+                    <p class="font-bold text-sm mb-1">Question ${i+1}: ${isCorrect ? '✅ Correct' : '❌ Incorrect'}</p>
+                    <p class="text-gray-800 text-sm">${q.q}</p>
+                    <p class="text-xs mt-2 font-semibold">
+                        Correct: <span class="text-green-700">${q.options[q.a]}</span>
+                    </p>
+                `;
+                keyContainer.appendChild(reviewCard);
+            });
+
+            document.getElementById('final-score').innerText = score;
+            document.getElementById('performance-msg').innerText = 
+                score >= 45 ? "Mastery achieved! You are ready for the exam." :
+                score >= 35 ? "Great work. Focus on the red items in the review." :
+                "Solid effort. Review the 'Important Topics' and try again!";
+
+            document.getElementById('results-section').classList.remove('hidden');
+            document.getElementById('action-bar').classList.add('hidden');
+            window.scrollTo({ top: document.getElementById('results-section').offsetTop - 50, behavior: 'smooth' });
+        }
+
+        window.onload = renderQuestions;
+    </script>
+</body>
+</html>

@@ -1,0 +1,451 @@
+import React, { useState } from 'react';
+
+const questionBank = [
+  // SECTION 1: PHILOSOPHY & HISTORY
+  {
+    q: "In the 17th century, why was muscle activity initially assumed to be purely mechanical rather than electrical?",
+    options: ["No sparks were visible during movement", "Muscles felt cold during contraction", "Frogs didn't react to lightning", "Nerves were thought to be hollow tubes for 'animal spirits'"],
+    a: 0,
+    note: "Early researchers like Redi and Lorenzini saw no sparks, leading to a mechanical theory until Walsh demonstrated eel shocks in 1773. [cite: 5.0]"
+  },
+  {
+    q: "Ivan Tarkhanov is famous in EDA history for discovering which method of measurement?",
+    options: ["Exosomatic (External current)", "Endosomatic (Skin's own potential)", "Bipolar muscle potential", "Thermal resistance"],
+    a: 1,
+    note: "Tarkhanov found skin potential deflections without an external current in 1890. [cite: 7.0]"
+  },
+  {
+    q: "Which theory of emotion states that different specific patterns of physical bodily activity are interpreted by the brain as different emotions?",
+    options: ["Cannon-Bard Theory", "James-Lange Theory", "Singer-Schachter Theory", "Ekman's Facial Feedback"],
+    a: 1,
+    note: "James-Lange: 'We feel afraid because we are sweating.' [cite: 1.1]"
+  },
+  {
+    q: "The term 'Psychophysiological Inference' refers to mapping which domains?",
+    options: ["Anatomy to Physiology", "Psychological (Ψ) to Physiological (Φ)", "Social to Behavioral", "Independent to Control"],
+    a: 1,
+    note: "This mapping describes how mental states relate to physical signals. [cite: 1.1]"
+  },
+  {
+    q: "Which historical figure used a galvanometer to observe electrical impulses from rabbit and monkey brains in 1875?",
+    options: ["Hans Berger", "Richard Caton", "Luigi Galvani", "Charles Féré"],
+    a: 1,
+    note: "Caton preceded Berger, using rabbits and monkeys to find stimulated brain currents. [cite: 1.1]"
+  },
+
+  // SECTION 2: NERVOUS SYSTEM ANATOMY & PHYSIOLOGY
+  {
+    q: "A bundle of axons in the Peripheral Nervous System is called a 'nerve.' What is it called in the Central Nervous System?",
+    options: ["Nucleus", "Tract", "Ganglion", "Soma"],
+    a: 1,
+    note: "In the CNS, bundles are tracts; in the PNS, they are nerves. [cite: 2.3]"
+  },
+  {
+    q: "Which anatomical plane divides the brain into front and back sections?",
+    options: ["Sagittal", "Axial", "Coronal", "Horizontal"],
+    a: 2,
+    note: "Coronal (or frontal) planes divide into anterior/posterior. [cite: 2.3]"
+  },
+  {
+    q: "The 'Somatotopic map' in the motor cortex represents the body in which way?",
+    options: ["Ipsilateral (Same side)", "Contralateral (Opposite side)", "Randomly", "Unilateral"],
+    a: 1,
+    note: "The right motor cortex controls the left side of the body. [cite: 2.3]"
+  },
+  {
+    q: "Which part of the neuron is primarily responsible for receiving incoming chemical signals?",
+    options: ["Axon", "Myelin", "Dendrites", "Nodes of Ranvier"],
+    a: 2,
+    note: "Dendrites contain receptors for neurotransmitters. [cite: 2.2]"
+  },
+  {
+    q: "What is the approximate voltage of a neuron's threshold for firing an action potential?",
+    options: ["-70 mV", "-55 mV", "+40 mV", "0 mV"],
+    a: 1,
+    note: "Usually, a depolarization from -70mV to -55mV triggers the spike. [cite: 2.2]"
+  },
+
+  // SECTION 3: MEASUREMENT & SIGNAL PROCESSING
+  {
+    q: "When a biosignal's amplitude is converted into discrete numerical values at fixed intervals, it is being:",
+    options: ["Amplified", "Digitized (Quantized)", "Rectified", "Re-referenced"],
+    a: 1,
+    note: "Digitization involves sampling over time and quantizing amplitude. [cite: 3.0]"
+  },
+  {
+    q: "Why is 'Conductance' often preferred over 'Resistance' in EDA measurement?",
+    options: ["It is easier to calculate", "It is linearly related to the number of active sweat glands", "It is Endosomatic", "It doesn't require a ground"],
+    a: 1,
+    note: "Sweat glands act as parallel resistors, making total conductance summate linearly. [cite: 7.0]"
+  },
+  {
+    q: "A filter that allows frequencies between 10 Hz and 500 Hz to pass while blocking others is a:",
+    options: ["High-pass filter", "Low-pass filter", "Band-pass filter", "Notch filter"],
+    a: 2,
+    note: "Band-pass filters keep a specific middle range. [cite: 3.0]"
+  },
+  {
+    q: "Spectral analysis (e.g., Fourier Transform) represents a signal in the:",
+    options: ["Time domain", "Spatial domain", "Frequency domain", "Anatomical domain"],
+    a: 2,
+    note: "Spectral analysis breaks signals into their component frequencies. [cite: 3.0]"
+  },
+  {
+    q: "To record a biopotential accurately, the measuring electrode is compared to a reference electrode. This reflects a:",
+    options: ["Voltage gradient", "Current flow", "Potential difference", "Impedance match"],
+    a: 2,
+    note: "Most physiological measures reflect the difference in potential between two sites. [cite: 3.0]"
+  },
+
+  // SECTION 4: EXPERIMENTAL DESIGN & ETHICS
+  {
+    q: "According to the Declaration of Helsinki, what is the primary responsibility of a researcher?",
+    options: ["The quality of the data", "The well-being of the human participants", "Finding significant results", "Reducing costs"],
+    a: 1,
+    note: "Research always comes second to the participant's well-being. [cite: 4.0]"
+  },
+  {
+    q: "In a 'Within-Subjects' design, what is a common systematic artifact caused by the passage of time?",
+    options: ["Experimenter bias", "Aliasing", "Habituation or Fatigue", "Baseline drift"],
+    a: 2,
+    note: "Repetition can lead to reduced responses (habituation) or exhaustion. [cite: 4.0]"
+  },
+  {
+    q: "If a participant changes their behavior because they have guessed the experiment's hypothesis, this is called:",
+    options: ["The Placebo effect", "Demand Characteristics", "Internal bias", "Signal noise"],
+    a: 1,
+    note: "Participants may 'help' the researcher by acting as expected. [cite: 4.0]"
+  },
+  {
+    q: "What type of analysis is recommended for short, time-locked stimuli like a quick flash of light?",
+    options: ["Continuous analysis", "Spectral analysis", "Event-related analysis", "Baseline-only analysis"],
+    a: 2,
+    note: "Brief events require analysis focused on the moments immediately following the stimulus. [cite: 4.0]"
+  },
+  {
+    q: "Which type of variable is NOT intentionally manipulated but might influence the Dependent Variable if not controlled?",
+    options: ["Independent Variable", "Dependent Variable", "Confounding Variable", "Outcome Variable"],
+    a: 2,
+    note: "Confounds interfere with our ability to claim the IV caused the DV change. [cite: 4.0]"
+  },
+
+  // SECTION 5: ELECTROMYOGRAPHY (EMG)
+  {
+    q: "The neurotransmitter released at the 'Neuromuscular Junction' to trigger contraction is:",
+    options: ["Dopamine", "Glutamate", "Acetylcholine (ACh)", "GABA"],
+    a: 2,
+    note: "ACh travels across the synaptic cleft to receptors on the muscle fiber. [cite: 5.0]"
+  },
+  {
+    q: "Which process is described as taking the 'envelope' of the rectified EMG signal?",
+    options: ["Sampling", "Integration/Smoothing", "Filtering", "Aliasing"],
+    a: 1,
+    note: "This provides a clear view of the overall volume of muscle activity. [cite: 5.0]"
+  },
+  {
+    q: "Activity in the *Corrugator supercilii* muscle is a known indicator of:",
+    options: ["Happiness", "Positive Valence", "Negative Affect or Effort", "Sleepiness"],
+    a: 2,
+    note: "Frowning or furrowing the brow reflects negative states or cognitive load. [cite: 5.0]"
+  },
+  {
+    q: "Why is surface EMG (sEMG) preferred in psychophysiology over needle EMG?",
+    options: ["It is more accurate for single fibers", "It is non-invasive and painless", "It doesn't require a ground", "It has no artifacts"],
+    a: 1,
+    note: "Psychophysiology typically avoids invasive measures where possible. [cite: 5.0]"
+  },
+  {
+    q: "Antagonistic muscles work in pairs where:",
+    options: ["Both contract at the same time", "One contracts while the other relaxes", "One is for bones, one is for skin", "Only one exists in each limb"],
+    a: 1,
+    note: "Example: Biceps and Triceps. [cite: 5.0]"
+  },
+
+  // SECTION 6: CARDIOVASCULAR
+  {
+    q: "The 'Purkinje fibers' are specialized cells that:",
+    options: ["Digest nutrients", "Conduct electrical signals rapidly through the ventricles", "Open heart valves", "Filter blood"],
+    a: 1,
+    note: "They ensure coordinated, fast contraction of the ventricles. [cite: 6.1]"
+  },
+  {
+    q: "What does the T-wave represent in an ECG signal?",
+    options: ["Atrial depolarization", "Ventricular depolarization", "Ventricular repolarization (recovery)", "The heartbeat's end"],
+    a: 2,
+    note: "The T-wave shows the ventricles resetting electrically. [cite: 6.2]"
+  },
+  {
+    q: "Respiratory Sinus Arrhythmia (RSA) is characterized by:",
+    options: ["Heart rate increasing during inhalation", "Heart rate decreasing during inhalation", "A steady heart rate regardless of breath", "Total heart failure"],
+    a: 0,
+    note: "HR speeds up during inhale and slows down during exhale. [cite: 6.2]"
+  },
+  {
+    q: "Which cardiovascular measure uses light absorption to detect blood volume changes?",
+    options: ["Electrocardiogram (ECG)", "Photoplethysmography (PPG)", "Sphygmomanometry", "Echocardiography"],
+    a: 1,
+    note: "PPG measures light reflected or transmitted through tissue. [cite: 6.2]"
+  },
+  {
+    q: "The 'systolic' blood pressure measurement reflects pressure during:",
+    options: ["Heart relaxation (filling)", "Heart contraction (pumping)", "Between two breaths", "Walking"],
+    a: 1,
+    note: "Systole is the peak pressure when the heart pumps. [cite: 6.1]"
+  },
+
+  // SECTION 7: ELECTRODERMAL ACTIVITY (EDA)
+  {
+    q: "EDA is considered a 'pure' measure of the Sympathetic Nervous System because:",
+    options: ["It has no CNS input", "It lacks Parasympathetic (Vagal) innervation", "It only reacts to fear", "It is recorded from the head"],
+    a: 1,
+    note: "Most other ANS measures are dual-innervated; EDA is not. [cite: 7.0]"
+  },
+  {
+    q: "A person who shows many spontaneous (non-specific) SCRs is called:",
+    options: ["A non-responder", "Electro-stable", "Electro-labile", "A fast-adapter"],
+    a: 2,
+    note: "Lability refers to the frequency of spontaneous activity. [cite: 7.0]"
+  },
+  {
+    q: "Which historical figure's Word Association studies used EDA to find emotional complexes?",
+    options: ["Sigmund Freud", "Carl Jung", "Ivan Pavlov", "B.F. Skinner"],
+    a: 1,
+    note: "Jung applied EDA to clinical psychology in the early 1900s. [cite: 7.0]"
+  },
+  {
+    q: "Skin Conductance Level (SCL) describes which type of activity?",
+    options: ["Tonic (Baseline)", "Phasic (Response)", "Artifactual", "Central"],
+    a: 0,
+    note: "Level = Tonic; Response = Phasic. [cite: 7.0]"
+  },
+  {
+    q: "Why is EDA often measured on the palms or the soles of the feet?",
+    options: ["The skin is thinner there", "Those areas have the highest density of eccrine sweat glands", "It is easier to attach electrodes", "There are no muscles there"],
+    a: 1,
+    note: "Eccrine glands on palmar/plantar surfaces are highly reactive to psychological stimuli. [cite: 7.0]"
+  },
+
+  // SECTION 8: ELECTROCORTICAL (EEG)
+  {
+    q: "The international 10-20 system ensures electrode placement is:",
+    options: ["Exactly 10cm apart", "Proportional to skull size", "Always on the midline", "Only on the frontal lobe"],
+    a: 1,
+    note: "Distances are 10% or 20% of the total skull measurements. [cite: 8.2]"
+  },
+  {
+    q: "Which EEG rhythm (4-8 Hz) is often associated with drowsy states or creative activity?",
+    options: ["Delta", "Theta", "Alpha", "Beta"],
+    a: 1,
+    note: "Theta is slower than Alpha and associated with light sleep/meditation. [cite: 8.2]"
+  },
+  {
+    q: "What is the major disadvantage of EEG compared to fMRI?",
+    options: ["Poor temporal resolution", "Poor spatial resolution", "High cost", "Invasiveness"],
+    a: 1,
+    note: "Volume conduction makes it hard to pinpoint the exact source (Spatial). [cite: 8.1]"
+  },
+  {
+    q: "Which term describes the spread of electrical fields through the brain tissue and skull?",
+    options: ["Dipole", "Volume Conduction", "Epoching", "Saltatory Conduction"],
+    a: 1,
+    note: "This causes a single source to be detected by multiple scalp electrodes. [cite: 8.1]"
+  },
+  {
+    q: "Averaging multiple EEG trials primarily helps to cancel out:",
+    options: ["The ERP signal", "Random background EEG activity (noise)", "The participant's thoughts", "The sampling rate"],
+    a: 1,
+    note: "Non-stimulus-locked activity averages to zero over many trials. [cite: 8.2]"
+  },
+
+  // OVERLAP & TRAPS (REINFORCEMENT)
+  {
+    q: "The source of the EEG signal is:",
+    options: ["Axonal Action Potentials", "Dendritic Post-synaptic Potentials (PSPs)", "Cerebral blood flow", "Skull vibrations"],
+    a: 1,
+    note: "PSPs summate; action potentials are too fast/small for scalp detection. [cite: 8.1]"
+  },
+  {
+    q: "If you double the highest frequency of your signal to set your sampling rate, you are satisfying the:",
+    options: ["Ohm's Law", "Nyquist Criterion", "Fourier Transform", "Helsinki Rule"],
+    a: 1,
+    note: "Fs must be >= 2x Fmax to prevent aliasing. [cite: 3.0]"
+  },
+  {
+    q: "The SA Node is regulated by the Autonomic Nervous System to:",
+    options: ["Stop the heart", "Speed up (Sympathetic) and slow down (Parasympathetic)", "Only slow down", "Only speed up"],
+    a: 1,
+    note: "Both branches modulate the pacemaker's rate. [cite: 6.1]"
+  },
+  {
+    q: "Which ion is kept OUTSIDE the neuron by the Na+/K+ pump during resting potential?",
+    options: ["Potassium (K+)", "Sodium (Na+)", "Protein anions", "Phosphate"],
+    a: 1,
+    note: "The pump pushes 3 Sodium out for 2 Potassium in. [cite: 2.2]"
+  },
+  {
+    q: "The term 'Biopotential' refers to electrical activity that is:",
+    options: ["Artificially induced", "Generated by biological processes", "Only found in the heart", "Constant over time"],
+    a: 1,
+    note: "EEG, ECG, and EMG are all examples of biopotentials. [cite: 3.0]"
+  },
+  {
+    q: "Clinical psychophysiology focuses on:",
+    options: ["Designing faster computers", "Applying psychophysiology to medical/therapeutic contexts", "Advertising research", "Evolutionary history"],
+    a: 1,
+    note: "Includes things like biofeedback or epilepsy monitoring. [cite: 1.1]"
+  },
+  {
+    q: "An 'Incidental Finding' in an experiment is:",
+    options: ["A result you were looking for", "A medical abnormality discovered by chance", "A broken electrode", "An outlier in the statistics"],
+    a: 1,
+    note: "Example: Finding a cyst during an fMRI study for memory. [cite: 4.0]"
+  },
+  {
+    q: "Which anatomical term means 'towards the tail' or 'downward' in humans?",
+    options: ["Superior", "Caudal", "Ventral", "Lateral"],
+    a: 1,
+    note: "Caudal = Tail-ward; Cranial/Superior = Head-ward. [cite: 2.3]"
+  },
+  {
+    q: "What is the 'Independent Variable' in Rosenfeld's Lie Detection study?",
+    options: ["EEG response", "The status of the word (Novel vs. Chosen)", "The participant's heart rate", "The room temperature"],
+    a: 1,
+    note: "The stimulus category is what the experimenter controlled. [cite: 1.1]"
+  },
+  {
+    q: "A notch filter at 60 Hz is most useful in which country?",
+    options: ["Germany", "USA", "UK", "Australia"],
+    a: 1,
+    note: "The USA uses 60Hz power lines; Europe uses 50Hz. [cite: 3.0]"
+  }
+];
+
+export default function App() {
+  const [userAnswers, setUserAnswers] = useState(new Array(questionBank.length).fill(null));
+  const [showResults, setShowResults] = useState(false);
+  const [score, setScore] = useState(0);
+
+  const handleSelect = (qIdx, optIdx) => {
+    if (showResults) return;
+    const newAns = [...userAnswers];
+    newAns[qIdx] = optIdx;
+    setUserAnswers(newAns);
+  };
+
+  const gradeExam = () => {
+    let finalScore = 0;
+    questionBank.forEach((q, i) => {
+      if (userAnswers[i] === q.a) finalScore++;
+    });
+    setScore(finalScore);
+    setShowResults(true);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  return (
+    <div className="bg-gray-50 min-h-screen py-10 px-4">
+      <div className="max-w-4xl mx-auto">
+        {/* Header */}
+        <div className="bg-white rounded-2xl shadow-xl p-8 mb-10 border-l-8 border-indigo-600">
+          <h1 className="text-4xl font-black text-gray-900 mb-2">Mock Exam 2: Variation</h1>
+          <p className="text-indigo-600 font-bold uppercase tracking-widest text-sm">Advanced Foundations of Psychophysiology</p>
+          <div className="mt-4 flex gap-4 text-xs font-semibold">
+            <span className="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full italic">50 Fresh Questions</span>
+            <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full">Anatomical & Ethical Focus</span>
+          </div>
+        </div>
+
+        {/* Results Banner */}
+        {showResults && (
+          <div className="bg-white rounded-2xl shadow-2xl p-10 mb-10 text-center border-t-8 border-green-500 animate-bounce-short">
+            <h2 className="text-5xl font-black text-gray-800 mb-2">Result: {score}/50</h2>
+            <p className="text-xl text-gray-600 mb-6 font-medium italic">
+              {score >= 45 ? "Incredible! You're an expert." : 
+               score >= 35 ? "Great job! Minor review needed." : 
+               "Good effort. Focus on the review section below."}
+            </p>
+            <button 
+              onClick={() => window.print()}
+              className="bg-gray-900 text-white px-8 py-3 rounded-full font-bold hover:bg-gray-800 transition shadow-lg"
+            >
+              Export Review as PDF
+            </button>
+            
+            <div className="mt-10 bg-indigo-50 p-8 rounded-xl text-left border-l-4 border-indigo-400">
+              <h3 className="text-2xl font-bold text-indigo-900 mb-4 flex items-center">
+                <span className="mr-2">💡</span> Final Review: Must-Know Concepts
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-indigo-800 leading-relaxed text-sm">
+                <div>
+                  <p className="font-bold border-b border-indigo-200 mb-1">1. Anatomical Directions</p>
+                  <p>Remember <strong>Caudal</strong> (tail/down) vs <strong>Cranial</strong> (head/up). <strong>Coronal</strong> slices front-to-back, <strong>Sagittal</strong> slices left-to-right.</p>
+                </div>
+                <div>
+                  <p className="font-bold border-b border-indigo-200 mb-1">2. Myelin & Speed</p>
+                  <p>Myelin is insulation. Signal speed increases with <strong>fiber diameter</strong> and <strong>myelination</strong> (Saltatory conduction via Nodes of Ranvier).</p>
+                </div>
+                <div>
+                  <p className="font-bold border-b border-indigo-200 mb-1">3. The Vagal Brake</p>
+                  <p>The <strong>Vagus Nerve</strong> (Parasympathetic) acts as a brake on the SA Node. RSA is a healthy sign that the brake is working with your breath.</p>
+                </div>
+                <div>
+                  <p className="font-bold border-b border-indigo-200 mb-1">4. Electrode Standards</p>
+                  <p>The <strong>10-20 system</strong> is anatomical. Even numbers = Right. Odd numbers = Left. 'z' = Zero/Midline. Proportions depend on <i>your</i> head size.</p>
+                </div>
+                <div>
+                  <p className="font-bold border-b border-indigo-200 mb-1">5. Ethics Protocol</p>
+                  <p>The <strong>Declaration of Helsinki</strong> is the global standard. Informed consent and the right to quit at any time are non-negotiable.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Questions */}
+        <div className="space-y-8">
+          {questionBank.map((q, i) => (
+            <div key={i} className={`bg-white p-8 rounded-2xl shadow-sm border transition ${showResults ? (userAnswers[i] === q.a ? 'border-green-300 bg-green-50' : 'border-red-300 bg-red-50') : 'border-gray-200'}`}>
+              <p className="text-lg font-bold text-gray-900 mb-6">
+                <span className="text-indigo-600 mr-2">{i + 1}.</span> {q.q}
+              </p>
+              <div className="grid grid-cols-1 gap-3">
+                {q.options.map((opt, optIdx) => (
+                  <button
+                    key={optIdx}
+                    onClick={() => handleSelect(i, optIdx)}
+                    disabled={showResults}
+                    className={`text-left p-4 rounded-xl border-2 transition font-medium flex items-center justify-between
+                      ${userAnswers[i] === optIdx ? 'border-indigo-600 bg-indigo-50 text-indigo-900' : 'border-gray-100 bg-white text-gray-600 hover:border-gray-300'}
+                      ${showResults && q.a === optIdx ? 'border-green-600 bg-green-100 text-green-900' : ''}
+                      ${showResults && userAnswers[i] === optIdx && q.a !== optIdx ? 'border-red-600 bg-red-100 text-red-900' : ''}
+                    `}
+                  >
+                    <span>{opt}</span>
+                    {showResults && q.a === optIdx && <span className="text-green-600 font-black">✓</span>}
+                    {showResults && userAnswers[i] === optIdx && q.a !== optIdx && <span className="text-red-600 font-black">✗</span>}
+                  </button>
+                ))}
+              </div>
+              {showResults && (
+                <div className="mt-6 text-sm text-gray-600 italic bg-white bg-opacity-50 p-4 rounded-lg border-l-2 border-gray-400">
+                  <span className="font-bold uppercase text-xs not-italic mr-2">Explanation:</span> {q.note}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+
+        {!showResults && (
+          <div className="mt-16 text-center">
+            <button 
+              onClick={gradeExam}
+              className="bg-indigo-600 hover:bg-indigo-700 text-white font-black py-6 px-20 rounded-full shadow-2xl transition transform hover:scale-105 active:scale-95 text-2xl uppercase tracking-widest"
+            >
+              Check Score Now
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}

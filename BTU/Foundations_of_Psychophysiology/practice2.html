@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Psychophysiology Practice # 2</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .reveal-btn { transition: all 0.3s ease; }
+        .answer-content { display: none; }
+        .question-card { border-left: 4px solid #6366f1; }
+        .correct-highlight { color: #059669; font-weight: bold; }
+        .dipto-badge { background-color: #e0e7ff; color: #4338ca; }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen p-4 md:p-8 font-sans text-slate-800">
+
+    <div class="max-w-4xl mx-auto">
+        <header class="mb-10 text-center">
+            <h1 class="text-4xl font-bold text-slate-900 mb-2">Psychophysiology Practice # 2</h1>
+            <p class="text-lg text-slate-600">Chapters 1-8</p>
+            <div class="mt-4 flex justify-center gap-4">
+                <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm font-medium border border-indigo-200">Dipto Variation</span>
+                <span class="bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-sm font-medium border border-amber-200">50 Questions</span>
+            </div>
+        </header>
+
+        <div id="exam-container" class="space-y-6">
+            <!-- Questions injected via JavaScript -->
+        </div>
+
+        <footer class="mt-12 py-8 border-t border-slate-200 text-center text-slate-500 text-sm">
+            End of Mock Examination 2. Practice makes perfect!
+        </footer>
+    </div>
+
+    <script>
+        const questions = [
+            // DIPTO CORE & CHAPTER 1
+            {
+                q: "Psychophysiological research does NOT study...",
+                options: ["how changes in the body (dependent variable) affect our psychology (independent variable)", "how mental states (IV) are reflected in physiological changes (DV)", "how our bodies reveal our mental states", "None of the above"],
+                a: "a",
+                note: "Dipto Q1. Psychophysiology usually treats the psychological state as the IV and the physiological change as the DV."
+            },
+            {
+                q: "What does the central nervous system (CNS) comprise?",
+                options: ["The brain and central nerves", "The spinal cord and peripheral nerves", "The brain and spinal cord", "The somatic and autonomic systems"],
+                a: "c",
+                note: "Dipto Q2. The CNS is strictly the brain and spinal cord."
+            },
+            {
+                q: "The autonomic nervous system controls:",
+                options: ["Voluntary muscle movements", "Involuntary functions like blood pressure and organ function", "Only the parasympathetic nervous system", "The somatic and autonomic systems"],
+                a: "b",
+                note: "Dipto Q3. The ANS manages internal, involuntary environments."
+            },
+            {
+                q: "Which philosopher incorrectly identified the Pineal Gland as the seat of the soul?",
+                options: ["Ibn Sina", "Rene Descartes", "Luigi Galvani", "Hans Berger"],
+                a: "b",
+                note: "Descartes proposed the pineal gland as the interaction point for the mind-body problem."
+            },
+            {
+                q: "Ibn Sina (Avicenna) is noted in psychophysiology history for linking pulse rate to:",
+                options: ["Physical exercise", "Emotional states (love-sickness)", "Blood pressure", "Brain waves"],
+                a: "b",
+                note: "Historical records show Ibn Sina used pulse measurement to identify emotional distress."
+            },
+
+            // CHAPTER 2: NEURONS & CNS
+            {
+                q: "Which type of neuron transmits signals towards the central nervous system?",
+                options: ["Motor neuron", "Sensory neuron (afferent)", "Interneuron", "Relay neuron"],
+                a: "b",
+                note: "Dipto Q5. Afferent/Sensory neurons carry info TO the CNS."
+            },
+            {
+                q: "What is the primary role of the sodium-potassium pump?",
+                options: ["Transports Na+ inwards", "Keeps Na+ ions outwards and K+ ions inwards", "Keeps all ions outside", "Releases neurotransmitters"],
+                a: "b",
+                note: "Dipto Q6. It maintains the resting potential by pumping 3 Na+ out and 2 K+ in."
+            },
+            {
+                q: "The resting membrane potential of a typical neuron is approximately:",
+                options: ["0 mV", "+40 mV", "-70 mV", "-55 mV"],
+                a: "c",
+                note: "The inside of the cell is negatively charged relative to the outside at rest."
+            },
+            {
+                q: "Myelination of the axon results in:",
+                options: ["Slower signal travel", "Faster signal travel (Saltatory conduction)", "Leakage of ions", "Death of the neuron"],
+                a: "b",
+                note: "Myelin acts as insulation, allowing the action potential to jump between nodes."
+            },
+            {
+                q: "The somatotopic map in the primary motor cortex is organized:",
+                options: ["Ipsilaterally", "Contralaterally", "Randomly", "Unilaterally"],
+                a: "b",
+                note: "Contralateral means the right hemisphere controls the left side of the body."
+            },
+
+            // CHAPTER 3: MEASUREMENT
+            {
+                q: "What is the difference between biosignals and physiological parameters?",
+                options: ["Biosignals are consciously generated", "Biosignals are directly measurable, parameters are derivations", "Parameters are electrical, signals are mechanical", "Biosignals are constant"],
+                a: "b",
+                note: "Dipto Q7. Biosignals (ECG) are raw; parameters (Heart Rate) are derived."
+            },
+            {
+                q: "To record voltage from one single channel, what is usually needed aside from the measuring electrode?",
+                options: ["A bipolar electrode", "A unipolar electrode and a ground electrode", "A separate battery", "A saline solution"],
+                a: "b",
+                note: "Dipto Q8. You need an active electrode, a reference (unipolar), and a ground."
+            },
+            {
+                q: "By filtering recorded data, we can:",
+                options: ["Focus on specific signals of interest", "Remove artefacts", "Separate faster/slower components", "All of the above"],
+                a: "d",
+                note: "Dipto Q9. Filtering is essential for isolating clean data."
+            },
+            {
+                q: "A Notch filter at 50Hz is primarily used to:",
+                options: ["Remove heartbeats from EEG", "Remove power line interference", "Isolate Alpha waves", "Remove sweat artifacts"],
+                a: "b",
+                note: "Notch filters target a specific frequency, usually the local power grid frequency."
+            },
+            {
+                q: "Impedance is the resistance offered to:",
+                options: ["Direct Current", "Alternating Current (AC)", "Static electricity", "Heat"],
+                a: "b",
+                note: "In psychophysiology, we measure skin impedance for AC signals."
+            },
+
+            // CHAPTER 4: EXPERIMENTAL DESIGN (DIPTO HEAVY)
+            {
+                q: "In a meditation experiment, 'the time the participant has been awake before the experiment' is considered a:",
+                options: ["Confounding variable (CV)", "Control variable (CV)", "Dependent variable (DV)", "Moving variable"],
+                a: "a",
+                note: "Dipto Q10. It is an uncontrolled factor that can influence how fast someone falls asleep."
+            },
+            {
+                q: "What is the purpose of a counterbalanced blockwise design?",
+                options: ["To separate movements", "To balance out effects of time or learning", "To make the experiment faster", "To save on electrode costs"],
+                a: "b",
+                note: "Dipto Q11. Counterbalancing prevents 'order effects' from biasing the data."
+            },
+            {
+                q: "To investigate responses to seeing pictures of ducks, which analysis is recommended?",
+                options: ["Asynchrony analysis", "Continuous analysis", "Event-related analysis", "Variable-stimulus analysis"],
+                a: "c",
+                note: "Dipto Q12. Event-related analysis looks at the time-locked response to a specific stimulus."
+            },
+            {
+                q: "Which validity refers to how well results generalize to the real world?",
+                options: ["Internal Validity", "Construct Validity", "Ecological Validity", "Statistical Validity"],
+                a: "c",
+                note: "Ecological validity is crucial for applied psychophysiology."
+            },
+            {
+                q: "A 'Double-Blind' study is used to control for:",
+                options: ["Equipment noise", "Experimenter bias and placebo effects", "Participant fatigue", "Signal aliasing"],
+                a: "b",
+                note: "Neither the participant nor the experimenter knows the condition assigned."
+            },
+
+            // CHAPTER 5: EMG
+            {
+                q: "The general approach to EMG signal processing is, in order:",
+                options: ["Rectification > Integration > Smoothing", "Rectification > Smoothing > Integration", "Smoothing > Rectification", "Integration > Rectification"],
+                a: "a",
+                note: "Dipto Q26. Rectify first (all positive), then integrate/smooth."
+            },
+            {
+                q: "A motor unit refers to:",
+                options: ["A single muscle fiber", "All muscle fibers innervated by a particular neuron", "A group of neurons in the spine", "The entire bicep muscle"],
+                a: "b",
+                note: "The motor neuron and its axon, plus all fibers it controls, make the unit."
+            },
+            {
+                q: "Muscle contraction is triggered by the release of which neurotransmitter?",
+                options: ["Dopamine", "Acetylcholine (ACh)", "Serotonin", "GABA"],
+                a: "b",
+                note: "ACh is the primary neurotransmitter at the neuromuscular junction."
+            },
+            {
+                q: "The Startle Blink response is measured using which muscle?",
+                options: ["Corrugator supercilii", "Zygomaticus major", "Orbicularis oculi", "Masseter"],
+                a: "c",
+                note: "The orbicularis oculi muscle encircles the eye and handles blinking."
+            },
+            {
+                q: "Activity in the Corrugator supercilii muscle typically indicates:",
+                options: ["Smiling/Positive affect", "Frowning/Negative affect or Effort", "Chewing", "Surprise"],
+                a: "b",
+                note: "It pulls the eyebrows together in a 'furrowed brow'."
+            },
+
+            // CHAPTER 6: CARDIOVASCULAR
+            {
+                q: "Heart rate variability (HRV) is useful because it can:",
+                options: ["Separate parasympathetic and sympathetic modulations", "Ignore artefacts like RSA", "Measure blood pressure directly", "None of the above"],
+                a: "a",
+                note: "Dipto Q19. HRV reveals the balance between the two branches of the ANS."
+            },
+            {
+                q: "What special property do some heart muscle cells have?",
+                options: ["Autorhythmicity", "Myocardium", "Purkinje periods", "Refractory periods"],
+                a: "a",
+                note: "Dipto Q27. They can generate their own electrical rhythm."
+            },
+            {
+                q: "The physiological origins of an ECG measurement are:",
+                options: ["Arterial pressure changes", "Blood flow changes", "The summed action potentials of the heart muscles", "Summed postsynaptic potentials"],
+                a: "c",
+                note: "Dipto Q29. Unlike EEG, ECG records the massive action potentials of the heart muscle."
+            },
+            {
+                q: "The SA Node is regulated by the ANS to:",
+                options: ["Stop the heart", "Speed up (Sympathetic) and slow down (Parasympathetic)", "Only speed up", "Only slow down"],
+                a: "b",
+                note: "The heart has dual innervation; the sympathetic increases rate, parasympathetic decreases it."
+            },
+            {
+                q: "Photoplethysmography (PPG) uses ______ to measure blood volume changes.", options: ["Sound", "Light", "Pressure", "Electricity"],
+                a: "b",
+                note: "PPG sensors use LEDs and photodetectors to see blood volume pulses."
+            },
+
+            // CHAPTER 7: EDA
+            {
+                q: "Electrodermal activity (EDA) allows for:",
+                options: ["A specific measure of sympathetic activity", "Objective recording of thermal stimulation", "Measure never influenced by CNS", "All of the above"],
+                a: "a",
+                note: "Dipto Q20. EDA is a 'pure' measure because it lacks parasympathetic input."
+            },
+            {
+                q: "EDA interpretation should generally be viewed as a measure of:",
+                options: ["Arousal", "Emotions (only happy ones)", "Videogame skill", "Muscle strength"],
+                a: "a",
+                note: "Dipto Q21. It is a sensitive indicator of general arousal but is valence-unspecific."
+            },
+            {
+                q: "Which type of sweat glands are primarily responsible for EDA?",
+                options: ["Apocrine", "Eccrine", "Sebaceous", "Hormonal"],
+                a: "b",
+                note: "Eccrine glands on palms and soles are the most reactive to psychological stimuli."
+            },
+            {
+                q: "Skin Conductance (SC) is the mathematical inverse of:",
+                options: ["Skin Potential", "Skin Resistance", "Heart Rate", "Impedance"],
+                a: "b",
+                note: "Conductance (G) = 1 / Resistance (R)."
+            },
+            {
+                q: "A person with many spontaneous (non-specific) SCRs is called:",
+                options: ["Stable", "Labile", "Unresponsive", "Active"],
+                a: "b",
+                note: "Electrodermal lability is an individual trait often linked to attention."
+            },
+
+            // CHAPTER 8: EEG
+            {
+                q: "What does EEG primarily aim to measure?",
+                options: ["Brain conductivity", "Current flowing through nerves", "Impedance of the scalp", "Voltage changes caused by neuronal activity"],
+                a: "d",
+                note: "Dipto Q22. It measures the potential difference at the scalp surface."
+            },
+            {
+                q: "EEG signals are separated into frequency bands because:",
+                options: ["Different frequencies have known correlates to cognitive processes", "Amplifier filters create them", "They focus on different brain regions", "None of the above"],
+                a: "a",
+                note: "Dipto Q23. Example: Alpha for relaxation, Gamma for binding."
+            },
+            {
+                q: "Which statement about volume conduction in the brain is true?",
+                options: ["Signals from one region can be measured in different scalp regions", "It is only relevant for magnetic fields", "It allows easy backtracking of signals", "None of the above"],
+                a: "a",
+                note: "Dipto Q24. This 'blurring' is the cause of EEG's low spatial resolution."
+            },
+            {
+                q: "Epoching and averaging in EEG analysis is done to:",
+                options: ["Extract artefacts", "Identify perception timing", "Focus on activity systematically relating to a specific event", "Remove all data"],
+                a: "c",
+                note: "Dipto Q25. Averaging cancels random noise, leaving the stimulus-locked ERP."
+            },
+            {
+                q: "The primary physiological source of scalp EEG is:",
+                options: ["Action potentials", "Post-synaptic potentials (PSPs) in pyramidal cells", "Blood oxygenation", "Bone vibration"],
+                a: "b",
+                note: "PSPs are longer and summate better than brief action potentials."
+            },
+
+            // FINISHING UP / MISC
+            {
+                q: "In the 10-20 system, the letter 'F' stands for which lobe?",
+                options: ["Frontal", "Functional", "First", "Facial"],
+                a: "a",
+                note: "Labels denote Anatomical Lobe (F, T, P, O) and Central (C)."
+            },
+            {
+                q: "The P300 component of an ERP is typically associated with:",
+                options: ["Muscle blinks", "Stimulus evaluation and attention", "Initial sensory input", "Sleeping"],
+                a: "b",
+                note: "It is a late positive component often used in guilty knowledge tests."
+            },
+            {
+                q: "Which neuroimaging method has the BEST temporal resolution?",
+                options: ["fMRI", "PET", "EEG", "CT Scan"],
+                a: "c",
+                note: "EEG can track changes in milliseconds; fMRI takes seconds."
+            },
+            {
+                q: "According to the Declaration of Helsinki, what comes first?",
+                options: ["Scientific data", "The well-being of the participant", "The funding agency's goals", "Reducing equipment wear"],
+                a: "b",
+                note: "Ethical research mandates that human well-being always supersedes research goals."
+            },
+            {
+                q: "A high-pass filter allows ______ frequencies to pass through.",
+                options: ["Only low", "Only high", "Only the middle", "All"],
+                a: "b",
+                note: "It filters OUT the low frequencies (like DC offset or drift)."
+            },
+            {
+                q: "The 'Nyquist' criterion states you must sample at least ______ the highest frequency.",
+                options: ["Equal to", "Twice", "Five times", "Ten times"],
+                a: "b",
+                note: "This is necessary to avoid aliasing (distortion of the frequency)."
+            },
+            {
+                q: "The 'Mu' rhythm (8-13 Hz) found over the motor cortex ______ during movement.",
+                options: ["Increases", "Desynchronizes (decreases)", "Stays the same", "Changes to Delta"],
+                a: "b",
+                note: "Desynchronization is a marker of active cortical engagement."
+            },
+            {
+                q: "RSA (Respiratory Sinus Arrhythmia) refers to heart rate variation driven by:",
+                options: ["Eyesight", "Breathing", "Muscle tension", "Room light"],
+                a: "b",
+                note: "HR increases during inspiration and decreases during expiration."
+            },
+            {
+                q: "Which is an 'endosomatic' measure of EDA?",
+                options: ["Skin Conductance", "Skin Potential", "Skin Resistance", "Skin Impedance"],
+                a: "b",
+                note: "Endosomatic (Tarkhanov method) measures the skin's own generated voltage."
+            },
+            {
+                q: "In an ECG, the T-wave represents:",
+                options: ["Atrial contraction", "Ventricular contraction", "Ventricular repolarization (recovery)", "Heart failure"],
+                a: "c",
+                note: "It follows the QRS and resets the ventricles for the next beat."
+            }
+        ];
+
+        const container = document.getElementById('exam-container');
+
+        questions.forEach((item, index) => {
+            const card = document.createElement('div');
+            card.className = "bg-white p-6 rounded-xl shadow-sm question-card";
+            
+            const optionsHtml = item.options.map((opt, i) => {
+                const letter = String.fromCharCode(97 + i);
+                return `<li class="ml-4 py-1">${letter}) ${opt}</li>`;
+            }).join('');
+
+            card.innerHTML = `
+                <div class="flex justify-between items-start mb-4">
+                    <h3 class="text-lg font-semibold text-slate-900">Question ${index + 1}</h3>
+                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Chapter/Dipto Ref</span>
+                </div>
+                <p class="text-slate-700 mb-4">${item.q}</p>
+                <ul class="text-slate-600 mb-6 space-y-1">
+                    ${optionsHtml}
+                </ul>
+                <button onclick="toggleAnswer(${index})" id="btn-${index}" class="reveal-btn bg-slate-100 hover:bg-indigo-600 hover:text-white text-slate-600 px-4 py-2 rounded-lg text-sm font-medium">
+                    Reveal Answer
+                </button>
+                <div id="ans-${index}" class="answer-content mt-4 p-4 bg-indigo-50 rounded-lg border border-indigo-100">
+                    <p class="mb-2"><span class="correct-highlight">Correct Answer: ${item.a.toUpperCase()}</span></p>
+                    <p class="text-sm text-indigo-800 italic">Note: ${item.note}</p>
+                </div>
+            `;
+            container.appendChild(card);
+        });
+
+        function toggleAnswer(idx) {
+            const content = document.getElementById(`ans-${idx}`);
+            const btn = document.getElementById(`btn-${idx}`);
+            if (content.style.display === "block") {
+                content.style.display = "none";
+                btn.innerText = "Reveal Answer";
+                btn.classList.remove('bg-indigo-600', 'text-white');
+                btn.classList.add('bg-slate-100', 'text-slate-600');
+            } else {
+                content.style.display = "block";
+                btn.innerText = "Hide Answer";
+                btn.classList.add('bg-indigo-600', 'text-white');
+                btn.classList.remove('bg-slate-100', 'text-slate-600');
+            }
+        }
+    </script>
+</body>
+</html>
