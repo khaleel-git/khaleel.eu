@@ -3,210 +3,400 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Psychophysiology - Sabi Past Paper Simulation</title>
+    <title>Foundations of Psychophysiology - Past Paper 1</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .hero-gradient {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+        }
         .option-card { transition: all 0.2s ease; cursor: pointer; }
         .option-card:hover { background-color: #f8fafc; border-color: #cbd5e1; }
-        .selected { border-color: #3b82f6; background-color: #eff6ff; }
-        .correct { background-color: #d1fae5; border-color: #10b981; }
+        .correct { background-color: #d1fae5; border-color: #10b981; font-weight: 600; }
         .wrong { background-color: #fee2e2; border-color: #ef4444; }
         @media print { .no-print { display: none; } }
     </style>
 </head>
-<body class="bg-gray-50 min-h-screen py-10">
+<body class="bg-slate-50 min-h-screen font-sans text-slate-900">
 
-    <div class="max-w-3xl mx-auto px-4">
-        <!-- Paper Header -->
-        <div class="bg-white p-8 rounded-t-2xl shadow-sm border-b-2 border-slate-100">
-            <h1 class="text-3xl font-black text-slate-800">Psychophysiology Past Paper 1</h1>
-            <p class="text-slate-500 font-medium">Interactive Simulation</p>
-            <div class="mt-4 flex gap-3 no-print">
-                <span class="bg-slate-100 text-slate-600 px-3 py-1 rounded text-xs font-bold uppercase">Official Questions</span>
-                <span class="bg-blue-100 text-blue-600 px-3 py-1 rounded text-xs font-bold uppercase">MCQ + Short Answer</span>
-            </div>
+    <!-- Hero Section -->
+    <header class="hero-gradient text-white py-12 px-4 shadow-lg">
+        <div class="max-w-4xl mx-auto text-center">
+            <h1 class="text-3xl md:text-5xl font-black mb-2 tracking-tight">Foundations of Psychophysiology</h1>
+            <p class="text-lg text-blue-100 font-light">Past Paper 1 (Full Simulation)</p>
         </div>
+    </header>
 
-        <!-- Exam Questions Container -->
-        <div id="exam-form" class="bg-white p-8 space-y-10 shadow-sm rounded-b-2xl">
+    <main class="max-w-4xl mx-auto px-4 py-12">
+        <div id="exam-form" class="bg-white p-8 rounded-2xl shadow-sm space-y-12">
             
-            <!-- Question 1 -->
-            <div class="question-block" data-answer="0">
-                <p class="font-bold text-slate-800 mb-4">1. Psychophysiological research does NOT study...</p>
-                <div class="space-y-2">
-                    <label class="option-card block p-3 border rounded-xl flex items-center space-x-3">
-                        <input type="radio" name="q1" value="0" class="w-4 h-4 text-blue-600">
-                        <span class="text-slate-700">a. how changes in the body (independent variable) affect our psychology (dependent variable)</span>
-                    </label>
-                    <label class="option-card block p-3 border rounded-xl flex items-center space-x-3">
-                        <input type="radio" name="q1" value="1" class="w-4 h-4 text-blue-600">
-                        <span class="text-slate-700">b. how mental states (independent variable) are reflected in physiological parameters (dependent variable)</span>
-                    </label>
-                    <label class="option-card block p-3 border rounded-xl flex items-center space-x-3">
-                        <input type="radio" name="q1" value="2" class="w-4 h-4 text-blue-600">
-                        <span class="text-slate-700">c. how our bodies reveal our mental states</span>
-                    </label>
-                    <label class="option-card block p-3 border rounded-xl flex items-center space-x-3">
-                        <input type="radio" name="q1" value="3" class="w-4 h-4 text-blue-600">
-                        <span class="text-slate-700">d. any of the above</span>
-                    </label>
+            <!-- SECTION 1: FOUNDATIONS -->
+            <div class="space-y-10">
+                <h2 class="text-xl font-bold text-blue-600 border-b pb-2 uppercase tracking-wide">Section 1: Foundations & Neural Systems</h2>
+                
+                <!-- Q1 -->
+                <div class="question-block" data-answer="3">
+                    <p class="font-bold text-slate-800 mb-4">1. (2 points) Psychophysiological research does NOT study ...</p>
+                    <div class="space-y-2">
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q1" value="0" class="w-4 h-4"><span class="text-slate-700">a. how changes in the body (independent variable) affect our psychology (dependent variable).</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q1" value="1" class="w-4 h-4"><span class="text-slate-700">b. how mental states (independent variable) are reflected in physiological parameters (dependent variable).</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q1" value="2" class="w-4 h-4"><span class="text-slate-700">c. how our bodies reveal our mental states.</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q1" value="3" class="w-4 h-4"><span class="text-slate-700">d. any of the above.</span></label>
+                    </div>
+                </div>
+
+                <!-- Q2 -->
+                <div class="question-block" data-answer="1">
+                    <p class="font-bold text-slate-800 mb-4">2. What does the mind-body problem address?</p>
+                    <div class="space-y-2">
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q2" value="0" class="w-4 h-4"><span class="text-slate-700">a. The relationship between mental health and exercise</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q2" value="1" class="w-4 h-4"><span class="text-slate-700">b. The debate about the relationship between conscious experiences and the physical body</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q2" value="2" class="w-4 h-4"><span class="text-slate-700">c. The study of brain functions and their physical structures</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q2" value="3" class="w-4 h-4"><span class="text-slate-700">d. The connection between psychological disorders and physiological symptoms</span></label>
+                    </div>
+                </div>
+
+                <!-- Q3 -->
+                <div class="question-block" data-answer="2">
+                    <p class="font-bold text-slate-800 mb-4">3. The peripheral nervous system (PNS) includes:</p>
+                    <div class="space-y-2">
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q3" value="0" class="w-4 h-4"><span class="text-slate-700">a. Only neurons in the spinal cord</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q3" value="1" class="w-4 h-4"><span class="text-slate-700">b. Neurons in and outside the spinal cord</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q3" value="2" class="w-4 h-4"><span class="text-slate-700">c. Neurons outside the brain and spinal cord</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q3" value="3" class="w-4 h-4"><span class="text-slate-700">d. Only the autonomic nervous system</span></label>
+                    </div>
+                </div>
+
+                <!-- Q4 -->
+                <div class="question-block" data-answer="2">
+                    <p class="font-bold text-slate-800 mb-4">4. What is a key characteristic of psychophysiology research?</p>
+                    <div class="space-y-2">
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q4" value="0" class="w-4 h-4"><span class="text-slate-700">a. It focuses solely on psychological variables as dependent measures</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q4" value="1" class="w-4 h-4"><span class="text-slate-700">b. It always establishes causal relationships between physiological and psychological variables</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q4" value="2" class="w-4 h-4"><span class="text-slate-700">c. It uses a physiological measure as a dependent variable and a behavioral one as an independent variable</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q4" value="3" class="w-4 h-4"><span class="text-slate-700">d. It rejects any interdisciplinary approaches between psychology and physiology</span></label>
+                    </div>
+                </div>
+
+                <!-- Q5 -->
+                <div class="question-block" data-answer="2">
+                    <p class="font-bold text-slate-800 mb-4">5. What is the role of motor neurons?</p>
+                    <div class="space-y-2">
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q5" value="0" class="w-4 h-4"><span class="text-slate-700">a. Transmit signals between neurons</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q5" value="1" class="w-4 h-4"><span class="text-slate-700">b. Generate signals by stimulation</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q5" value="2" class="w-4 h-4"><span class="text-slate-700">c. Transmit activity to effector organs</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q5" value="3" class="w-4 h-4"><span class="text-slate-700">d. Support and protect neurons</span></label>
+                    </div>
+                </div>
+
+                <!-- Q6 -->
+                <div class="question-block" data-answer="2">
+                    <p class="font-bold text-slate-800 mb-4">6. What maintains the resting potential in neurons?</p>
+                    <div class="space-y-2">
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q6" value="0" class="w-4 h-4"><span class="text-slate-700">a. Sodium-calcium pump</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q6" value="1" class="w-4 h-4"><span class="text-slate-700">b. Calcium-potassium pump</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q6" value="2" class="w-4 h-4"><span class="text-slate-700">c. Sodium-potassium pump</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q6" value="3" class="w-4 h-4"><span class="text-slate-700">d. Magnesium-calcium pump</span></label>
+                    </div>
+                </div>
+
+                <!-- Q7 -->
+                <div class="question-block" data-answer="2">
+                    <p class="font-bold text-slate-800 mb-4">7. Some action potentials travel faster than others along an axon, due to ...</p>
+                    <div class="space-y-2">
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q7" value="0" class="w-4 h-4"><span class="text-slate-700">a. a higher voltage.</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q7" value="1" class="w-4 h-4"><span class="text-slate-700">b. a larger cell body (soma).</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q7" value="2" class="w-4 h-4"><span class="text-slate-700">c. myelination of the axon.</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q7" value="3" class="w-4 h-4"><span class="text-slate-700">d. the presence of dendrites.</span></label>
+                    </div>
                 </div>
             </div>
 
-            <!-- Question 2 -->
-            <div class="question-block" data-answer="2">
-                <p class="font-bold text-slate-800 mb-4">2. What does the central nervous system (CNS) comprise?</p>
-                <div class="space-y-2">
-                    <label class="option-card block p-3 border rounded-xl flex items-center space-x-3">
-                        <input type="radio" name="q2" value="0" class="w-4 h-4 text-blue-600">
-                        <span class="text-slate-700">a. The brain and nerves</span>
-                    </label>
-                    <label class="option-card block p-3 border rounded-xl flex items-center space-x-3">
-                        <input type="radio" name="q2" value="1" class="w-4 h-4 text-blue-600">
-                        <span class="text-slate-700">b. The spinal cord and peripheral nerves</span>
-                    </label>
-                    <label class="option-card block p-3 border rounded-xl flex items-center space-x-3 text-blue-700 font-semibold bg-blue-50">
-                        <input type="radio" name="q2" value="2" class="w-4 h-4 text-blue-600">
-                        <span class="text-slate-700">c. The brain and spinal cord</span>
-                    </label>
-                    <label class="option-card block p-3 border rounded-xl flex items-center space-x-3">
-                        <input type="radio" name="q2" value="3" class="w-4 h-4 text-blue-600">
-                        <span class="text-slate-700">d. The somatic and autonomic systems</span>
-                    </label>
+            <!-- SECTION 2: MEASUREMENT & DESIGN -->
+            <div class="space-y-10">
+                <h2 class="text-xl font-bold text-blue-600 border-b pb-2 uppercase tracking-wide">Section 2: Measurement & Experimental Design</h2>
+
+                <!-- Q8 -->
+                <div class="question-block" data-answer="2">
+                    <p class="font-bold text-slate-800 mb-4">8. To record voltage from one single channel, what is usually needed aside from the one recording electrode?</p>
+                    <div class="space-y-2">
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q8" value="0" class="w-4 h-4"><span class="text-slate-700">a. a bipolar and a unipolar electrode.</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q8" value="1" class="w-4 h-4"><span class="text-slate-700">b. an active and an active electrode.</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q8" value="2" class="w-4 h-4"><span class="text-slate-700">c. a reference and a ground electrode.</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q8" value="3" class="w-4 h-4"><span class="text-slate-700">d. All of the above.</span></label>
+                    </div>
+                </div>
+
+                <!-- Q9 -->
+                <div class="question-block" data-answer="0">
+                    <p class="font-bold text-slate-800 mb-4">9. Which of the following settings cannot be modified after recording?</p>
+                    <div class="space-y-2">
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q9" value="0" class="w-4 h-4"><span class="text-slate-700">a. Analog filters</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q9" value="1" class="w-4 h-4"><span class="text-slate-700">b. Reference electrode</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q9" value="2" class="w-4 h-4"><span class="text-slate-700">c. Bipolar channels</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q9" value="3" class="w-4 h-4"><span class="text-slate-700">d. None of the above</span></label>
+                    </div>
+                </div>
+
+                <!-- Q10 -->
+                <div class="question-block" data-answer="1">
+                    <p class="font-bold text-slate-800 mb-4">10. In the context of experimental design, the act of operationalization...</p>
+                    <div class="space-y-2">
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q10" value="0" class="w-4 h-4"><span class="text-slate-700">a. inserts a specific variable in the theoretical model.</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q10" value="1" class="w-4 h-4"><span class="text-slate-700">b. makes a variable specific and measurable.</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q10" value="2" class="w-4 h-4"><span class="text-slate-700">c. reveals factors that could confuse the answer.</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q10" value="3" class="w-4 h-4"><span class="text-slate-700">d. turns a construct into a concept.</span></label>
+                    </div>
+                </div>
+
+                <!-- Q11 -->
+                <div class="question-block" data-answer="0">
+                    <p class="font-bold text-slate-800 mb-4">11. What is the primary purpose of a counterbalanced blockwise design?</p>
+                    <div class="space-y-2">
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q11" value="0" class="w-4 h-4"><span class="text-slate-700">a. To balance out effects of time or learning.</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q11" value="1" class="w-4 h-4"><span class="text-slate-700">b. To make the experiment less boring for the participants.</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q11" value="2" class="w-4 h-4"><span class="text-slate-700">c. To separate participant recruitment into independent blocks.</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q11" value="3" class="w-4 h-4"><span class="text-slate-700">d. All of the above.</span></label>
+                    </div>
+                </div>
+
+                <!-- Q12 -->
+                <div class="question-block" data-answer="0">
+                    <p class="font-bold text-slate-800 mb-4">12. In a meditation experiment, the "time awake before experiment" is a ...</p>
+                    <div class="space-y-2">
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q12" value="0" class="w-4 h-4"><span class="text-slate-700">a. a control variable (CV). (Or Confounding if uncontrolled)</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q12" value="1" class="w-4 h-4"><span class="text-slate-700">b. a dependent variable (DV).</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q12" value="2" class="w-4 h-4"><span class="text-slate-700">c. a moving variable (MoV).</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q12" value="3" class="w-4 h-4"><span class="text-slate-700">d. an independent variable (IV).</span></label>
+                    </div>
                 </div>
             </div>
 
-            <!-- Question 3 -->
-            <div class="question-block" data-answer="1">
-                <p class="font-bold text-slate-800 mb-4">3. The autonomic nervous system controls:</p>
-                <div class="space-y-2">
-                    <label class="option-card block p-3 border rounded-xl flex items-center space-x-3">
-                        <input type="radio" name="q3" value="0" class="w-4 h-4 text-blue-600">
-                        <span class="text-slate-700">a. Voluntary muscle movements</span>
-                    </label>
-                    <label class="option-card block p-3 border rounded-xl flex items-center space-x-3">
-                        <input type="radio" name="q3" value="1" class="w-4 h-4 text-blue-600">
-                        <span class="text-slate-700">b. Involuntary functions like blood pressure and organ function</span>
-                    </label>
-                    <label class="option-card block p-3 border rounded-xl flex items-center space-x-3">
-                        <input type="radio" name="q3" value="2" class="w-4 h-4 text-blue-600">
-                        <span class="text-slate-700">c. Only the sympathetic nervous system</span>
-                    </label>
-                    <label class="option-card block p-3 border rounded-xl flex items-center space-x-3">
-                        <input type="radio" name="q3" value="3" class="w-4 h-4 text-blue-600">
-                        <span class="text-slate-700">d. Only the parasympathetic nervous system</span>
-                    </label>
+            <!-- SECTION 3: EMG & CARDIAC -->
+            <div class="space-y-10">
+                <h2 class="text-xl font-bold text-blue-600 border-b pb-2 uppercase tracking-wide">Section 3: Somatic & Cardiovascular Systems</h2>
+
+                <!-- Q13 -->
+                <div class="question-block" data-answer="2">
+                    <p class="font-bold text-slate-800 mb-4">13. The somatic nervous system primarily controls ...</p>
+                    <div class="space-y-2">
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q13" value="0" class="w-4 h-4"><span class="text-slate-700">a. cardiac muscles.</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q13" value="1" class="w-4 h-4"><span class="text-slate-700">b. smooth muscles.</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q13" value="2" class="w-4 h-4"><span class="text-slate-700">c. skeletal muscles.</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q13" value="3" class="w-4 h-4"><span class="text-slate-700">d. All of the above.</span></label>
+                    </div>
+                </div>
+
+                <!-- Q14 -->
+                <div class="question-block" data-answer="1">
+                    <p class="font-bold text-slate-800 mb-4">14. When a muscle's fibers are innervated by more separate motor units, this means...</p>
+                    <div class="space-y-2">
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q14" value="0" class="w-4 h-4"><span class="text-slate-700">a. It allows for fewer different types of movement control.</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q14" value="1" class="w-4 h-4"><span class="text-slate-700">b. It allows for more fine-grained movement control.</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q14" value="2" class="w-4 h-4"><span class="text-slate-700">c. It is slower to respond.</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q14" value="3" class="w-4 h-4"><span class="text-slate-700">d. the muscle fibers contract less.</span></label>
+                    </div>
+                </div>
+
+                <!-- Q15 -->
+                <div class="question-block" data-answer="2">
+                    <p class="font-bold text-slate-800 mb-4">15. Which parameter of EMG measurements is most commonly used?</p>
+                    <div class="space-y-2">
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q15" value="0" class="w-4 h-4"><span class="text-slate-700">a. Rate of nonspecific fluctuations per unit of time.</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q15" value="1" class="w-4 h-4"><span class="text-slate-700">b. Relative amplitude.</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q15" value="2" class="w-4 h-4"><span class="text-slate-700">c. Integrated absolute amplitude over time.</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q15" value="3" class="w-4 h-4"><span class="text-slate-700">d. Filtered signal over time.</span></label>
+                    </div>
+                </div>
+
+                <!-- Q16 -->
+                <div class="question-block" data-answer="0">
+                    <p class="font-bold text-slate-800 mb-4">16. What special property do some heart muscle cells have?</p>
+                    <div class="space-y-2">
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q16" value="0" class="w-4 h-4"><span class="text-slate-700">a. Autorhythmicity.</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q16" value="1" class="w-4 h-4"><span class="text-slate-700">b. Myocardium.</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q16" value="2" class="w-4 h-4"><span class="text-slate-700">c. Purkinje periods.</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q16" value="3" class="w-4 h-4"><span class="text-slate-700">d. Refractory periods.</span></label>
+                    </div>
+                </div>
+
+                <!-- Q17 -->
+                <div class="question-block" data-answer="1">
+                    <p class="font-bold text-slate-800 mb-4">17. Which of the following does NOT describe the SA/AV nodes correctly?</p>
+                    <div class="space-y-2">
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q17" value="0" class="w-4 h-4"><span class="text-slate-700">a. Both nodes contain pacemaker cells.</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q17" value="1" class="w-4 h-4"><span class="text-slate-700">b. Both nodes contain Purkinje cells, which perform the muscle contractions.</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q17" value="2" class="w-4 h-4"><span class="text-slate-700">c. The SA node has a higher intrinsic rhythmicity than the AV node.</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q17" value="3" class="w-4 h-4"><span class="text-slate-700">d. The autonomic nervous system can regulate the activity of these nodes.</span></label>
+                    </div>
+                </div>
+
+                <!-- Q18 -->
+                <div class="question-block" data-answer="2">
+                    <p class="font-bold text-slate-800 mb-4">18. Which statement about the cuff-based sphygmomanometry method is correct?</p>
+                    <div class="space-y-2">
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q18" value="0" class="w-4 h-4"><span class="text-slate-700">a. Blood pressure can easily be measured as a continuous signal.</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q18" value="1" class="w-4 h-4"><span class="text-slate-700">b. Blood pressure can be measured continuously, but not very accurately.</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q18" value="2" class="w-4 h-4"><span class="text-slate-700">c. Blood pressure cannot easily be measured continuously, limiting its use.</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q18" value="3" class="w-4 h-4"><span class="text-slate-700">d. Blood pressure cannot be measured at all, except in hospitals.</span></label>
+                    </div>
+                </div>
+
+                <!-- Q19 -->
+                <div class="question-block" data-answer="2">
+                    <p class="font-bold text-slate-800 mb-4">19. The QRS complex denotes the highest-amplitude changes. What causes this?</p>
+                    <div class="space-y-2">
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q19" value="0" class="w-4 h-4"><span class="text-slate-700">a. The atria depolarise, causing their contraction.</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q19" value="1" class="w-4 h-4"><span class="text-slate-700">b. The left atrium depolarises, causing its contraction.</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q19" value="2" class="w-4 h-4"><span class="text-slate-700">c. The ventricles depolarise, causing their contraction.</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q19" value="3" class="w-4 h-4"><span class="text-slate-700">d. The ventricles repolarise, allowing blood to flow in again.</span></label>
+                    </div>
                 </div>
             </div>
 
-            <!-- Question 4 -->
-            <div class="question-block" data-answer="3">
-                <p class="font-bold text-slate-800 mb-4">4. For psychophysiology, an important physiological parameter is...</p>
-                <div class="space-y-2">
-                    <label class="option-card block p-3 border rounded-xl flex items-center space-x-3">
-                        <input type="radio" name="q4" value="0" class="w-4 h-4 text-blue-600">
-                        <span class="text-slate-700">a. the balance between active and passive activity</span>
-                    </label>
-                    <label class="option-card block p-3 border rounded-xl flex items-center space-x-3">
-                        <input type="radio" name="q4" value="1" class="w-4 h-4 text-blue-600">
-                        <span class="text-slate-700">b. the balance between central and peripheral activity</span>
-                    </label>
-                    <label class="option-card block p-3 border rounded-xl flex items-center space-x-3">
-                        <input type="radio" name="q4" value="2" class="w-4 h-4 text-blue-600">
-                        <span class="text-slate-700">c. the balance between somatic and autonomic activity</span>
-                    </label>
-                    <label class="option-card block p-3 border rounded-xl flex items-center space-x-3">
-                        <input type="radio" name="q4" value="3" class="w-4 h-4 text-blue-600">
-                        <span class="text-slate-700">d. the balance between sympathetic and parasympathetic activity</span>
-                    </label>
-                </div>
-            </div>
+            <!-- SECTION 4: EDA & EEG -->
+            <div class="space-y-10">
+                <h2 class="text-xl font-bold text-blue-600 border-b pb-2 uppercase tracking-wide">Section 4: EDA & EEG</h2>
 
-            <!-- Question 6 -->
-            <div class="question-block" data-answer="1">
-                <p class="font-bold text-slate-800 mb-4">6. What is the role of the sodium-potassium pump?</p>
-                <div class="space-y-2">
-                    <label class="option-card block p-3 border rounded-xl flex items-center space-x-3">
-                        <input type="radio" name="q6" value="0" class="w-4 h-4 text-blue-600">
-                        <span class="text-slate-700">a. Transports K+ ions outwards and Na+ ions inwards</span>
-                    </label>
-                    <label class="option-card block p-3 border rounded-xl flex items-center space-x-3">
-                        <input type="radio" name="q6" value="1" class="w-4 h-4 text-blue-600">
-                        <span class="text-slate-700">b. Transports Na+ ions outwards and K+ ions inwards</span>
-                    </label>
-                    <label class="option-card block p-3 border rounded-xl flex items-center space-x-3">
-                        <input type="radio" name="q6" value="2" class="w-4 h-4 text-blue-600">
-                        <span class="text-slate-700">c. Keeps all ions outside the neuron</span>
-                    </label>
-                    <label class="option-card block p-3 border rounded-xl flex items-center space-x-3">
-                        <input type="radio" name="q6" value="3" class="w-4 h-4 text-blue-600">
-                        <span class="text-slate-700">d. Keeps all ions inside the neuron</span>
-                    </label>
+                <!-- Q20 -->
+                <div class="question-block" data-answer="0">
+                    <p class="font-bold text-slate-800 mb-4">20. The physiological origins of what is measured using EDA, is...</p>
+                    <div class="space-y-2">
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q20" value="0" class="w-4 h-4"><span class="text-slate-700">a. the activity of eccrine sweat glands, which increases conductance.</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q20" value="1" class="w-4 h-4"><span class="text-slate-700">b. the activity of parasympathetic apocrine cells in the skin.</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q20" value="2" class="w-4 h-4"><span class="text-slate-700">c. the electrical activity of cells in the stratum corneum.</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q20" value="3" class="w-4 h-4"><span class="text-slate-700">d. the polysynaptic electrical activity of neurons in the skin.</span></label>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Question 24 -->
-            <div class="question-block" data-answer="0">
-                <p class="font-bold text-slate-800 mb-4">24. Which statement about volume conduction in the brain is true?</p>
-                <div class="space-y-2">
-                    <label class="option-card block p-3 border rounded-xl flex items-center space-x-3">
-                        <input type="radio" name="q24" value="0" class="w-4 h-4 text-blue-600">
-                        <span class="text-slate-700">a. Volume conduction is the reason why signals from one brain region can be measured in different scalp regions.</span>
-                    </label>
-                    <label class="option-card block p-3 border rounded-xl flex items-center space-x-3">
-                        <input type="radio" name="q24" value="1" class="w-4 h-4 text-blue-600">
-                        <span class="text-slate-700">b. Volume conduction is primarily a concern for magnetic fields and thus not relevant for EEG.</span>
-                    </label>
-                    <label class="option-card block p-3 border rounded-xl flex items-center space-x-3">
-                        <input type="radio" name="q24" value="2" class="w-4 h-4 text-blue-600">
-                        <span class="text-slate-700">c. Volume conduction directly allows the backtracking of the origin of scalp signals.</span>
-                    </label>
-                    <label class="option-card block p-3 border rounded-xl flex items-center space-x-3">
-                        <input type="radio" name="q24" value="3" class="w-4 h-4 text-blue-600">
-                        <span class="text-slate-700">d. None of the above.</span>
-                    </label>
+                <!-- Q21 -->
+                <div class="question-block" data-answer="1">
+                    <p class="font-bold text-slate-800 mb-4">21. Which statement is true about SCL and SCR?</p>
+                    <div class="space-y-2">
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q21" value="0" class="w-4 h-4"><span class="text-slate-700">a. They describe pre-baseline and post-baseline activity respectively.</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q21" value="1" class="w-4 h-4"><span class="text-slate-700">b. They describe slower and faster changes in the recorded signal, respectively.</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q21" value="2" class="w-4 h-4"><span class="text-slate-700">c. SCL describes signal latency, whereas SCR describes signal rise time.</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q21" value="3" class="w-4 h-4"><span class="text-slate-700">d. None of the above.</span></label>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Question 26 -->
-            <div class="question-block" data-answer="0">
-                <p class="font-bold text-slate-800 mb-4">26. Which statement about the mu rhythm (8-13 Hz) found in EEG recordings is FALSE?</p>
-                <div class="space-y-2">
-                    <label class="option-card block p-3 border rounded-xl flex items-center space-x-3">
-                        <input type="radio" name="q26" value="0" class="w-4 h-4 text-blue-600">
-                        <span class="text-slate-700">a. The mu rhythm synchronizes (increases in amplitude) when someone executes movements.</span>
-                    </label>
-                    <label class="option-card block p-3 border rounded-xl flex items-center space-x-3">
-                        <input type="radio" name="q26" value="1" class="w-4 h-4 text-blue-600">
-                        <span class="text-slate-700">b. The mu rhythm desynchronizes (decreases in amplitude) when someone imagines movements.</span>
-                    </label>
-                    <label class="option-card block p-3 border rounded-xl flex items-center space-x-3">
-                        <input type="radio" name="q26" value="2" class="w-4 h-4 text-blue-600">
-                        <span class="text-slate-700">c. The mu rhythm is primarily observed over the motor cortex.</span>
-                    </label>
+                <!-- Q22 -->
+                <div class="question-block" data-answer="0">
+                    <p class="font-bold text-slate-800 mb-4">22. The physiological origin of the primary EEG signal is ...</p>
+                    <div class="space-y-2">
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q22" value="0" class="w-4 h-4"><span class="text-slate-700">a. the activity of postsynaptic potentials in large cell populations.</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q22" value="1" class="w-4 h-4"><span class="text-slate-700">b. the reuptake of neurotransmitters in the synapses of pyramidal cells.</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q22" value="2" class="w-4 h-4"><span class="text-slate-700">c. the synchronous activity of action potentials in deep brain structures.</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q22" value="3" class="w-4 h-4"><span class="text-slate-700">d. unknown.</span></label>
+                    </div>
+                </div>
+
+                <!-- Q23 -->
+                <div class="question-block" data-answer="1">
+                    <p class="font-bold text-slate-800 mb-4">23. Neural oscillations in different frequency bands (theta, alpha) ...</p>
+                    <div class="space-y-2">
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q23" value="0" class="w-4 h-4"><span class="text-slate-700">a. always originate in different regions, such as the temporal and frontal lobes.</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q23" value="1" class="w-4 h-4"><span class="text-slate-700">b. have some known psychological correlates, but should be interpreted with care.</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q23" value="2" class="w-4 h-4"><span class="text-slate-700">c. provide clear measures of known emotional and cognitive functions.</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q23" value="3" class="w-4 h-4"><span class="text-slate-700">d. None of the above.</span></label>
+                    </div>
+                </div>
+
+                <!-- Q24 -->
+                <div class="question-block" data-answer="0">
+                    <p class="font-bold text-slate-800 mb-4">24. Which statement about volume conduction in the brain is true?</p>
+                    <div class="space-y-2">
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q24" value="0" class="w-4 h-4"><span class="text-slate-700">a. Volume conduction is the reason why signals from one brain region can be measured in different scalp positions.</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q24" value="1" class="w-4 h-4"><span class="text-slate-700">b. Volume conduction is primarily a concern for magnetic fields.</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q24" value="2" class="w-4 h-4"><span class="text-slate-700">c. Volume conduction directly allows the backtracking of the origin of scalp signals.</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q24" value="3" class="w-4 h-4"><span class="text-slate-700">d. None of the above.</span></label>
+                    </div>
+                </div>
+
+                <!-- Q25 -->
+                <div class="question-block" data-answer="2">
+                    <p class="font-bold text-slate-800 mb-4">25. The common approach of epoching and averaging in EEG analysis is done to ...</p>
+                    <div class="space-y-2">
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q25" value="0" class="w-4 h-4"><span class="text-slate-700">a. extract all time segments that contain artefacts.</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q25" value="1" class="w-4 h-4"><span class="text-slate-700">b. identify when a participant perceived a certain event.</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q25" value="2" class="w-4 h-4"><span class="text-slate-700">c. focus on activity that systematically relates to a specific event.</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q25" value="3" class="w-4 h-4"><span class="text-slate-700">d. remove components from the data.</span></label>
+                    </div>
+                </div>
+
+                <!-- Q26 -->
+                <div class="question-block" data-answer="0">
+                    <p class="font-bold text-slate-800 mb-4">26. Which statement about the mu rhythm (8-13 Hz) found in EEG recordings is true?</p>
+                    <div class="space-y-2">
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q26" value="0" class="w-4 h-4"><span class="text-slate-700">a. The mu rhythm desynchronizes (decreases in amplitude) when someone executes movements.</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q26" value="1" class="w-4 h-4"><span class="text-slate-700">b. The mu rhythm synchronizes (decreases in amplitude) when someone imagines movements.</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q26" value="2" class="w-4 h-4"><span class="text-slate-700">c. The mu rhythm is primarily observed over the motor cortex and relates to motor actions.</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q26" value="3" class="w-4 h-4"><span class="text-slate-700">d. All of the above.</span></label>
+                    </div>
+                </div>
+
+                <!-- Q27 -->
+                <div class="question-block" data-answer="2">
+                    <p class="font-bold text-slate-800 mb-4">27. Which of the following is not an analysis approach in EEG?</p>
+                    <div class="space-y-2">
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q27" value="0" class="w-4 h-4"><span class="text-slate-700">a. Spectral analysis.</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q27" value="1" class="w-4 h-4"><span class="text-slate-700">b. Event-related potentials.</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q27" value="2" class="w-4 h-4"><span class="text-slate-700">c. Stimulus-coherent amplitude perturbation.</span></label>
+                        <label class="option-card block p-3 border rounded-xl flex items-center space-x-3"><input type="radio" name="q27" value="3" class="w-4 h-4"><span class="text-slate-700">d. Time-frequency analysis.</span></label>
+                    </div>
                 </div>
             </div>
 
             <hr class="border-slate-100">
 
-            <!-- Short Answer Section -->
-            <div class="space-y-4">
-                <h2 class="text-xl font-black text-slate-800 uppercase tracking-tight">Part B: Short Answers</h2>
+            <!-- SECTION 5: SHORT ANSWERS -->
+            <div class="space-y-8">
+                <h2 class="text-xl font-black text-slate-800 uppercase">Part B: Short Answers</h2>
+                
+                <!-- Q28 -->
                 <div class="p-6 bg-slate-50 rounded-2xl border-2 border-slate-100">
-                    <p class="font-bold text-slate-700 mb-3">Q: Draw a stereotypical electrocardiogram (ECG) and denote the PQRST points as well as the systole and diastole phases.</p>
-                    <textarea class="w-full h-32 p-4 rounded-xl border-2 border-slate-200 focus:border-blue-400 focus:ring-0 text-slate-600" placeholder="Type your descriptive answer here..."></textarea>
-                    <div id="short-ans-key" class="hidden mt-4 p-4 bg-white rounded-xl border border-blue-200 text-sm">
-                        <p class="font-bold text-blue-800 mb-2">Correction Key:</p>
-                        <ul class="list-disc list-inside text-slate-600 space-y-1">
-                            <li><strong>P Wave:</strong> Atrial depolarization (contraction).</li>
-                            <li><strong>QRS Complex:</strong> Ventricular depolarization (pumping). Matches <strong>Systole</strong>.</li>
-                            <li><strong>T Wave:</strong> Ventricular repolarization (recovery). Matches <strong>Diastole</strong>.</li>
-                        </ul>
+                    <p class="font-bold text-slate-700 mb-4">28. Before puberty, the apocrine sweat glands—which secrete a rich liquid containing proteins and fats—do not yet fully work. Does this mean apocrine sweat does not affect puberty humans? Briefly explain your answer.</p>
+                    <textarea class="w-full h-24 p-4 rounded-xl border-2 border-slate-200 focus:border-blue-400 text-slate-600" placeholder="Type your explanation here..."></textarea>
+                    <div class="essay-key hidden mt-6 p-4 bg-white rounded-xl border border-blue-200 text-sm text-slate-600">
+                        <strong>Key Point:</strong> Apocrine glands are associated with emotional sweating and pheromones, which become active at puberty. Their inactivity before puberty means they do not contribute to body odor or specific emotional sweat responses in children.
+                    </div>
+                </div>
+
+                <!-- Q29 -->
+                <div class="p-6 bg-slate-50 rounded-2xl border-2 border-slate-100">
+                    <p class="font-bold text-slate-700 mb-4">29. Name at least three different measures that can be taken to deal with artefacts in EEG recordings, either before or after recording.</p>
+                    <textarea class="w-full h-24 p-4 rounded-xl border-2 border-slate-200 focus:border-blue-400 text-slate-600" placeholder="Type your answer here..."></textarea>
+                    <div class="essay-key hidden mt-6 p-4 bg-white rounded-xl border border-blue-200 text-sm text-slate-600">
+                        <strong>Examples:</strong> 1. Skin preparation (scrubbing) before recording. 2. Filtering (High/Low/Notch) after recording. 3. Artifact Rejection (removing bad epochs). 4. ICA (Independent Component Analysis).
+                    </div>
+                </div>
+
+                <!-- Q30 -->
+                <div class="p-6 bg-slate-50 rounded-2xl border-2 border-slate-100">
+                    <p class="font-bold text-slate-700 mb-4">30. Compare EEG to fNIRS. List three relevant attributes and briefly explain each method's properties with respect to these attributes.</p>
+                    <textarea class="w-full h-40 p-4 rounded-xl border-2 border-slate-200 focus:border-blue-400 text-slate-600" placeholder="Compare attributes here..."></textarea>
+                    <div class="essay-key hidden mt-6 p-6 bg-white rounded-xl border border-blue-200">
+                        <p class="font-bold text-blue-800 mb-2">Comparison Key:</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-slate-600 leading-relaxed">
+                            <div>
+                                <p class="font-bold text-slate-800 underline">EEG:</p>
+                                <ul><li>• Temporal Resolution: Excellent (ms)</li><li>• Spatial Resolution: Poor (blurring)</li><li>• Signal Source: Electrical (Neural)</li></ul>
+                            </div>
+                            <div>
+                                <p class="font-bold text-slate-800 underline">fNIRS:</p>
+                                <ul><li>• Temporal Resolution: Poor (seconds - hemodynamic)</li><li>• Spatial Resolution: Better than EEG (localized)</li><li>• Signal Source: Metabolic (Blood Oxygen)</li></ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Grade Button -->
+            <!-- Grade -->
             <div class="pt-10 flex justify-center no-print">
                 <button onclick="gradeExam()" class="bg-blue-600 hover:bg-blue-700 text-white font-black py-4 px-12 rounded-full shadow-lg transition transform active:scale-95 text-xl uppercase tracking-widest">
                     Check My Score
@@ -214,28 +404,27 @@
             </div>
         </div>
 
-        <!-- Score Modal (Overlay) -->
+        <!-- Result Modal -->
         <div id="score-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
             <div class="bg-white rounded-3xl p-10 max-w-md w-full text-center shadow-2xl">
                 <h2 class="text-4xl font-black text-slate-800 mb-2">Final Score</h2>
-                <div id="final-score" class="text-6xl font-black text-blue-600 my-6">0 / 7</div>
+                <div id="final-score" class="text-6xl font-black text-blue-600 my-6">0 / 27</div>
                 <p id="feedback-msg" class="text-slate-500 font-medium mb-8"></p>
                 <button onclick="closeModal()" class="bg-slate-900 text-white px-8 py-3 rounded-full font-bold hover:bg-slate-800">Review My Paper</button>
             </div>
         </div>
-    </div>
+    </main>
 
     <script>
         function gradeExam() {
             const blocks = document.querySelectorAll('.question-block');
             let score = 0;
             
-            blocks.forEach((block, idx) => {
+            blocks.forEach((block) => {
                 const correctVal = block.getAttribute('data-answer');
                 const selected = block.querySelector('input:checked');
                 const labels = block.querySelectorAll('.option-card');
                 
-                // Reset styling
                 labels.forEach(l => l.classList.remove('correct', 'wrong'));
                 
                 if (selected) {
@@ -251,18 +440,15 @@
                 }
             });
 
-            // Show short answer key
-            document.getElementById('short-ans-key').classList.remove('hidden');
-
-            // Show score modal
+            document.querySelectorAll('.essay-key').forEach(el => el.classList.remove('hidden'));
             document.getElementById('final-score').innerText = `${score} / ${blocks.length}`;
-            const msg = score === blocks.length ? "Perfect! You've mastered Sabi's paper." : "Good try. Check the green highlights for correct answers.";
-            document.getElementById('feedback-msg').innerText = msg;
+            document.getElementById('feedback-msg').innerText = "Paper graded successfully. Check the answers below.";
             document.getElementById('score-modal').classList.remove('hidden');
         }
 
         function closeModal() {
             document.getElementById('score-modal').classList.add('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     </script>
 </body>
