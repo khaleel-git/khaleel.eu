@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grand Quiz: Explainable ML (Ex 1 & 2)</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --success: #16a34a;
+            --error: #dc2626;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text: #1e293b;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Tabs */
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            gap: 10px;
+        }
+
+        .nav-btn {
+            padding: 12px 24px;
+            background: white;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+
+        .nav-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Sections */
+        .section {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 30px;
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2);
+        }
+
+        /* Quiz Styles */
+        .stats-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            font-weight: bold;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .question-card {
+            background: var(--card);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .topic-tag {
+            background: #e0f2fe;
+            color: #0369a1;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.85em;
+            font-weight: 700;
+            margin-bottom: 15px;
+            display: inline-block;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .code-snippet {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Consolas', monospace;
+            overflow-x: auto;
+            margin: 15px 0;
+            border-left: 4px solid var(--primary);
+        }
+
+        .options {
+            display: grid;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        .option-btn {
+            padding: 18px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.2s;
+            font-size: 1rem;
+            color: var(--text);
+            position: relative;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            border-color: var(--primary);
+            background: #f0f9ff;
+        }
+
+        .option-btn.correct {
+            background: #dcfce7;
+            border-color: var(--success);
+            color: #14532d;
+        }
+
+        .option-btn.wrong {
+            background: #fee2e2;
+            border-color: var(--error);
+            color: #7f1d1d;
+        }
+
+        .explanation {
+            margin-top: 25px;
+            padding: 20px;
+            background: #f0fdf4;
+            border-left: 5px solid var(--success);
+            border-radius: 0 8px 8px 0;
+            display: none;
+        }
+
+        .next-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            margin-top: 25px;
+            font-size: 1rem;
+            float: right;
+            display: none;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(37, 99, 235, 0.3);
+        }
+
+        /* Study Guide Styles */
+        .study-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border-left: 5px solid var(--primary);
+        }
+
+        .study-card h3 {
+            color: var(--primary);
+            margin-top: 0;
+        }
+
+        .tip-box {
+            background: #fffbeb;
+            border: 1px solid #fcd34d;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            color: #92400e;
+        }
+
+        .formula-box {
+            background: #eff6ff;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            margin: 10px 0;
+            text-align: center;
+            font-size: 1.1em;
+        }
+
+        /* Results Screen */
+        .results-container {
+            text-align: center;
+            display: none;
+            background: white;
+            padding: 50px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .score-circle {
+            width: 180px;
+            height: 180px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            margin: 0 auto 30px;
+            font-weight: 800;
+            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.4);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Explainable ML: Master Suite</h1>
+        <p>Interactive Quiz & Exam Study Guide</p>
+    </div>
+
+    <div class="nav-tabs">
+        <button class="nav-btn active" onclick="switchTab('quiz')">Interactive Quiz</button>
+        <button class="nav-btn" onclick="switchTab('study')">Exam Definitions & Tips</button>
+    </div>
+
+    <!-- QUIZ SECTION -->
+    <div id="quizSection" class="section active">
+        <div class="stats-bar" id="statsBar">
+            <span>Question: <span id="currentQ">1</span>/<span id="totalQ">0</span></span>
+            <span>Score: <span id="currentScore">0</span></span>
+        </div>
+
+        <div id="quizContainer">
+            <!-- Questions injected via JS -->
+        </div>
+
+        <div id="results" class="results-container">
+            <div class="score-circle" id="finalScore">0%</div>
+            <h2>Assessment Complete</h2>
+            <p id="resultMessage" style="font-size: 1.2rem; margin-bottom: 30px;"></p>
+            <button class="nav-btn active" onclick="location.reload()">Restart Quiz</button>
+        </div>
+    </div>
+
+    <!-- STUDY GUIDE SECTION -->
+    <div id="studySection" class="section">
+        
+        <div class="study-card">
+            <h3>⚠️ Exam Critical Rule</h3>
+            <div class="tip-box">
+                <strong>The 70% Rule:</strong> You must achieve at least 70% in the "Core Problems" (Exercise Content) to have your "Exam Problems" (Lecture Content) graded. If you fail the Core, you fail the entire exam automatically.
+            </div>
+        </div>
+
+        <div class="study-card">
+            <h3>1. Interpretability vs. Explainability</h3>
+            <p><strong>Interpretability (Passive):</strong> An intrinsic property of a model. It refers to the extent to which a cause and effect can be observed within the system.</p>
+            <ul>
+                <li><em>Example:</em> Decision Trees, Linear Regression (simple), Rule-based systems.</li>
+                <li><em>Analogy:</em> A glass watch where you can see the gears moving.</li>
+            </ul>
+            <p><strong>Explainability (Active):</strong> An interface or method used to explain a black-box model post-hoc.</p>
+            <ul>
+                <li><em>Example:</em> SHAP, LIME, Saliency Maps.</li>
+                <li><em>Analogy:</em> A mechanic explaining why your car engine made a noise.</li>
+            </ul>
+        </div>
+
+        <div class="study-card">
+            <h3>2. Types of Transparency</h3>
+            <ul>
+                <li><strong>Simulatability:</strong> Can a human simulate the model's steps in their head? (e.g., a very small decision tree).</li>
+                <li><strong>Decomposability:</strong> Can each part of the model (input, parameter, calculation) be explained? (e.g., "Age" coefficient = 0.5 means +0.5 risk per year).</li>
+                <li><strong>Algorithmic Transparency:</strong> Can the learning algorithm itself be proven to converge? (e.g., we know how Linear Regression finds the line).</li>
+            </ul>
+        </div>
+
+        <div class="study-card">
+            <h3>3. Flight Delay Metrics (Exercise 2)</h3>
+            <p><strong>Regression (Predicting Minutes):</strong></p>
+            <div class="formula-box">RMSE = √(Σ(Predicted - Actual)²) / n</div>
+            <p>Use RMSE (Root Mean Squared Error) or R². Do <strong>NOT</strong> use Accuracy.</p>
+            
+            <p><strong>Classification (Predicting Delay Yes/No):</strong></p>
+            <div class="formula-box">Recall = TP / (TP + FN)</div>
+            <p>Important for Airlines: High Recall means catching most delays (minimizing missed delays/FN).</p>
+        </div>
+
+        <div class="study-card">
+            <h3>4. Common Code Pitfalls</h3>
+            <ul>
+                <li><strong>Data Leakage:</strong> Forgetting to drop `ARR_DELAY` from `X`.</li>
+                <li><strong>Missing Targets:</strong> Not dropping rows where `ARR_DELAY` is NaN (you can't train on unknowns).</li>
+                <li><strong>Categorical Data:</strong> Trying to run Logistic Regression on strings (e.g., "JFK", "LGA") without One-Hot Encoding.</li>
+            </ul>
+        </div>
+
+    </div>
+
+<script>
+const questions = [
+    // --- EXERCISE 1 (Cardio/Intro) ---
+    {
+        topic: "Ex 1: Preprocessing",
+        question: "In the Cardio dataset, age is given in 'days'. Which code correctly converts it to years?",
+        code: "df['age_years'] = ...?",
+        options: [
+            "df['age'] * 365",
+            "df['age'] / 365",
+            "df['age'] - 365",
+            "np.log(df['age'])"
+        ],
+        correct: 1,
+        explanation: "Since the age is in days, you must divide by 365 to approximate the age in years."
+    },
+    {
+        topic: "Ex 1: Scaling",
+        question: "Why do we apply `StandardScaler` before Logistic Regression?",
+        options: [
+            "To convert text to numbers",
+            "To remove missing values",
+            "To ensure features like Age (50) and Glucose (100) are on the same scale (Mean=0, Var=1)",
+            "To increase the dataset size"
+        ],
+        correct: 2,
+        explanation: "Distance-based and gradient-based algorithms (like Logistic Regression & Neural Networks) perform poorly if features have vastly different scales."
+    },
+    {
+        topic: "Ex 1: Theory",
+        question: "Which transparency type asks: 'Can a human run the model steps in their head?'",
+        options: [
+            "Algorithmic Transparency",
+            "Decomposability",
+            "Simulatability",
+            "Accuracy Transparency"
+        ],
+        correct: 2,
+        explanation: "Simulatability refers to whether a human can mentally simulate the model's decision process (only possible for very simple models)."
+    },
+
+    // --- EXERCISE 2 (Flight Delays - CORE) ---
+    {
+        topic: "Ex 2: Data Leakage",
+        question: "CRITICAL: Why must you execute `X = df.drop(columns=['ARR_DELAY'])`?",
+        options: [
+            "Because it contains missing values",
+            "Because it is the Target variable (The Answer)",
+            "Because it is a string",
+            "Because it is too large"
+        ],
+        correct: 1,
+        explanation: "If `ARR_DELAY` stays in `X`, the model uses the answer to predict the answer. This is Data Leakage, leading to a fake 100% score."
+    },
+    {
+        topic: "Ex 2: Metrics",
+        question: "Which metric is WRONG for a Regression problem (predicting delay in minutes)?",
+        options: [
+            "Mean Squared Error (MSE)",
+            "Root Mean Squared Error (RMSE)",
+            "Accuracy",
+            "R² Score"
+        ],
+        correct: 2,
+        explanation: "Accuracy is for Classification (Right/Wrong). Regression measures 'how close' (Distance), so we use RMSE or MSE."
+    },
+    {
+        topic: "Ex 2: Correlation",
+        question: "If `DEP_DELAY` has a correlation of 0.94 with `ARR_DELAY`, what does this imply?",
+        options: [
+            "No relationship",
+            "Strong Negative Linear Relationship",
+            "Strong Positive Linear Relationship",
+            "Non-linear relationship"
+        ],
+        correct: 2,
+        explanation: "0.94 is close to +1.0. It means if Departure Delay goes up, Arrival Delay almost certainly goes up."
+    },
+
+    // --- EXERCISE 2 (VARIATIONS - NEW) ---
+    {
+        topic: "Ex 2 Var: Evaluation",
+        question: "Your Regression model has Train RMSE = 2.5 and Test RMSE = 45.0. What is happening?",
+        options: [
+            "Underfitting",
+            "Overfitting",
+            "Perfect Generalization",
+            "Data Leakage"
+        ],
+        correct: 1,
+        explanation: "Overfitting occurs when the model memorizes the training data (low error) but fails on new data (high test error)."
+    },
+    {
+        topic: "Ex 2 Var: Missing Data",
+        question: "Why do we use `dropna(subset=['ARR_DELAY'])` instead of filling it with 0?",
+        options: [
+            "Because 0 minutes delay is different from 'Unknown' delay",
+            "Because Python cannot handle 0",
+            "Because we want to reduce the dataset size",
+            "Because 0 is an outlier"
+        ],
+        correct: 0,
+        explanation: "In Supervised Learning, we need Ground Truth. If we don't know the delay (NaN), we can't train on it. Filling with 0 would teach the model that 'Unknown = On Time', which is false."
+    },
+    {
+        topic: "Ex 2 Var: Feature Engineering",
+        question: "Why did we drop `FL_DATE` (Flight Date) in the basic exercise?",
+        options: [
+            "It is a useful number",
+            "It is a string/object type that Linear Regression cannot handle raw",
+            "It has no correlation with delay",
+            "It causes data leakage"
+        ],
+        correct: 1,
+        explanation: "Standard sklearn LinearRegression cannot handle date objects directly. We would need to extract 'Day of Week' or 'Month' first."
+    },
+    {
+        topic: "Ex 2 Var: Interpretation",
+        question: "In a Decision Tree, `DEP_DELAY` is the 'Root Node'. What does this mean?",
+        options: [
+            "It is the least important feature",
+            "It is the most important feature for splitting the data",
+            "It causes the tree to stop growing",
+            "It is a leaf node"
+        ],
+        correct: 1,
+        explanation: "The Root Node is the first and most significant split. It implies `DEP_DELAY` provides the highest information gain."
+    },
+    {
+        topic: "Ex 2 Var: Classification",
+        question: "When predicting `DELAY_15` (1=Late, 0=OnTime), what is a False Positive?",
+        options: [
+            "Plane was Late, Model said Late",
+            "Plane was On Time, Model said Late",
+            "Plane was Late, Model said On Time",
+            "Plane was On Time, Model said On Time"
+        ],
+        correct: 1,
+        explanation: "False Positive = False Alarm. The model predicted 'Positive' (Late), but the truth was Negative (On Time)."
+    },
+    {
+        topic: "Ex 2 Var: Model Choice",
+        question: "Why might `MLPRegressor` (Neural Net) be better than `LinearRegression` for flight delays?",
+        options: [
+            "It is faster to train",
+            "It requires less data",
+            "It can capture non-linear complex patterns",
+            "It is more interpretable"
+        ],
+        correct: 2,
+        explanation: "Flight delays involve complex interactions (Weather + Traffic + Time). Linear models assume straight lines; MLPs can model these curved/complex relationships."
+    },
+    {
+        topic: "Ex 2 Var: Python",
+        question: "What does `df['DELAY_15'] = (df['ARR_DELAY'] > 15).astype(int)` do?",
+        options: [
+            "Removes delays > 15",
+            "Converts delays to integers",
+            "Creates a binary target (1 for Late, 0 for On Time)",
+            "Scales the data to 15"
+        ],
+        correct: 2,
+        explanation: "It creates a boolean mask (True/False) and converts it to 1/0, creating the classification target."
+    },
+    {
+        topic: "Ex 2 Var: Train/Test",
+        question: "What is the risk of NOT using `random_state=42` in `train_test_split`?",
+        options: [
+            "The model will not train",
+            "You cannot reproduce your results (split changes every time)",
+            "The accuracy will be 0",
+            "It causes overfitting"
+        ],
+        correct: 1,
+        explanation: "Without a fixed random seed, the data is shuffled differently every run, making it impossible to compare results or debug consistently."
+    },
+    {
+        topic: "Ex 2 Var: Visualization",
+        question: "Which plot is best to check the assumption of Normal Distribution for `ARR_DELAY`?",
+        options: [
+            "Scatter Plot",
+            "Histogram / Density Plot",
+            "Pie Chart",
+            "Confusion Matrix"
+        ],
+        correct: 1,
+        explanation: "A Histogram or KDE (Kernel Density Estimate) visualizes the distribution shape (Bell curve vs. Skewed)."
+    }
+];
+
+let currentQIndex = 0;
+let score = 0;
+
+function switchTab(tab) {
+    document.querySelectorAll('.section').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+    
+    if(tab === 'quiz') {
+        document.getElementById('quizSection').classList.add('active');
+        document.querySelectorAll('.nav-btn')[0].classList.add('active');
+    } else {
+        document.getElementById('studySection').classList.add('active');
+        document.querySelectorAll('.nav-btn')[1].classList.add('active');
+    }
+}
+
+function loadQuiz() {
+    const container = document.getElementById('quizContainer');
+    document.getElementById('totalQ').innerText = questions.length;
+    
+    questions.forEach((q, index) => {
+        const card = document.createElement('div');
+        card.className = 'question-card';
+        card.id = `q-${index}`;
+        card.style.display = index === 0 ? 'block' : 'none';
+
+        let codeBlock = q.code ? `<div class="code-snippet">${q.code}</div>` : '';
+
+        let optionsHtml = q.options.map((opt, i) => 
+            `<button class="option-btn" onclick="checkAnswer(${index}, ${i}, this)">
+                <strong>${String.fromCharCode(65+i)}.</strong> ${opt}
+            </button>`
+        ).join('');
+
+        card.innerHTML = `
+            <span class="topic-tag">${q.topic}</span>
+            <h3 style="margin-top:0">${q.question}</h3>
+            ${codeBlock}
+            <div class="options">${optionsHtml}</div>
+            <div class="explanation" id="exp-${index}">
+                <strong>Answer Explanation:</strong><br>
+                ${q.explanation}
+            </div>
+            <button class="next-btn" id="next-${index}" onclick="nextQuestion(${index})">
+                ${index === questions.length - 1 ? 'Finish Assessment' : 'Next Question'}
+            </button>
+        `;
+        container.appendChild(card);
+    });
+}
+
+function checkAnswer(qIndex, optIndex, btn) {
+    const q = questions[qIndex];
+    const card = document.getElementById(`q-${qIndex}`);
+    const allBtns = card.querySelectorAll('.option-btn');
+    const explanation = document.getElementById(`exp-${qIndex}`);
+    const nextBtn = document.getElementById(`next-${qIndex}`);
+
+    allBtns.forEach(b => b.disabled = true);
+
+    if (optIndex === q.correct) {
+        btn.classList.add('correct');
+        score++;
+        document.getElementById('currentScore').innerText = score;
+    } else {
+        btn.classList.add('wrong');
+        allBtns[q.correct].classList.add('correct');
+    }
+
+    explanation.style.display = 'block';
+    nextBtn.style.display = 'inline-block';
+}
+
+function nextQuestion(index) {
+    document.getElementById(`q-${index}`).style.display = 'none';
+    
+    if (index < questions.length - 1) {
+        const nextCard = document.getElementById(`q-${index + 1}`);
+        nextCard.style.display = 'block';
+        // Add animation
+        nextCard.style.animation = 'fadeIn 0.5s ease';
+        
+        currentQIndex++;
+        document.getElementById('currentQ').innerText = currentQIndex + 1;
+    } else {
+        showResults();
+    }
+}
+
+function showResults() {
+    document.getElementById('quizContainer').style.display = 'none';
+    document.getElementById('statsBar').style.display = 'none';
+    document.getElementById('results').style.display = 'block';
+    
+    const percentage = Math.round((score / questions.length) * 100);
+    document.getElementById('finalScore').innerText = `${percentage}%`;
+    
+    const msgEl = document.getElementById('resultMessage');
+    if (percentage >= 70) {
+        msgEl.innerHTML = "<span style='color:var(--success)'>Excellent!</span> You have passed the Core Problems threshold.";
+    } else {
+        msgEl.innerHTML = "<span style='color:var(--error)'>Attention:</span> You need 70% to pass the Core Problems. Review the Study Guide tab!";
+    }
+}
+
+// Initialize
+loadQuiz();
+</script>
+</body>
+</html>
