@@ -34,11 +34,6 @@
                         <i class="fa-solid fa-1 w-5"></i> Exercises 1 & 2
                     </button>
                 </li>
-                <li>
-                    <button onclick="switchTab('ex3')" class="nav-btn w-full text-left px-6 py-3 hover:bg-indigo-800 transition-colors flex items-center gap-3 border-l-4 border-transparent text-indigo-100" id="btn-ex3">
-                        <i class="fa-solid fa-3 w-5"></i> Exercise 3
-                    </button>
-                </li>
             </ul>
         </nav>
         <div class="p-4 border-t border-indigo-800 text-xs text-indigo-300 text-center">
@@ -51,28 +46,19 @@
         
         <!-- Home Section -->
         <div id="home" class="tab-content active fade-in max-w-4xl mx-auto">
-            <header class="mb-8">
+            <header class="mb-8 text-center">
                 <h2 class="text-3xl font-bold text-gray-900 mb-2">Welcome to Interpretation Challenges</h2>
                 <p class="text-gray-600">Flight Delay Reduction Analysis & Modeling</p>
             </header>
             
-            <div class="grid md:grid-cols-2 gap-6">
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow cursor-pointer" onclick="switchTab('ex1-2')">
+            <div class="flex justify-center">
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow cursor-pointer w-full md:w-2/3 lg:w-1/2" onclick="switchTab('ex1-2')">
                     <div class="h-12 w-12 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center mb-4 text-xl">
                         <i class="fa-solid fa-database"></i>
                     </div>
                     <h3 class="text-xl font-semibold mb-2">Exercises 1 & 2</h3>
                     <p class="text-gray-500 text-sm mb-4">Data Preparation, Linear Regression assumptions, and basic statistical testing.</p>
                     <span class="text-blue-600 font-medium text-sm flex items-center gap-1">Start <i class="fa-solid fa-arrow-right"></i></span>
-                </div>
-
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow cursor-pointer" onclick="switchTab('ex3')">
-                    <div class="h-12 w-12 bg-purple-100 text-purple-600 rounded-lg flex items-center justify-center mb-4 text-xl">
-                        <i class="fa-solid fa-chart-line"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-2">Exercise 3</h3>
-                    <p class="text-gray-500 text-sm mb-4">Advanced Model Comparison, Classification techniques, and ROC Analysis.</p>
-                    <span class="text-purple-600 font-medium text-sm flex items-center gap-1">Start <i class="fa-solid fa-arrow-right"></i></span>
                 </div>
             </div>
         </div>
@@ -85,9 +71,20 @@
                     <p class="text-gray-500">Data Prep & Regression Analysis</p>
                 </div>
                 <div class="flex gap-2">
-                    <button onclick="scrollToSection('ex1-content')" class="px-4 py-2 bg-white border border-gray-200 rounded-lg text-sm font-medium hover:bg-gray-50">Study</button>
-                    <button onclick="scrollToSection('ex1-quiz')" class="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 shadow-sm"><i class="fa-solid fa-question-circle mr-1"></i> Quiz</button>
-                    <button onclick="scrollToSection('ex1-summary')" class="px-4 py-2 bg-green-600 text-white rounded-lg text-sm font-medium hover:bg-green-700 shadow-sm"><i class="fa-solid fa-list-check mr-1"></i> Summary</button>
+                    <!-- Study Button (Internal) -->
+                    <button onclick="scrollToSection('ex1-content')" class="px-4 py-2 bg-white border border-gray-200 rounded-lg text-sm font-medium hover:bg-gray-50">
+                        <i class="fa-solid fa-book-open mr-1"></i> Study
+                    </button>
+                    
+                    <!-- External Quiz Link -->
+                    <a href="https://khaleel.eu/BTU/Explainable/GrandQuiz_EX_1_2.html" target="_blank" class="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 shadow-sm flex items-center">
+                        <i class="fa-solid fa-question-circle mr-1"></i> Quiz
+                    </a>
+                    
+                    <!-- External Summary Link -->
+                    <a href="https://khaleel.eu/BTU/Explainable/Summary_EX_1_2.html" target="_blank" class="px-4 py-2 bg-green-600 text-white rounded-lg text-sm font-medium hover:bg-green-700 shadow-sm flex items-center">
+                        <i class="fa-solid fa-list-check mr-1"></i> Summary
+                    </a>
                 </div>
             </header>
 
@@ -136,194 +133,6 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Quiz Section -->
-            <div id="ex1-quiz" class="mt-12">
-                <h3 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
-                    <i class="fa-solid fa-clipboard-question text-indigo-600"></i> Knowledge Check
-                </h3>
-                <div class="bg-indigo-50 rounded-xl p-6 border border-indigo-100">
-                    <form id="quiz-form-1" onsubmit="return checkQuiz(event, 1)">
-                        <div class="space-y-6">
-                            <!-- Q1 -->
-                            <div class="bg-white p-4 rounded-lg shadow-sm">
-                                <p class="font-medium text-gray-800 mb-3">1. Which test is used to check for Normal Distribution?</p>
-                                <div class="space-y-2 text-sm">
-                                    <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="q1" value="wrong" class="accent-indigo-600"> T-Test</label>
-                                    <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="q1" value="correct" class="accent-indigo-600"> Kolmogorov-Smirnov</label>
-                                    <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="q1" value="wrong" class="accent-indigo-600"> ANOVA</label>
-                                </div>
-                            </div>
-                            <!-- Q2 -->
-                            <div class="bg-white p-4 rounded-lg shadow-sm">
-                                <p class="font-medium text-gray-800 mb-3">2. If we want to predict the exact minutes of delay, we use:</p>
-                                <div class="space-y-2 text-sm">
-                                    <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="q2" value="wrong" class="accent-indigo-600"> Classification</label>
-                                    <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="q2" value="wrong" class="accent-indigo-600"> Clustering</label>
-                                    <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="q2" value="correct" class="accent-indigo-600"> Regression</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mt-6 flex items-center gap-4">
-                            <button type="submit" class="bg-indigo-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-indigo-700 transition-colors">Submit Answers</button>
-                            <span id="quiz-result-1" class="font-bold hidden"></span>
-                        </div>
-                    </form>
-                </div>
-            </div>
-
-            <!-- Summary Section -->
-            <div id="ex1-summary" class="mt-12 mb-12">
-                <div class="bg-gradient-to-r from-gray-800 to-gray-900 rounded-xl p-8 text-white shadow-lg">
-                    <h3 class="text-2xl font-bold mb-4 flex items-center gap-2">
-                        <i class="fa-solid fa-lightbulb text-yellow-400"></i> Summary: Exercises 1 & 2
-                    </h3>
-                    <div class="grid md:grid-cols-2 gap-8 text-sm text-gray-300 leading-relaxed">
-                        <div>
-                            <h4 class="text-white font-semibold mb-2 text-base">Key Takeaways</h4>
-                            <p class="mb-2">We established the foundation for our analysis by cleaning the dataset and understanding the nature of our target variable, <code>ARR_DELAY</code>.</p>
-                            <p>We discovered that flight delay data is highly skewed and requires transformation (like Log) to meet the normality assumptions of Linear Regression.</p>
-                        </div>
-                        <div>
-                            <h4 class="text-white font-semibold mb-2 text-base">Next Steps</h4>
-                            <p class="mb-2">With the data prepared, we moved from simple linear correlations to building a Decision Tree Regressor.</p>
-                            <p>We are now ready to compare multiple complex models in Exercise 3 to find the best predictor.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Exercise 3 Section -->
-        <div id="ex3" class="tab-content fade-in max-w-5xl mx-auto">
-            <header class="mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <div>
-                    <h2 class="text-3xl font-bold text-gray-900">Exercise 3</h2>
-                    <p class="text-gray-500">Model Comparison & Classification</p>
-                </div>
-                <div class="flex gap-2">
-                    <button onclick="scrollToSection('ex3-content')" class="px-4 py-2 bg-white border border-gray-200 rounded-lg text-sm font-medium hover:bg-gray-50">Study</button>
-                    <button onclick="scrollToSection('ex3-quiz')" class="px-4 py-2 bg-purple-600 text-white rounded-lg text-sm font-medium hover:bg-purple-700 shadow-sm"><i class="fa-solid fa-question-circle mr-1"></i> Quiz</button>
-                    <button onclick="scrollToSection('ex3-summary')" class="px-4 py-2 bg-green-600 text-white rounded-lg text-sm font-medium hover:bg-green-700 shadow-sm"><i class="fa-solid fa-list-check mr-1"></i> Summary</button>
-                </div>
-            </header>
-
-             <!-- Content Area -->
-             <div id="ex3-content" class="space-y-6">
-                <!-- Regression Comparison -->
-                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-                    <div class="p-6 border-b border-gray-100 bg-gray-50 flex justify-between items-center">
-                        <h3 class="font-bold text-lg text-gray-800">Part 1: Comparing Regressors</h3>
-                        <span class="text-xs bg-gray-200 px-2 py-1 rounded">Steps 14-15</span>
-                    </div>
-                    <div class="p-6">
-                        <p class="text-sm text-gray-600 mb-4">We compare three distinct architectures to predict delay time:</p>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <div class="p-4 border rounded-lg bg-gray-50">
-                                <h5 class="font-bold text-gray-800">Linear Regression</h5>
-                                <p class="text-xs text-gray-500 mt-1">Simple, interpretable, baseline model.</p>
-                            </div>
-                            <div class="p-4 border rounded-lg bg-gray-50">
-                                <h5 class="font-bold text-gray-800">Decision Tree</h5>
-                                <p class="text-xs text-gray-500 mt-1">Captures non-linear patterns but prone to overfitting.</p>
-                            </div>
-                            <div class="p-4 border rounded-lg bg-gray-50">
-                                <h5 class="font-bold text-gray-800">MLP (Neural Net)</h5>
-                                <p class="text-xs text-gray-500 mt-1">Complex, black-box model capable of high accuracy.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Classification -->
-                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-                    <div class="p-6 border-b border-gray-100 bg-gray-50 flex justify-between items-center">
-                        <h3 class="font-bold text-lg text-gray-800">Part 2: Classification (Steps 16-19)</h3>
-                    </div>
-                    <div class="p-6">
-                        <p class="text-sm text-gray-600 mb-4">
-                            We switch tasks to predict <strong>Binary Outcome</strong>: Is the delay > 15 minutes?
-                        </p>
-                        
-                        <div class="overflow-x-auto">
-                            <table class="w-full text-sm text-left text-gray-500">
-                                <thead class="text-xs text-gray-700 uppercase bg-gray-50">
-                                    <tr>
-                                        <th class="px-6 py-3">Metric</th>
-                                        <th class="px-6 py-3">Description</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr class="bg-white border-b">
-                                        <th class="px-6 py-4 font-medium text-gray-900">AUC (Area Under Curve)</th>
-                                        <td class="px-6 py-4">Overall performance measure. 1.0 is perfect, 0.5 is random guessing.</td>
-                                    </tr>
-                                    <tr class="bg-white border-b">
-                                        <th class="px-6 py-4 font-medium text-gray-900">Recall</th>
-                                        <td class="px-6 py-4">Crucial for airlines: "Of all actual delays, how many did we catch?"</td>
-                                    </tr>
-                                    <tr class="bg-white">
-                                        <th class="px-6 py-4 font-medium text-gray-900">F1 Score</th>
-                                        <td class="px-6 py-4">Harmonic mean of Precision and Recall.</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Quiz Section -->
-            <div id="ex3-quiz" class="mt-12">
-                <h3 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
-                    <i class="fa-solid fa-clipboard-question text-purple-600"></i> Knowledge Check
-                </h3>
-                <div class="bg-purple-50 rounded-xl p-6 border border-purple-100">
-                    <form id="quiz-form-3" onsubmit="return checkQuiz(event, 3)">
-                        <div class="space-y-6">
-                            <!-- Q1 -->
-                            <div class="bg-white p-4 rounded-lg shadow-sm">
-                                <p class="font-medium text-gray-800 mb-3">1. Which metric is best if we want to minimize False Negatives (missed delays)?</p>
-                                <div class="space-y-2 text-sm">
-                                    <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="q3_1" value="wrong" class="accent-purple-600"> Precision</label>
-                                    <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="q3_1" value="correct" class="accent-purple-600"> Recall</label>
-                                    <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="q3_1" value="wrong" class="accent-purple-600"> Accuracy</label>
-                                </div>
-                            </div>
-                            <!-- Q2 -->
-                            <div class="bg-white p-4 rounded-lg shadow-sm">
-                                <p class="font-medium text-gray-800 mb-3">2. What does an AUC of 0.5 indicate?</p>
-                                <div class="space-y-2 text-sm">
-                                    <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="q3_2" value="wrong" class="accent-purple-600"> Perfect Prediction</label>
-                                    <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="q3_2" value="correct" class="accent-purple-600"> Random Guessing</label>
-                                    <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="q3_2" value="wrong" class="accent-purple-600"> Inverse Prediction</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mt-6 flex items-center gap-4">
-                            <button type="submit" class="bg-purple-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-purple-700 transition-colors">Submit Answers</button>
-                            <span id="quiz-result-3" class="font-bold hidden"></span>
-                        </div>
-                    </form>
-                </div>
-            </div>
-
-            <!-- Summary Section -->
-            <div id="ex3-summary" class="mt-12 mb-12">
-                <div class="bg-gradient-to-r from-purple-900 to-indigo-900 rounded-xl p-8 text-white shadow-lg">
-                    <h3 class="text-2xl font-bold mb-4 flex items-center gap-2">
-                        <i class="fa-solid fa-trophy text-yellow-400"></i> Summary: Exercise 3
-                    </h3>
-                    <div class="text-sm text-purple-100 leading-relaxed space-y-4">
-                        <p>
-                            We successfully compared regression and classification models. While regression models like Decision Trees gave us specific delay times, the classification approach (Gradient Boosting) proved highly effective for the binary decision of "Will this flight be delayed?"
-                        </p>
-                        <p>
-                            By analyzing the ROC curves and Confusion Matrices, we moved beyond simple accuracy to understand the trade-offs between precision and recall, allowing for better decision-making in airline operations.
-                        </p>
-                    </div>
-                </div>
-            </div>
         </div>
 
     </main>
@@ -353,38 +162,6 @@
 
         function scrollToSection(id) {
             document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
-        }
-
-        function checkQuiz(event, id) {
-            event.preventDefault();
-            const form = event.target;
-            const resultSpan = document.getElementById(`quiz-result-${id}`);
-            let score = 0;
-            let total = 2; // 2 questions per quiz
-            
-            // Logic specifically for Quiz 1
-            if (id === 1) {
-                if (form.q1.value === 'correct') score++;
-                if (form.q2.value === 'correct') score++;
-            } 
-            // Logic specifically for Quiz 3
-            else if (id === 3) {
-                if (form.q3_1.value === 'correct') score++;
-                if (form.q3_2.value === 'correct') score++;
-            }
-
-            resultSpan.textContent = `You scored ${score} / ${total}`;
-            resultSpan.classList.remove('hidden', 'text-green-600', 'text-red-600');
-            
-            if (score === total) {
-                resultSpan.classList.add('text-green-600');
-                resultSpan.innerHTML += ' <i class="fa-solid fa-check-circle"></i> Excellent!';
-            } else {
-                resultSpan.classList.add('text-red-600');
-                resultSpan.innerHTML += ' <i class="fa-solid fa-times-circle"></i> Try again.';
-            }
-            
-            return false;
         }
 
         // Initialize Home
