@@ -24,40 +24,6 @@
             padding: 20px;
         }
 
-        /* Tabs */
-        .nav-tabs {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 30px;
-            gap: 10px;
-        }
-
-        .nav-btn {
-            padding: 12px 24px;
-            background: white;
-            border: 2px solid var(--primary);
-            color: var(--primary);
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.2s;
-        }
-
-        .nav-btn.active {
-            background: var(--primary);
-            color: white;
-        }
-
-        /* Sections */
-        .section {
-            display: none;
-            animation: fadeIn 0.4s ease;
-        }
-
-        .section.active {
-            display: block;
-        }
-
         /* Header */
         .header {
             text-align: center;
@@ -78,7 +44,12 @@
             background: white;
             padding: 15px;
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            /* Make sticky */
+            position: sticky;
+            top: 10px;
+            z-index: 100;
+            border: 1px solid #e2e8f0;
         }
 
         .question-card {
@@ -86,7 +57,8 @@
             padding: 30px;
             border-radius: 12px;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
+            margin-bottom: 30px; /* Increased spacing for scrolling list */
+            border: 1px solid #f1f5f9;
         }
 
         .topic-tag {
@@ -158,22 +130,14 @@
             display: none;
         }
 
-        .next-btn {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 25px;
-            cursor: pointer;
-            margin-top: 25px;
-            font-size: 1rem;
-            float: right;
-            display: none;
-            font-weight: bold;
-            box-shadow: 0 4px 6px rgba(37, 99, 235, 0.3);
+        /* Study Guide Styles */
+        .section-title {
+            color: var(--primary);
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 10px;
+            margin: 40px 0 20px 0;
         }
 
-        /* Study Guide Styles */
         .study-card {
             background: white;
             padding: 25px;
@@ -210,11 +174,13 @@
         /* Results Screen */
         .results-container {
             text-align: center;
-            display: none;
+            display: none; /* Hidden until finished */
             background: white;
             padding: 50px;
             border-radius: 12px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            margin-top: 40px;
+            border: 2px solid var(--primary);
         }
 
         .score-circle {
@@ -231,11 +197,6 @@
             font-weight: 800;
             box-shadow: 0 10px 20px rgba(37, 99, 235, 0.4);
         }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
     </style>
 </head>
 <body>
@@ -245,32 +206,9 @@
         <p>Interactive Quiz & Exam Study Guide</p>
     </div>
 
-    <div class="nav-tabs">
-        <button class="nav-btn active" onclick="switchTab('quiz')">Interactive Quiz</button>
-        <button class="nav-btn" onclick="switchTab('study')">Exam Definitions & Tips</button>
-    </div>
-
-    <!-- QUIZ SECTION -->
-    <div id="quizSection" class="section active">
-        <div class="stats-bar" id="statsBar">
-            <span>Question: <span id="currentQ">1</span>/<span id="totalQ">0</span></span>
-            <span>Score: <span id="currentScore">0</span></span>
-        </div>
-
-        <div id="quizContainer">
-            <!-- Questions injected via JS -->
-        </div>
-
-        <div id="results" class="results-container">
-            <div class="score-circle" id="finalScore">0%</div>
-            <h2>Assessment Complete</h2>
-            <p id="resultMessage" style="font-size: 1.2rem; margin-bottom: 30px;"></p>
-            <button class="nav-btn active" onclick="location.reload()">Restart Quiz</button>
-        </div>
-    </div>
-
     <!-- STUDY GUIDE SECTION -->
-    <div id="studySection" class="section">
+    <h2 class="section-title">📚 Part 1: Exam Definitions & Tips</h2>
+    <div id="studySection">
         
         <div class="study-card">
             <h3>⚠️ Exam Critical Rule</h3>
@@ -322,6 +260,25 @@
             </ul>
         </div>
 
+    </div>
+
+    <!-- QUIZ SECTION -->
+    <h2 class="section-title" id="quiz-start">📝 Part 2: Interactive Quiz</h2>
+    
+    <div class="stats-bar" id="statsBar">
+        <span>Progress: <span id="currentQ">0</span>/<span id="totalQ">0</span> Answered</span>
+        <span>Score: <span id="currentScore">0</span></span>
+    </div>
+
+    <div id="quizContainer">
+        <!-- Questions injected via JS -->
+    </div>
+
+    <div id="results" class="results-container">
+        <div class="score-circle" id="finalScore">0%</div>
+        <h2>Assessment Complete</h2>
+        <p id="resultMessage" style="font-size: 1.2rem; margin-bottom: 30px;"></p>
+        <button class="nav-btn active" style="background:var(--primary); color:white; border:none; padding:15px 30px; border-radius:25px; cursor:pointer; font-weight:bold;" onclick="location.reload()">Restart Quiz</button>
     </div>
 
 <script>
@@ -514,21 +471,8 @@ const questions = [
     }
 ];
 
-let currentQIndex = 0;
 let score = 0;
-
-function switchTab(tab) {
-    document.querySelectorAll('.section').forEach(el => el.classList.remove('active'));
-    document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
-    
-    if(tab === 'quiz') {
-        document.getElementById('quizSection').classList.add('active');
-        document.querySelectorAll('.nav-btn')[0].classList.add('active');
-    } else {
-        document.getElementById('studySection').classList.add('active');
-        document.querySelectorAll('.nav-btn')[1].classList.add('active');
-    }
-}
+let answeredCount = 0;
 
 function loadQuiz() {
     const container = document.getElementById('quizContainer');
@@ -538,7 +482,7 @@ function loadQuiz() {
         const card = document.createElement('div');
         card.className = 'question-card';
         card.id = `q-${index}`;
-        card.style.display = index === 0 ? 'block' : 'none';
+        // ALL CARDS VISIBLE NOW - No 'display:none' logic
 
         let codeBlock = q.code ? `<div class="code-snippet">${q.code}</div>` : '';
 
@@ -557,9 +501,7 @@ function loadQuiz() {
                 <strong>Answer Explanation:</strong><br>
                 ${q.explanation}
             </div>
-            <button class="next-btn" id="next-${index}" onclick="nextQuestion(${index})">
-                ${index === questions.length - 1 ? 'Finish Assessment' : 'Next Question'}
-            </button>
+            <!-- Removed Next Question button -->
         `;
         container.appendChild(card);
     });
@@ -570,9 +512,15 @@ function checkAnswer(qIndex, optIndex, btn) {
     const card = document.getElementById(`q-${qIndex}`);
     const allBtns = card.querySelectorAll('.option-btn');
     const explanation = document.getElementById(`exp-${qIndex}`);
-    const nextBtn = document.getElementById(`next-${qIndex}`);
+
+    // If already answered, do nothing (optional safety, though we disable buttons)
+    if (card.getAttribute('data-answered') === 'true') return;
 
     allBtns.forEach(b => b.disabled = true);
+    card.setAttribute('data-answered', 'true');
+    
+    answeredCount++;
+    document.getElementById('currentQ').innerText = answeredCount;
 
     if (optIndex === q.correct) {
         btn.classList.add('correct');
@@ -584,29 +532,19 @@ function checkAnswer(qIndex, optIndex, btn) {
     }
 
     explanation.style.display = 'block';
-    nextBtn.style.display = 'inline-block';
-}
 
-function nextQuestion(index) {
-    document.getElementById(`q-${index}`).style.display = 'none';
-    
-    if (index < questions.length - 1) {
-        const nextCard = document.getElementById(`q-${index + 1}`);
-        nextCard.style.display = 'block';
-        // Add animation
-        nextCard.style.animation = 'fadeIn 0.5s ease';
-        
-        currentQIndex++;
-        document.getElementById('currentQ').innerText = currentQIndex + 1;
-    } else {
+    // Check if all answered
+    if (answeredCount === questions.length) {
         showResults();
     }
 }
 
 function showResults() {
-    document.getElementById('quizContainer').style.display = 'none';
-    document.getElementById('statsBar').style.display = 'none';
-    document.getElementById('results').style.display = 'block';
+    const resultsDiv = document.getElementById('results');
+    resultsDiv.style.display = 'block';
+    
+    // Smooth scroll to results
+    resultsDiv.scrollIntoView({ behavior: 'smooth' });
     
     const percentage = Math.round((score / questions.length) * 100);
     document.getElementById('finalScore').innerText = `${percentage}%`;
@@ -615,7 +553,7 @@ function showResults() {
     if (percentage >= 70) {
         msgEl.innerHTML = "<span style='color:var(--success)'>Excellent!</span> You have passed the Core Problems threshold.";
     } else {
-        msgEl.innerHTML = "<span style='color:var(--error)'>Attention:</span> You need 70% to pass the Core Problems. Review the Study Guide tab!";
+        msgEl.innerHTML = "<span style='color:var(--error)'>Attention:</span> You need 70% to pass the Core Problems. Review the Study Guide section above!";
     }
 }
 

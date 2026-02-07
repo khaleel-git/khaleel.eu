@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explainable ML: Exercises 1 & 2</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1e40af;
+            --secondary: #64748b;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #0f172a;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 90%;
+            margin-top: 60px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        h1 {
+            color: var(--primary);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        p.subtitle {
+            color: var(--secondary);
+            font-size: 1.2rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 40px;
+            text-decoration: none;
+            color: var(--text);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 2px solid transparent;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            border-color: var(--primary);
+        }
+
+        .icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            background: #eff6ff;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .card h2 {
+            margin: 0 0 10px 0;
+            font-size: 1.5rem;
+            color: var(--primary-dark);
+        }
+
+        .card p {
+            color: var(--secondary);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        footer {
+            margin-top: auto;
+            padding: 40px;
+            color: var(--secondary);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Explainable ML</h1>
+            <p class="subtitle">Hub for Exercises 1 & 2 Resources</p>
+        </header>
+
+        <div class="grid">
+            <!-- Link 1: Quiz -->
+            <a href="https://khaleel.eu/BTU/Explainable/GrandQuiz_EX_1_2.html" class="card">
+                <div class="icon">📝</div>
+                <h2>Interactive Grand Quiz</h2>
+                <p>Practice with 20+ variation questions covering Preprocessing, Metrics, and Flight Delay Analysis.</p>
+            </a>
+
+            <!-- Link 2: Summary -->
+            <a href="https://khaleel.eu/BTU/Explainable/Summary_EX_1_2.html" class="card">
+                <div class="icon">📚</div>
+                <h2>Critical Concepts Summary</h2>
+                <p>Review the 70% threshold rules, definitions (Transparency, Interpretability), and exam cheat sheets.</p>
+            </a>
+        </div>
+    </div>
+
+    <footer>
+        &copy; Explainable Machine Learning Study Resources
+    </footer>
+
+</body>
+</html>
