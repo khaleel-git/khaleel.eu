@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Interpretation Challenges II — Exercise 4 (Time Series + EBM)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <style>
+    .tab-content{display:none}
+    .tab-content.active{display:block}
+    .fade-in{animation:fadeIn .25s ease-in-out}
+    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+    .custom-scroll::-webkit-scrollbar{width:8px}
+    .custom-scroll::-webkit-scrollbar-track{background:#f1f5f9}
+    .custom-scroll::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:999px}
+    .custom-scroll::-webkit-scrollbar-thumb:hover{background:#94a3b8}
+    .code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace}
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 min-h-screen py-8 px-4 flex justify-center">
+
+  <div class="max-w-6xl w-full bg-white shadow-2xl rounded-2xl overflow-hidden flex flex-col min-h-[90vh]">
+
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-slate-900 to-slate-800 text-white p-6 shadow-md shrink-0">
+      <div class="flex justify-between items-center">
+        <div>
+          <h1 class="text-2xl font-bold mb-1 flex items-center gap-2">
+            <i class="fa-solid fa-chart-line text-yellow-400"></i>
+            Interpretation Challenges II
+          </h1>
+          <p class="text-slate-300 text-sm">Exercise 4 — Time Series: Normalization · EBM · Seasonality · Surrogate Tree</p>
+        </div>
+        <div class="text-right hidden md:block">
+          <span class="bg-yellow-500 text-slate-900 text-xs font-bold px-2 py-1 rounded uppercase tracking-wider">Exam Ready</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Tabs -->
+    <div class="flex border-b border-slate-200 shrink-0 bg-white sticky top-0 z-10">
+      <button onclick="switchTab('summary')" id="btn-summary" class="flex-1 py-4 text-center font-bold text-slate-900 border-b-4 border-yellow-500 bg-yellow-50 transition-colors">
+        <i class="fa-solid fa-book-open mr-2"></i> Exam Gold Summary
+      </button>
+      <button onclick="switchTab('cookbook')" id="btn-cookbook" class="flex-1 py-4 text-center font-bold text-slate-500 border-b-4 border-transparent hover:bg-slate-50 hover:text-slate-600 transition-colors">
+        <i class="fa-solid fa-code mr-2"></i> Code Cookbook
+      </button>
+      <button onclick="switchTab('quiz')" id="btn-quiz" class="flex-1 py-4 text-center font-bold text-slate-500 border-b-4 border-transparent hover:bg-slate-50 hover:text-slate-600 transition-colors">
+        <i class="fa-solid fa-clipboard-question mr-2"></i> Grand Quiz
+      </button>
+    </div>
+
+    <!-- Content -->
+    <div class="flex-1 overflow-y-auto custom-scroll p-6 md:p-8 bg-slate-50">
+
+      <!-- SUMMARY TAB -->
+      <div id="summary" class="tab-content active fade-in space-y-12">
+
+        <!-- 6 Normalize -->
+        <section class="space-y-4">
+          <div class="flex items-center gap-3">
+            <span class="bg-emerald-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">6</span>
+            <h2 class="text-2xl font-bold text-slate-800">Normalize numerical data (train-only fit)</h2>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-6">
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+              <h3 class="font-bold text-emerald-700 mb-2"><i class="fa-solid fa-scale-balanced mr-2"></i>Why normalize?</h3>
+              <ul class="text-sm text-slate-600 space-y-2">
+                <li>• Different scales: <span class="code">temp≈280</span>, <span class="code">traffic_volume≈0..7000</span>, <span class="code">rain_1h≈0..mm</span>.</li>
+                <li>• Scale-sensitive models (linear models, EBM) behave better with comparable feature magnitudes.</li>
+                <li>• Prevent leakage: <strong>fit scaler on train only</strong>, then transform test.</li>
+              </ul>
+            </div>
+            <div class="bg-emerald-50 p-6 rounded-xl border border-emerald-100">
+              <h3 class="font-bold text-emerald-800 mb-2">Exam line</h3>
+              <p class="text-sm text-emerald-900">In time series, normalization must be fitted on the <strong>training window only</strong>; otherwise the scaler encodes future distribution shifts (data leakage).</p>
+            </div>
+          </div>
+
+          <div class="bg-slate-900 text-slate-100 p-4 rounded-xl code text-sm overflow-x-auto">
+<pre># StandardScaler (fit on train, transform train+test)
+from sklearn.preprocessing import StandardScaler
+
+num_features = [
+  "temp","rain_1h","snow_1h","clouds_all",
+  "hr","dow","is_holiday"
+]
+
+scaler = StandardScaler()
+
+X_train_scaled = X_train.copy()
+X_test_scaled  = X_test.copy()
+
+X_train_scaled[num_features] = scaler.fit_transform(X_train[num_features])
+X_test_scaled[num_features]  = scaler.transform(X_test[num_features])</pre>
+          </div>
+        </section>
+
+        <hr class="border-slate-200" />
+
+        <!-- 7 Differences -->
+        <section class="space-y-4">
+          <div class="flex items-center gap-3">
+            <span class="bg-indigo-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">7</span>
+            <h2 class="text-2xl font-bold text-slate-800">Time series vs. image vs. tabular</h2>
+          </div>
+
+          <div class="grid md:grid-cols-3 gap-6">
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+              <h3 class="font-bold text-indigo-700 mb-2"><i class="fa-solid fa-clock mr-2"></i>Time series</h3>
+              <ul class="text-sm text-slate-600 space-y-2">
+                <li>• Order matters (time index has meaning).</li>
+                <li>• Autocorrelation: past influences future.</li>
+                <li>• Shuffling breaks causality → invalid evaluation.</li>
+                <li>• Leakage risk is high (future information).</li>
+              </ul>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+              <h3 class="font-bold text-slate-700 mb-2"><i class="fa-solid fa-table mr-2"></i>Tabular</h3>
+              <ul class="text-sm text-slate-600 space-y-2">
+                <li>• Row order usually meaningless.</li>
+                <li>• i.i.d. assumption is common.</li>
+                <li>• Random shuffle split often OK.</li>
+                <li>• Leakage mostly via target-derived features.</li>
+              </ul>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+              <h3 class="font-bold text-pink-700 mb-2"><i class="fa-solid fa-image mr-2"></i>Images</h3>
+              <ul class="text-sm text-slate-600 space-y-2">
+                <li>• Spatial structure (neighbor pixels matter).</li>
+                <li>• Convolutions exploit locality/translation.</li>
+                <li>• Shuffling ok (unless time-ordered video).</li>
+                <li>• Leakage via duplicates/near-duplicates.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="bg-indigo-50 border-l-4 border-indigo-500 p-4 text-sm text-indigo-900 italic">
+            <strong>Exam insight:</strong> The defining property of time series is <em>temporal dependency + meaningful order</em>; evaluation must preserve time (no shuffle).
+          </div>
+        </section>
+
+        <hr class="border-slate-200" />
+
+        <!-- 8 EBM importance -->
+        <section class="space-y-4">
+          <div class="flex items-center gap-3">
+            <span class="bg-amber-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">8</span>
+            <h2 class="text-2xl font-bold text-slate-800">EBM: Feature importance + explanations</h2>
+          </div>
+
+          <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-3">
+            <h3 class="font-bold text-amber-700"><i class="fa-solid fa-glasses mr-2"></i>Core idea (glass-box)</h3>
+            <p class="text-sm text-slate-600">EBM is a boosted Generalized Additive Model (GAM). Prediction is an intercept plus sum of per-feature shape functions:</p>
+            <div class="bg-slate-100 p-3 rounded-xl code text-center font-bold text-slate-700">ŷ = b + f₁(x₁) + f₂(x₂) + … + fₙ(xₙ)</div>
+            <p class="text-sm text-slate-600">Interpretability comes from visualizing each <span class="code">fᵢ</span> (global shape) and per-instance contributions (local explanation).</p>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-6">
+            <div class="bg-green-50 p-6 rounded-xl border border-green-100">
+              <h3 class="font-bold text-green-800 mb-2"><i class="fa-solid fa-thumbs-up mr-2"></i>Advantages</h3>
+              <ul class="text-sm text-green-900 space-y-2">
+                <li>• Non-linear relationships without losing transparency.</li>
+                <li>• Strong accuracy on tabular/time-derived features.</li>
+                <li>• Global + local explanations built-in.</li>
+              </ul>
+            </div>
+            <div class="bg-red-50 p-6 rounded-xl border border-red-100">
+              <h3 class="font-bold text-red-800 mb-2"><i class="fa-solid fa-triangle-exclamation mr-2"></i>Limitations</h3>
+              <ul class="text-sm text-red-900 space-y-2">
+                <li>• Additive by default (limited interactions unless enabled).</li>
+                <li>• Slower training than simple linear models.</li>
+                <li>• Not meant for unstructured data (images/audio) directly.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="bg-slate-900 text-slate-100 p-4 rounded-xl code text-sm overflow-x-auto">
+<pre># UPDATED EBM importance + plots (interpret)
+from interpret.glassbox import ExplainableBoostingRegressor
+from interpret import show
+
+ebm = ExplainableBoostingRegressor(random_state=42)
+ebm.fit(X_train_scaled, y_train)
+
+global_exp = ebm.explain_global()
+show(global_exp)  # interactive: importance + feature shapes
+
+# Optional: importance table
+import pandas as pd
+importance = pd.DataFrame({
+  "feature": global_exp.data()["names"],
+  "importance": global_exp.data()["scores"],
+}).sort_values("importance", ascending=False)
+importance</pre>
+          </div>
+
+          <div class="bg-amber-50 border-l-4 border-amber-500 p-4 text-sm text-amber-900">
+            <strong>Exam line:</strong> EBM importance is obtained via <span class="code">explain_global()</span> (not <span class="code">feature_importances_</span> like scikit-learn trees).
+          </div>
+        </section>
+
+        <hr class="border-slate-200" />
+
+        <!-- 9 Seasonality & trend -->
+        <section class="space-y-4">
+          <div class="flex items-center gap-3">
+            <span class="bg-sky-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">9</span>
+            <h2 class="text-2xl font-bold text-slate-800">Seasons + trend (time-series decomposition)</h2>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-6">
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+              <h3 class="font-bold text-sky-700 mb-2"><i class="fa-solid fa-wave-square mr-2"></i>What to plot</h3>
+              <ul class="text-sm text-slate-600 space-y-2">
+                <li>• Aggregate to a consistent frequency (daily mean).</li>
+                <li>• Decompose into <strong>trend</strong>, <strong>seasonal</strong>, <strong>residual</strong>.</li>
+                <li>• Choose a seasonal period: 365 (yearly) or 7 (weekly), depending on the question.</li>
+              </ul>
+            </div>
+            <div class="bg-sky-50 p-6 rounded-xl border border-sky-100">
+              <h3 class="font-bold text-sky-800 mb-2">Exam line</h3>
+              <p class="text-sm text-sky-900">A time series can be expressed as: <strong>observed = trend + seasonality + residual</strong> (additive) or <strong>trend × seasonality × residual</strong> (multiplicative).</p>
+            </div>
+          </div>
+
+          <div class="bg-slate-900 text-slate-100 p-4 rounded-xl code text-sm overflow-x-auto">
+<pre># Daily aggregation + seasonal decomposition
+import pandas as pd
+from statsmodels.tsa.seasonal import seasonal_decompose
+
+# ensure date_time is datetime
+# df["date_time"] = pd.to_datetime(df["date_time"])
+
+daily_ts = (df.set_index("date_time")
+              .resample("D")["traffic_volume"].mean()
+              .dropna())
+
+# yearly seasonality (period=365). If dataset shorter, try 7 or 30.
+decomp = seasonal_decompose(daily_ts, model="additive", period=365)
+decomp.plot();</pre>
+          </div>
+        </section>
+
+        <hr class="border-slate-200" />
+
+        <!-- 10 Surrogate tree -->
+        <section class="space-y-4">
+          <div class="flex items-center gap-3">
+            <span class="bg-purple-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">10</span>
+            <h2 class="text-2xl font-bold text-slate-800">Surrogate Decision Tree (2 classes) — explain decisions</h2>
+          </div>
+
+          <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-3">
+            <h3 class="font-bold text-purple-700"><i class="fa-solid fa-tree mr-2"></i>What is a surrogate?</h3>
+            <p class="text-sm text-slate-600">A surrogate is a <strong>simpler model</strong> trained to mimic another model’s behavior (or the task target) so humans can read the rules.</p>
+            <ul class="text-sm text-slate-600 space-y-2">
+              <li>• We binarize traffic into <strong>Low</strong> vs <strong>High</strong> (2 classes).</li>
+              <li>• Train a small decision tree (e.g., max_depth=3).</li>
+              <li>• Visualize splits to explain the decision logic.</li>
+            </ul>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-6">
+            <div class="bg-purple-50 p-6 rounded-xl border border-purple-100">
+              <h3 class="font-bold text-purple-800 mb-2">What to say in the exam</h3>
+              <ul class="text-sm text-purple-900 space-y-2">
+                <li>• Surrogate trees provide <strong>approximate</strong> explanations.</li>
+                <li>• Fidelity matters: check how well the surrogate matches labels or model outputs.</li>
+                <li>• Restrict depth for interpretability.</li>
+              </ul>
+            </div>
+            <div class="bg-amber-50 p-6 rounded-xl border border-amber-100">
+              <h3 class="font-bold text-amber-800 mb-2">Common pitfall</h3>
+              <p class="text-sm text-amber-900">Do not claim the surrogate is the main model. It’s for interpretation; it may simplify away interactions or rare patterns.</p>
+            </div>
+          </div>
+
+          <div class="bg-slate-900 text-slate-100 p-4 rounded-xl code text-sm overflow-x-auto">
+<pre># Surrogate decision tree for 2 classes (high vs low traffic)
+import numpy as np
+from sklearn.tree import DecisionTreeClassifier, plot_tree
+from sklearn.metrics import accuracy_score
+import matplotlib.pyplot as plt
+
+# define threshold (median on train)
+threshold = y_train.median()
+
+y_train_bin = (y_train > threshold).astype(int)
+y_test_bin  = (y_test  > threshold).astype(int)
+
+# Train a small, readable tree
+sur_tree = DecisionTreeClassifier(max_depth=3, random_state=42)
+sur_tree.fit(X_train_scaled, y_train_bin)
+
+# Quick check
+pred_bin = sur_tree.predict(X_test_scaled)
+print("Surrogate accuracy:", accuracy_score(y_test_bin, pred_bin))
+
+# Plot
+plt.figure(figsize=(18, 8))
+plot_tree(
+  sur_tree,
+  feature_names=X_train_scaled.columns,
+  class_names=["Low", "High"],
+  filled=True
+)
+plt.show()</pre>
+          </div>
+        </section>
+      </div>
+
+      <!-- COOKBOOK TAB -->
+      <div id="cookbook" class="tab-content fade-in space-y-10">
+        <section class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+          <h2 class="text-2xl font-bold text-slate-800 mb-2"><i class="fa-solid fa-wrench mr-2 text-slate-700"></i>Copy–paste blocks (ordered steps)</h2>
+          <p class="text-sm text-slate-600 mb-6">Use these blocks in your notebook in the same order. They assume you already created <span class="code">X_train, X_test, y_train, y_test</span> with <span class="code">shuffle=False</span> and added <span class="code">hr</span>, <span class="code">dow</span>, <span class="code">is_holiday</span>.</p>
+
+          <div class="space-y-6">
+            <div>
+              <h3 class="font-bold text-emerald-700 mb-2">Step 6 — Normalize</h3>
+              <div class="bg-slate-900 text-slate-100 p-4 rounded-xl code text-sm overflow-x-auto"><pre>from sklearn.preprocessing import StandardScaler
+
+num_features = ["temp","rain_1h","snow_1h","clouds_all","hr","dow","is_holiday"]
+
+scaler = StandardScaler()
+X_train_scaled = X_train.copy(); X_test_scaled = X_test.copy()
+X_train_scaled[num_features] = scaler.fit_transform(X_train[num_features])
+X_test_scaled[num_features]  = scaler.transform(X_test[num_features])</pre></div>
+            </div>
+
+            <div>
+              <h3 class="font-bold text-amber-700 mb-2">Step 8 — EBM global + local</h3>
+              <div class="bg-slate-900 text-slate-100 p-4 rounded-xl code text-sm overflow-x-auto"><pre>from interpret.glassbox import ExplainableBoostingRegressor
+from interpret import show
+import pandas as pd
+
+ebm = ExplainableBoostingRegressor(random_state=42)
+ebm.fit(X_train_scaled, y_train)
+
+global_exp = ebm.explain_global()
+show(global_exp)
+
+importance = pd.DataFrame({
+  "feature": global_exp.data()["names"],
+  "importance": global_exp.data()["scores"],
+}).sort_values("importance", ascending=False)
+importance
+
+# local explanation for a single row
+idx = 0
+local_exp = ebm.explain_local(X_test_scaled.iloc[[idx]], y_test.iloc[[idx]])
+show(local_exp)</pre></div>
+            </div>
+
+            <div>
+              <h3 class="font-bold text-sky-700 mb-2">Step 9 — Trend + seasonality</h3>
+              <div class="bg-slate-900 text-slate-100 p-4 rounded-xl code text-sm overflow-x-auto"><pre>import pandas as pd
+from statsmodels.tsa.seasonal import seasonal_decompose
+
+# df["date_time"] = pd.to_datetime(df["date_time"])
+daily_ts = (df.set_index("date_time")
+              .resample("D")["traffic_volume"].mean()
+              .dropna())
+
+decomp = seasonal_decompose(daily_ts, model="additive", period=365)
+decomp.plot();</pre></div>
+            </div>
+
+            <div>
+              <h3 class="font-bold text-purple-700 mb-2">Step 10 — Surrogate tree (2 classes)</h3>
+              <div class="bg-slate-900 text-slate-100 p-4 rounded-xl code text-sm overflow-x-auto"><pre>from sklearn.tree import DecisionTreeClassifier, plot_tree
+from sklearn.metrics import accuracy_score
+import matplotlib.pyplot as plt
+
+threshold = y_train.median()
+y_train_bin = (y_train > threshold).astype(int)
+y_test_bin  = (y_test  > threshold).astype(int)
+
+sur_tree = DecisionTreeClassifier(max_depth=3, random_state=42)
+sur_tree.fit(X_train_scaled, y_train_bin)
+
+pred_bin = sur_tree.predict(X_test_scaled)
+print("Surrogate accuracy:", accuracy_score(y_test_bin, pred_bin))
+
+plt.figure(figsize=(18, 8))
+plot_tree(
+  sur_tree,
+  feature_names=X_train_scaled.columns,
+  class_names=["Low", "High"],
+  filled=True
+)
+plt.show()</pre></div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- QUIZ TAB -->
+      <div id="quiz" class="tab-content fade-in">
+        <div class="max-w-3xl mx-auto space-y-8">
+
+          <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 text-yellow-800 text-sm">
+            <i class="fa-solid fa-circle-info mr-2"></i>
+            Quiz covers steps 6–10: normalization, time-series properties, EBM explanations, decomposition, surrogate tree.
+          </div>
+
+          <form id="grand-quiz" onsubmit="return submitQuiz(event)">
+
+            <!-- Q1 -->
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+              <h3 class="font-bold text-lg text-slate-800 mb-4">1) Normalization & leakage</h3>
+              <p class="text-slate-600 mb-4">In time series, why must the scaler be fitted only on the training window?</p>
+              <div class="space-y-3">
+                <label class="flex items-center p-3 border rounded cursor-pointer hover:bg-slate-50 transition">
+                  <input type="radio" name="q1" value="wrong" class="w-5 h-5 accent-emerald-600">
+                  <span class="ml-3 text-sm font-medium">Because StandardScaler cannot transform test data.</span>
+                </label>
+                <label class="flex items-center p-3 border rounded cursor-pointer hover:bg-slate-50 transition">
+                  <input type="radio" name="q1" value="correct" class="w-5 h-5 accent-emerald-600">
+                  <span class="ml-3 text-sm font-medium">Because fitting on all data leaks future distribution information into training.</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Q2 -->
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+              <h3 class="font-bold text-lg text-slate-800 mb-4">2) What defines a time series?</h3>
+              <p class="text-slate-600 mb-4">Which statement best differentiates time series from ordinary tabular data?</p>
+              <div class="space-y-3">
+                <label class="flex items-center p-3 border rounded cursor-pointer hover:bg-slate-50 transition">
+                  <input type="radio" name="q2" value="correct" class="w-5 h-5 accent-indigo-600">
+                  <span class="ml-3 text-sm font-medium">The order is meaningful and observations are temporally dependent.</span>
+                </label>
+                <label class="flex items-center p-3 border rounded cursor-pointer hover:bg-slate-50 transition">
+                  <input type="radio" name="q2" value="wrong" class="w-5 h-5 accent-indigo-600">
+                  <span class="ml-3 text-sm font-medium">Time series always has more rows than tabular data.</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Q3 -->
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+              <h3 class="font-bold text-lg text-slate-800 mb-4">3) EBM is glass-box because…</h3>
+              <p class="text-slate-600 mb-4">What makes EBM interpretable by design?</p>
+              <div class="space-y-3">
+                <label class="flex items-center p-3 border rounded cursor-pointer hover:bg-slate-50 transition">
+                  <input type="radio" name="q3" value="correct" class="w-5 h-5 accent-amber-600">
+                  <span class="ml-3 text-sm font-medium">It models prediction as an additive sum of per-feature shape functions that can be plotted.</span>
+                </label>
+                <label class="flex items-center p-3 border rounded cursor-pointer hover:bg-slate-50 transition">
+                  <input type="radio" name="q3" value="wrong" class="w-5 h-5 accent-amber-600">
+                  <span class="ml-3 text-sm font-medium">It is interpretable because it uses only linear coefficients.</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Q4 -->
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+              <h3 class="font-bold text-lg text-slate-800 mb-4">4) Decomposition components</h3>
+              <p class="text-slate-600 mb-4">In an additive decomposition, observed equals:</p>
+              <div class="space-y-3">
+                <label class="flex items-center p-3 border rounded cursor-pointer hover:bg-slate-50 transition">
+                  <input type="radio" name="q4" value="correct" class="w-5 h-5 accent-sky-600">
+                  <span class="ml-3 text-sm font-medium">trend + seasonality + residual</span>
+                </label>
+                <label class="flex items-center p-3 border rounded cursor-pointer hover:bg-slate-50 transition">
+                  <input type="radio" name="q4" value="wrong" class="w-5 h-5 accent-sky-600">
+                  <span class="ml-3 text-sm font-medium">trend × residual + seasonality</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Q5 -->
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+              <h3 class="font-bold text-lg text-slate-800 mb-4">5) Surrogate tree purpose</h3>
+              <p class="text-slate-600 mb-4">Why do we use a shallow decision tree as a surrogate?</p>
+              <div class="space-y-3">
+                <label class="flex items-center p-3 border rounded cursor-pointer hover:bg-slate-50 transition">
+                  <input type="radio" name="q5" value="wrong" class="w-5 h-5 accent-purple-600">
+                  <span class="ml-3 text-sm font-medium">To improve EBM accuracy.</span>
+                </label>
+                <label class="flex items-center p-3 border rounded cursor-pointer hover:bg-slate-50 transition">
+                  <input type="radio" name="q5" value="correct" class="w-5 h-5 accent-purple-600">
+                  <span class="ml-3 text-sm font-medium">To obtain readable IF–THEN rules that approximate decisions.</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="text-center pt-6">
+              <button type="submit" class="bg-slate-900 text-white font-bold py-4 px-10 rounded-full shadow-lg hover:bg-slate-700 hover:scale-105 transition transform">
+                Check My Answers
+              </button>
+            </div>
+
+          </form>
+
+          <!-- Results -->
+          <div id="result-area" class="hidden text-center p-8 bg-white border border-slate-200 rounded-xl shadow-lg fade-in">
+            <div id="score-icon" class="text-5xl mb-4"></div>
+            <h2 class="text-3xl font-bold text-slate-800 mb-2">Quiz Complete</h2>
+            <p id="score-text" class="text-xl text-slate-600 font-medium"></p>
+            <p id="feedback-text" class="text-sm text-slate-500 mt-2"></p>
+            <button onclick="location.reload()" class="mt-6 text-blue-600 hover:text-blue-800 font-bold underline">Try Again</button>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    function setBtnState(active){
+      const btnSummary = document.getElementById('btn-summary');
+      const btnCookbook = document.getElementById('btn-cookbook');
+      const btnQuiz = document.getElementById('btn-quiz');
+
+      btnSummary.className = "flex-1 py-4 text-center font-bold border-b-4 transition-colors";
+      btnCookbook.className = "flex-1 py-4 text-center font-bold border-b-4 transition-colors";
+      btnQuiz.className = "flex-1 py-4 text-center font-bold border-b-4 transition-colors";
+
+      const inactive = " text-slate-500 border-transparent hover:bg-slate-50 hover:text-slate-600";
+      btnSummary.className += inactive;
+      btnCookbook.className += inactive;
+      btnQuiz.className += inactive;
+
+      if(active === 'summary'){
+        btnSummary.className = "flex-1 py-4 text-center font-bold text-slate-900 border-b-4 border-yellow-500 bg-yellow-50 transition-colors";
+      } else if(active === 'cookbook'){
+        btnCookbook.className = "flex-1 py-4 text-center font-bold text-slate-900 border-b-4 border-slate-900 bg-slate-50 transition-colors";
+      } else {
+        btnQuiz.className = "flex-1 py-4 text-center font-bold text-slate-900 border-b-4 border-indigo-600 bg-indigo-50 transition-colors";
+      }
+    }
+
+    function switchTab(tabId){
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+      setBtnState(tabId);
+    }
+
+    function submitQuiz(e){
+      e.preventDefault();
+      const form = e.target;
+      const total = 5;
+      let score = 0;
+
+      const answers = ['q1','q2','q3','q4','q5'];
+      for(const q of answers){
+        const val = (form[q] && form[q].value) ? form[q].value : null;
+        if(val === 'correct') score++;
+      }
+
+      const resultArea = document.getElementById('result-area');
+      const scoreText = document.getElementById('score-text');
+      const icon = document.getElementById('score-icon');
+      const feedback = document.getElementById('feedback-text');
+
+      form.classList.add('hidden');
+      resultArea.classList.remove('hidden');
+
+      scoreText.innerText = `You scored ${score} out of ${total}`;
+
+      if(score === total){
+        icon.innerHTML = '<i class="fa-solid fa-trophy text-yellow-500 animate-bounce"></i>';
+        feedback.innerText = "Outstanding. You are exam-ready for Exercise 4.";
+        resultArea.classList.add('border-emerald-300');
+      } else if(score >= 3){
+        icon.innerHTML = '<i class="fa-solid fa-thumbs-up text-indigo-600"></i>';
+        feedback.innerText = "Good. Review the summary sections you missed and retake.";
+      } else {
+        icon.innerHTML = '<i class="fa-solid fa-book-open text-red-400"></i>';
+        feedback.innerText = "Review the Exam Gold Summary tab carefully, then try again.";
+      }
+      return false;
+    }
+  </script>
+</body>
+</html>

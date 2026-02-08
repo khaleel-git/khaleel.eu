@@ -20,7 +20,7 @@
     <aside class="w-full md:w-64 bg-indigo-900 text-white flex-shrink-0 flex flex-col shadow-lg z-20">
         <div class="p-6 border-b border-indigo-800 flex items-center gap-3">
             <i class="fa-solid fa-plane-departure text-2xl text-indigo-300"></i>
-            <h1 class="text-xl font-bold tracking-tight">Flight Analytics</h1>
+            <h1 class="text-xl font-bold">Explainable Machine Learning</h1>
         </div>
         <nav class="flex-1 overflow-y-auto py-4">
             <ul class="space-y-1">
@@ -37,6 +37,11 @@
                 <li>
                     <button onclick="switchTab('ex3')" class="nav-btn w-full text-left px-6 py-3 hover:bg-indigo-800 transition-colors flex items-center gap-3 border-l-4 border-transparent text-indigo-100" id="btn-ex3">
                         <i class="fa-solid fa-3 w-5"></i> Exercise 3
+                    </button>
+                </li>
+                <li>
+                    <button onclick="switchTab('ex4')" class="nav-btn w-full text-left px-6 py-3 hover:bg-indigo-800 transition-colors flex items-center gap-3 border-l-4 border-transparent text-indigo-100" id="btn-ex4">
+                        <i class="fa-solid fa-4 w-5"></i> Exercise 4
                     </button>
                 </li>
             </ul>
@@ -81,6 +86,20 @@
                         Explainable machine learning and interpretation of predictions.
                     </p>
                     <span class="text-purple-600 font-medium text-sm flex items-center gap-1">
+                        Start <i class="fa-solid fa-arrow-right"></i>
+                    </span>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow cursor-pointer w-full md:w-2/3 lg:w-1/2"
+                     onclick="switchTab('ex4')">
+                    <div class="h-12 w-12 bg-amber-100 text-amber-700 rounded-lg flex items-center justify-center mb-4 text-xl">
+                        <i class="fa-solid fa-clock-rotate-left"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Exercise 4</h3>
+                    <p class="text-gray-500 text-sm mb-4">
+                        Time series: normalization, EBM feature importance, seasonality/trend, surrogate tree (2 classes).
+                    </p>
+                    <span class="text-amber-700 font-medium text-sm flex items-center gap-1">
                         Start <i class="fa-solid fa-arrow-right"></i>
                     </span>
                 </div>
@@ -155,6 +174,41 @@
                     </ul>
                     <div class="mt-4 p-4 bg-indigo-50 border border-indigo-100 rounded-lg">
                         Use the <strong>Study</strong> button above to access the full interactive exercise.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Exercise 4 Section -->
+        <div id="ex4" class="tab-content fade-in max-w-5xl mx-auto">
+            <header class="mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-3xl font-bold text-gray-900">Exercise 4</h2>
+                    <p class="text-gray-500">Time Series + EBM + Surrogate Tree</p>
+                </div>
+                <!-- IMPORTANT: local file name requested by you -->
+                <a href="EX_4.html" target="_blank"
+                   class="px-4 py-2 bg-amber-600 text-white rounded-lg text-sm font-medium hover:bg-amber-700 shadow-sm flex items-center">
+                    <i class="fa-solid fa-book-open mr-1"></i> Study
+                </a>
+            </header>
+
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                <div class="p-6 border-b border-gray-100 bg-gray-50">
+                    <h3 class="font-bold text-lg text-gray-800">
+                        Normalization · EBM Explanations · Seasonality/Trend · Surrogate Tree
+                    </h3>
+                </div>
+                <div class="p-6 text-sm text-gray-600 space-y-3">
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><strong>Normalize</strong> numeric features with train-only fit (avoid leakage).</li>
+                        <li><strong>Time series vs tabular/images:</strong> order and dependency matter (no shuffle).</li>
+                        <li><strong>EBM:</strong> global and local explanations using <code>explain_global()</code>.</li>
+                        <li><strong>Decomposition:</strong> trend + seasonality + residual.</li>
+                        <li><strong>Surrogate decision tree:</strong> 2 classes (low/high) with readable rules.</li>
+                    </ul>
+                    <div class="mt-4 p-4 bg-amber-50 border border-amber-100 rounded-lg">
+                        Use the <strong>Study</strong> button above to open <code>EX_4.html</code>.
                     </div>
                 </div>
             </div>
