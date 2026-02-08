@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interpretation Challenges II - Exercise 3 (EBM)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .gold-border { border-color: #fbbf24; }
+        .gold-bg { background-color: #fffbeb; }
+        .gold-text { color: #b45309; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        
+        /* Custom Scrollbar for inner content */
+        .custom-scroll::-webkit-scrollbar { width: 6px; }
+        .custom-scroll::-webkit-scrollbar-track { background: #f1f1f1; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        .custom-scroll::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800 min-h-screen py-8 px-4 flex justify-center">
+
+    <div class="max-w-6xl w-full bg-white shadow-2xl rounded-2xl overflow-hidden flex flex-col min-h-[90vh]">
+        
+        <!-- Header -->
+        <header class="bg-gradient-to-r from-slate-900 to-slate-800 text-white p-6 shadow-md shrink-0">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h1 class="text-2xl font-bold mb-1 flex items-center gap-2">
+                        <i class="fa-solid fa-layer-group text-yellow-400"></i> Interpretation Challenges II
+                    </h1>
+                    <p class="text-slate-300 text-sm">Decision Trees & Explainable Boosting Machines (EBM)</p>
+                </div>
+                <div class="text-right hidden md:block">
+                    <span class="bg-yellow-500 text-slate-900 text-xs font-bold px-2 py-1 rounded uppercase tracking-wider">Exam Ready</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <div class="flex border-b border-gray-200 shrink-0 bg-white sticky top-0 z-10">
+            <button onclick="switchTab('summary')" id="btn-summary" class="flex-1 py-4 text-center font-bold text-slate-900 border-b-4 border-yellow-500 bg-yellow-50 transition-colors">
+                <i class="fa-solid fa-book-open mr-2"></i> Exam Gold Summary
+            </button>
+            <button onclick="switchTab('quiz')" id="btn-quiz" class="flex-1 py-4 text-center font-bold text-gray-500 border-b-4 border-transparent hover:bg-gray-50 hover:text-slate-600 transition-colors">
+                <i class="fa-solid fa-clipboard-question mr-2"></i> Grand Quiz
+            </button>
+        </div>
+
+        <!-- Content Area -->
+        <div class="flex-1 overflow-y-auto custom-scroll p-6 md:p-8 bg-gray-50">
+            
+            <!-- SUMMARY TAB -->
+            <div id="summary" class="tab-content active fade-in space-y-12">
+                
+                <!-- Topic 1: Decision Trees -->
+                <section>
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="bg-blue-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">1</span>
+                        <h2 class="text-2xl font-bold text-slate-800">Decision Trees: Graph vs. Text</h2>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <!-- Graphical -->
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:border-blue-300 transition-colors">
+                            <h3 class="font-bold text-lg text-blue-700 mb-3 border-b pb-2"><i class="fa-solid fa-project-diagram mr-2"></i> Graphical Tree</h3>
+                            <ul class="space-y-3 text-sm text-gray-600">
+                                <li class="flex gap-2"><i class="fa-solid fa-check text-green-500 mt-1"></i> <strong>Intuitive:</strong> Visual flowchart structure.</li>
+                                <li class="flex gap-2"><i class="fa-solid fa-check text-green-500 mt-1"></i> <strong>Feature Importance:</strong> Root node = most important feature.</li>
+                                <li class="flex gap-2"><i class="fa-solid fa-times text-red-400 mt-1"></i> <strong>Disadvantage:</strong> Hard to read for deep trees.</li>
+                            </ul>
+                        </div>
+                        <!-- Text -->
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:border-purple-300 transition-colors">
+                            <h3 class="font-bold text-lg text-purple-700 mb-3 border-b pb-2"><i class="fa-solid fa-code mr-2"></i> Text Tree</h3>
+                            <ul class="space-y-3 text-sm text-gray-600">
+                                <li class="flex gap-2"><i class="fa-solid fa-check text-green-500 mt-1"></i> <strong>Precise:</strong> Exact IF-ELSE rule representation.</li>
+                                <li class="flex gap-2"><i class="fa-solid fa-check text-green-500 mt-1"></i> <strong>Compact:</strong> Easy to copy-paste into code.</li>
+                                <li class="flex gap-2"><i class="fa-solid fa-times text-red-400 mt-1"></i> <strong>Disadvantage:</strong> Less "big picture" intuition.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4 bg-blue-50 border-l-4 border-blue-500 p-4 text-sm text-blue-900 italic">
+                        <strong>Exam Insight:</strong> Both representations describe the <em>exact same model</em>. Differences are only in presentation (Human intuition vs. Technical precision).
+                    </div>
+                </section>
+
+                <hr class="border-gray-200">
+
+                <!-- Topic 2: EBM Theory -->
+                <section>
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="bg-amber-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">2</span>
+                        <h2 class="text-2xl font-bold text-slate-800">Explainable Boosting Machines (EBM)</h2>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 mb-6">
+                        <h3 class="font-bold text-lg text-slate-800 mb-2">What is it?</h3>
+                        <p class="text-gray-600 mb-4">A <strong>Glass-Box</strong> model. Technically a Generalized Additive Model (GAM) trained with boosting.</p>
+                        <div class="bg-slate-100 p-3 rounded font-mono text-center text-slate-700 font-bold">
+                            y = b + f₁(x₁) + f₂(x₂) + ... + fₙ(xₙ)
+                        </div>
+                    </div>
+
+                    <!-- Pros/Cons Grid -->
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-green-50 p-6 rounded-xl border border-green-100">
+                            <h3 class="font-bold text-green-800 mb-3 flex items-center"><i class="fa-solid fa-thumbs-up mr-2"></i> Advantages</h3>
+                            <ul class="space-y-2 text-sm text-green-900">
+                                <li>• <strong>High Interpretability:</strong> See exact feature contributions.</li>
+                                <li>• <strong>Strong Performance:</strong> Comparable to Random Forest/XGBoost.</li>
+                                <li>• <strong>Non-Linearity:</strong> Models complex curves (unlike linear regression).</li>
+                                <li>• <strong>Auto Feature Selection:</strong> Nullifies irrelevant features.</li>
+                            </ul>
+                        </div>
+                        <div class="bg-red-50 p-6 rounded-xl border border-red-100">
+                            <h3 class="font-bold text-red-800 mb-3 flex items-center"><i class="fa-solid fa-thumbs-down mr-2"></i> Disadvantages</h3>
+                            <ul class="space-y-2 text-sm text-red-900">
+                                <li>• <strong>Limited Interactions:</strong> Assumes independence by default.</li>
+                                <li>• <strong>Slower Training:</strong> Iterative boosting is slower than simple regression.</li>
+                                <li>• <strong>Less Flexible:</strong> Can't match Deep Learning on unstructured data (images).</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="border-gray-200">
+
+                <!-- Topic 3: EBM Interpretation -->
+                <section>
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="bg-purple-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">3</span>
+                        <h2 class="text-2xl font-bold text-slate-800">EBM Interpretation (Global vs. Local)</h2>
+                    </div>
+
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <div class="bg-white p-5 rounded-xl shadow-sm border-t-4 border-purple-500">
+                            <h4 class="font-bold text-gray-800 mb-2">1. Global Explanation</h4>
+                            <p class="text-xs text-gray-500 uppercase tracking-wide mb-2">"How the model works overall"</p>
+                            <p class="text-sm text-gray-600">Uses <strong>Feature Importance</strong> (average absolute contribution). Shows which features matter most across <em>all</em> flights.</p>
+                        </div>
+                        
+                        <div class="bg-white p-5 rounded-xl shadow-sm border-t-4 border-indigo-500">
+                            <h4 class="font-bold text-gray-800 mb-2">2. Local Explanation</h4>
+                            <p class="text-xs text-gray-500 uppercase tracking-wide mb-2">"Why THIS flight was delayed"</p>
+                            <p class="text-sm text-gray-600">Breaks down a <strong>single prediction</strong>. Shows: Intercept + Feature A contribution + Feature B contribution = Final Score.</p>
+                        </div>
+
+                        <div class="bg-white p-5 rounded-xl shadow-sm border-t-4 border-pink-500">
+                            <h4 class="font-bold text-gray-800 mb-2">3. Scope Rules</h4>
+                            <p class="text-xs text-gray-500 uppercase tracking-wide mb-2">"Decision Bounds"</p>
+                            <p class="text-sm text-gray-600">Visualizes the decision boundaries. E.g., "If Delay > 15 mins, score increases by +2.5".</p>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- QUIZ TAB -->
+            <div id="quiz" class="tab-content fade-in">
+                <div class="max-w-3xl mx-auto space-y-8">
+                    
+                    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 text-yellow-800 text-sm">
+                        <i class="fa-solid fa-circle-info mr-2"></i> This quiz covers Interpretation Challenges II (Exercises 1-7).
+                    </div>
+
+                    <form id="grand-quiz" onsubmit="return submitQuiz(event)">
+                        
+                        <!-- Q1 -->
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+                            <h3 class="font-bold text-lg text-slate-800 mb-4">1. Comparison: Decision Trees</h3>
+                            <p class="text-gray-600 mb-4">Which representation of a decision tree is best for identifying the most important features (top-level splits) quickly?</p>
+                            <div class="space-y-3">
+                                <label class="flex items-center p-3 border rounded cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="q1" value="correct" class="w-5 h-5 text-blue-600 accent-blue-600">
+                                    <span class="ml-3 text-sm font-medium">Graphical Representation (Flowchart)</span>
+                                </label>
+                                <label class="flex items-center p-3 border rounded cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="q1" value="wrong" class="w-5 h-5 text-blue-600 accent-blue-600">
+                                    <span class="ml-3 text-sm font-medium">Text Representation (Rules)</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Q2 -->
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+                            <h3 class="font-bold text-lg text-slate-800 mb-4">2. EBM Theory</h3>
+                            <p class="text-gray-600 mb-4">Why is an EBM considered a "Glass-Box" model?</p>
+                            <div class="space-y-3">
+                                <label class="flex items-center p-3 border rounded cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="q2" value="wrong" class="w-5 h-5 text-blue-600 accent-blue-600">
+                                    <span class="ml-3 text-sm font-medium">Because it uses deep neural networks to see patterns.</span>
+                                </label>
+                                <label class="flex items-center p-3 border rounded cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="q2" value="correct" class="w-5 h-5 text-blue-600 accent-blue-600">
+                                    <span class="ml-3 text-sm font-medium">Because each feature's contribution is additive and can be visualized independently.</span>
+                                </label>
+                                <label class="flex items-center p-3 border rounded cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="q2" value="wrong" class="w-5 h-5 text-blue-600 accent-blue-600">
+                                    <span class="ml-3 text-sm font-medium">Because it is transparent like a window but has low accuracy.</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Q3 -->
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+                            <h3 class="font-bold text-lg text-slate-800 mb-4">3. EBM Advantage</h3>
+                            <p class="text-gray-600 mb-4">What is a key advantage of EBM over standard Linear Regression?</p>
+                            <div class="space-y-3">
+                                <label class="flex items-center p-3 border rounded cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="q3" value="wrong" class="w-5 h-5 text-blue-600 accent-blue-600">
+                                    <span class="ml-3 text-sm font-medium">It trains faster.</span>
+                                </label>
+                                <label class="flex items-center p-3 border rounded cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="q3" value="correct" class="w-5 h-5 text-blue-600 accent-blue-600">
+                                    <span class="ml-3 text-sm font-medium">It can model non-linear relationships (curves) automatically.</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Q4 -->
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+                            <h3 class="font-bold text-lg text-slate-800 mb-4">4. Local vs Global</h3>
+                            <p class="text-gray-600 mb-4">If you want to explain to a pilot why <strong>their specific flight</strong> was predicted to be delayed, which explanation do you use?</p>
+                            <div class="space-y-3">
+                                <label class="flex items-center p-3 border rounded cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="q4" value="wrong" class="w-5 h-5 text-blue-600 accent-blue-600">
+                                    <span class="ml-3 text-sm font-medium">Global Feature Importance</span>
+                                </label>
+                                <label class="flex items-center p-3 border rounded cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="q4" value="correct" class="w-5 h-5 text-blue-600 accent-blue-600">
+                                    <span class="ml-3 text-sm font-medium">Local Explanation</span>
+                                </label>
+                                <label class="flex items-center p-3 border rounded cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="q4" value="wrong" class="w-5 h-5 text-blue-600 accent-blue-600">
+                                    <span class="ml-3 text-sm font-medium">ROC Curve</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="text-center pt-6">
+                            <button type="submit" class="bg-slate-900 text-white font-bold py-4 px-10 rounded-full shadow-lg hover:bg-slate-700 hover:scale-105 transition transform">
+                                Check My Answers
+                            </button>
+                        </div>
+
+                    </form>
+
+                    <!-- Results -->
+                    <div id="result-area" class="hidden text-center p-8 bg-white border border-gray-200 rounded-xl shadow-lg fade-in">
+                        <div id="score-icon" class="text-5xl mb-4"></div>
+                        <h2 class="text-3xl font-bold text-slate-800 mb-2">Quiz Complete!</h2>
+                        <p id="score-text" class="text-xl text-gray-600 font-medium"></p>
+                        <p id="feedback-text" class="text-sm text-gray-500 mt-2"></p>
+                        <button onclick="location.reload()" class="mt-6 text-blue-600 hover:text-blue-800 font-bold underline">Try Again</button>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function switchTab(tabId) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+
+            // Reset buttons
+            const btnSummary = document.getElementById('btn-summary');
+            const btnQuiz = document.getElementById('btn-quiz');
+
+            if (tabId === 'summary') {
+                btnSummary.className = "flex-1 py-4 text-center font-bold text-slate-900 border-b-4 border-yellow-500 bg-yellow-50 transition-colors";
+                btnQuiz.className = "flex-1 py-4 text-center font-bold text-gray-500 border-b-4 border-transparent hover:bg-gray-50 hover:text-slate-600 transition-colors";
+            } else {
+                btnSummary.className = "flex-1 py-4 text-center font-bold text-gray-500 border-b-4 border-transparent hover:bg-gray-50 hover:text-slate-600 transition-colors";
+                btnQuiz.className = "flex-1 py-4 text-center font-bold text-slate-900 border-b-4 border-blue-500 bg-blue-50 transition-colors";
+            }
+        }
+
+        function submitQuiz(e) {
+            e.preventDefault();
+            const form = e.target;
+            let score = 0;
+            const total = 4;
+
+            if(form.q1.value === 'correct') score++;
+            if(form.q2.value === 'correct') score++;
+            if(form.q3.value === 'correct') score++;
+            if(form.q4.value === 'correct') score++;
+
+            const resultArea = document.getElementById('result-area');
+            const scoreText = document.getElementById('score-text');
+            const icon = document.getElementById('score-icon');
+            const feedback = document.getElementById('feedback-text');
+            
+            form.classList.add('hidden');
+            resultArea.classList.remove('hidden');
+
+            scoreText.innerText = `You scored ${score} out of ${total}`;
+
+            if (score === total) {
+                icon.innerHTML = '<i class="fa-solid fa-trophy text-yellow-500 animate-bounce"></i>';
+                feedback.innerText = "Outstanding! You are ready for the exam.";
+                resultArea.classList.add('border-green-400');
+            } else if (score >= 2) {
+                icon.innerHTML = '<i class="fa-solid fa-thumbs-up text-blue-500"></i>';
+                feedback.innerText = "Good job. Review the summary for the questions you missed.";
+            } else {
+                icon.innerHTML = '<i class="fa-solid fa-book-open text-red-400"></i>';
+                feedback.innerText = "Please review the Exam Gold Summary tab and try again.";
+            }
+            return false;
+        }
+    </script>
+</body>
+</html>

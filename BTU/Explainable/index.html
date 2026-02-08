@@ -34,6 +34,11 @@
                         <i class="fa-solid fa-1 w-5"></i> Exercises 1 & 2
                     </button>
                 </li>
+                <li>
+                    <button onclick="switchTab('ex3')" class="nav-btn w-full text-left px-6 py-3 hover:bg-indigo-800 transition-colors flex items-center gap-3 border-l-4 border-transparent text-indigo-100" id="btn-ex3">
+                        <i class="fa-solid fa-3 w-5"></i> Exercise 3
+                    </button>
+                </li>
             </ul>
         </nav>
         <div class="p-4 border-t border-indigo-800 text-xs text-indigo-300 text-center">
@@ -43,22 +48,41 @@
 
     <!-- Main Content -->
     <main class="flex-1 overflow-y-auto p-4 md:p-8 relative">
-        
+
         <!-- Home Section -->
         <div id="home" class="tab-content active fade-in max-w-4xl mx-auto">
             <header class="mb-8 text-center">
                 <h2 class="text-3xl font-bold text-gray-900 mb-2">Welcome to Interpretation Challenges</h2>
                 <p class="text-gray-600">Flight Delay Reduction Analysis & Modeling</p>
             </header>
-            
-            <div class="flex justify-center">
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow cursor-pointer w-full md:w-2/3 lg:w-1/2" onclick="switchTab('ex1-2')">
+
+            <div class="flex flex-col items-center gap-6">
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow cursor-pointer w-full md:w-2/3 lg:w-1/2"
+                     onclick="switchTab('ex1-2')">
                     <div class="h-12 w-12 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center mb-4 text-xl">
                         <i class="fa-solid fa-database"></i>
                     </div>
                     <h3 class="text-xl font-semibold mb-2">Exercises 1 & 2</h3>
-                    <p class="text-gray-500 text-sm mb-4">Data Preparation, Linear Regression assumptions, and basic statistical testing.</p>
-                    <span class="text-blue-600 font-medium text-sm flex items-center gap-1">Start <i class="fa-solid fa-arrow-right"></i></span>
+                    <p class="text-gray-500 text-sm mb-4">
+                        Data preparation, regression assumptions, and statistical testing.
+                    </p>
+                    <span class="text-blue-600 font-medium text-sm flex items-center gap-1">
+                        Start <i class="fa-solid fa-arrow-right"></i>
+                    </span>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow cursor-pointer w-full md:w-2/3 lg:w-1/2"
+                     onclick="switchTab('ex3')">
+                    <div class="h-12 w-12 bg-purple-100 text-purple-600 rounded-lg flex items-center justify-center mb-4 text-xl">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Exercise 3</h3>
+                    <p class="text-gray-500 text-sm mb-4">
+                        Explainable machine learning and interpretation of predictions.
+                    </p>
+                    <span class="text-purple-600 font-medium text-sm flex items-center gap-1">
+                        Start <i class="fa-solid fa-arrow-right"></i>
+                    </span>
                 </div>
             </div>
         </div>
@@ -71,65 +95,66 @@
                     <p class="text-gray-500">Data Prep & Regression Analysis</p>
                 </div>
                 <div class="flex gap-2">
-                    <!-- Study Button (Internal) -->
                     <button onclick="scrollToSection('ex1-content')" class="px-4 py-2 bg-white border border-gray-200 rounded-lg text-sm font-medium hover:bg-gray-50">
                         <i class="fa-solid fa-book-open mr-1"></i> Study
                     </button>
-                    
-                    <!-- External Quiz Link -->
-                    <a href="https://khaleel.eu/BTU/Explainable/GrandQuiz_EX_1_2.html" target="_blank" class="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 shadow-sm flex items-center">
+
+                    <a href="https://khaleel.eu/BTU/Explainable/GrandQuiz_EX_1_2.html" target="_blank"
+                       class="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 shadow-sm flex items-center">
                         <i class="fa-solid fa-question-circle mr-1"></i> Quiz
                     </a>
-                    
-                    <!-- External Summary Link -->
-                    <a href="https://khaleel.eu/BTU/Explainable/Summary_EX_1_2.html" target="_blank" class="px-4 py-2 bg-green-600 text-white rounded-lg text-sm font-medium hover:bg-green-700 shadow-sm flex items-center">
+
+                    <a href="https://khaleel.eu/BTU/Explainable/Summary_EX_1_2.html" target="_blank"
+                       class="px-4 py-2 bg-green-600 text-white rounded-lg text-sm font-medium hover:bg-green-700 shadow-sm flex items-center">
                         <i class="fa-solid fa-list-check mr-1"></i> Summary
                     </a>
                 </div>
             </header>
 
-            <!-- Content Area -->
             <div id="ex1-content" class="space-y-6">
-                <!-- Step 1-4: Understanding -->
                 <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
                     <div class="p-6 border-b border-gray-100 bg-gray-50">
                         <h3 class="font-bold text-lg text-gray-800">Part 1: Understanding the Problem</h3>
                     </div>
-                    <div class="p-6 space-y-4">
-                        <div class="flex gap-4 items-start">
-                            <span class="bg-blue-100 text-blue-800 text-xs font-bold px-2 py-1 rounded mt-1">Concept</span>
-                            <div>
-                                <h4 class="font-medium text-gray-900">Regression vs. Classification</h4>
-                                <p class="text-gray-600 text-sm mt-1">
-                                    <strong>Regression</strong> predicts continuous values (e.g., minutes of delay).<br>
-                                    <strong>Classification</strong> predicts categories (e.g., "Delayed" vs. "On Time").
-                                </p>
-                            </div>
-                        </div>
-                        <div class="flex gap-4 items-start">
-                            <span class="bg-green-100 text-green-800 text-xs font-bold px-2 py-1 rounded mt-1">Target</span>
-                            <div>
-                                <h4 class="font-medium text-gray-900">Target Variable: ARR_DELAY</h4>
-                                <p class="text-gray-600 text-sm mt-1">
-                                    We focus on <code>ARR_DELAY</code> because arrival delays drive costs and passenger dissatisfaction.
-                                </p>
-                            </div>
-                        </div>
+                    <div class="p-6 space-y-4 text-sm text-gray-600">
+                        <p><strong>Regression</strong> predicts continuous outcomes such as delay minutes.</p>
+                        <p><strong>Classification</strong> predicts discrete categories such as delayed vs on-time.</p>
+                        <p>
+                            The target variable is <code>ARR_DELAY</code> because arrival delays directly impact costs and passengers.
+                        </p>
                     </div>
                 </div>
+            </div>
+        </div>
 
-                <!-- Step 5-13: Analysis -->
-                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-                    <div class="p-6 border-b border-gray-100 bg-gray-50">
-                        <h3 class="font-bold text-lg text-gray-800">Part 2: Analysis & Pre-processing</h3>
-                    </div>
-                    <div class="p-6 space-y-4">
-                         <ul class="list-disc list-inside text-gray-600 space-y-2 text-sm">
-                            <li><strong>Correlation:</strong> Check <code>WEATHER_DELAY</code> influence on <code>ARR_DELAY</code>.</li>
-                            <li><strong>Cleaning:</strong> Remove string columns and rows with missing target data.</li>
-                            <li><strong>Normality Test:</strong> Used Kolmogorov-Smirnov test. Found that delay data is usually <em>not</em> normally distributed.</li>
-                            <li><strong>Transformation:</strong> A Log transformation can help normalize skewed delay data.</li>
-                        </ul>
+        <!-- Exercise 3 Section -->
+        <div id="ex3" class="tab-content fade-in max-w-5xl mx-auto">
+            <header class="mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-3xl font-bold text-gray-900">Exercise 3</h2>
+                    <p class="text-gray-500">Explainable Machine Learning</p>
+                </div>
+                <a href="https://khaleel.eu/BTU/Explainable/EX_3.html" target="_blank"
+                   class="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 shadow-sm flex items-center">
+                    <i class="fa-solid fa-book-open mr-1"></i> Study
+                </a>
+            </header>
+
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                <div class="p-6 border-b border-gray-100 bg-gray-50">
+                    <h3 class="font-bold text-lg text-gray-800">
+                        Model Interpretation & Explainability
+                    </h3>
+                </div>
+                <div class="p-6 text-sm text-gray-600 space-y-3">
+                    <ul class="list-disc list-inside space-y-2">
+                        <li>Why explainability is critical beyond accuracy.</li>
+                        <li>Feature importance and contribution analysis.</li>
+                        <li>Global vs local explanations.</li>
+                        <li>Model trust, bias, and limitations.</li>
+                    </ul>
+                    <div class="mt-4 p-4 bg-indigo-50 border border-indigo-100 rounded-lg">
+                        Use the <strong>Study</strong> button above to access the full interactive exercise.
                     </div>
                 </div>
             </div>
@@ -139,22 +164,19 @@
 
     <script>
         function switchTab(tabId) {
-            // Hide all tabs
             document.querySelectorAll('.tab-content').forEach(el => {
                 el.classList.remove('active');
             });
-            
-            // Show selected tab
+
             document.getElementById(tabId).classList.add('active');
-            
-            // Update Sidebar styles
+
             document.querySelectorAll('.nav-btn').forEach(btn => {
                 btn.classList.remove('bg-indigo-800', 'border-indigo-400', 'text-white');
                 btn.classList.add('border-transparent', 'text-indigo-100');
             });
-            
+
             const activeBtn = document.getElementById('btn-' + tabId);
-            if(activeBtn) {
+            if (activeBtn) {
                 activeBtn.classList.add('bg-indigo-800', 'border-indigo-400', 'text-white');
                 activeBtn.classList.remove('border-transparent', 'text-indigo-100');
             }
@@ -164,7 +186,6 @@
             document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
         }
 
-        // Initialize Home
         switchTab('home');
     </script>
 </body>
