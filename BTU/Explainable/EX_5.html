@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Interpretation Challenges I — Exercise 5 (Bayes' Theorem)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <!-- MathJax for rendering formulas -->
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <style>
+    .tab-content{display:none}
+    .tab-content.active{display:block}
+    .fade-in{animation:fadeIn .25s ease-in-out}
+    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+    .custom-scroll::-webkit-scrollbar{width:8px}
+    .custom-scroll::-webkit-scrollbar-track{background:#f1f5f9}
+    .custom-scroll::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:999px}
+    .custom-scroll::-webkit-scrollbar-thumb:hover{background:#94a3b8}
+    .code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace}
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 min-h-screen py-8 px-4 flex justify-center">
+
+  <div class="max-w-6xl w-full bg-white shadow-2xl rounded-2xl overflow-hidden flex flex-col min-h-[90vh]">
+
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-slate-900 to-slate-800 text-white p-6 shadow-md shrink-0">
+      <div class="flex justify-between items-center">
+        <div>
+          <h1 class="text-2xl font-bold mb-1 flex items-center gap-2">
+            <i class="fa-solid fa-vial-virus text-yellow-400"></i>
+            Interpretation Challenges I
+          </h1>
+          <p class="text-slate-300 text-sm">Exercise 5 — Bayes' Theorem · Confusion Matrix · Precision vs. Recall</p>
+        </div>
+        <div class="text-right hidden md:block">
+          <span class="bg-yellow-500 text-slate-900 text-xs font-bold px-2 py-1 rounded uppercase tracking-wider">Exam Ready</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Tabs -->
+    <div class="flex border-b border-slate-200 shrink-0 bg-white sticky top-0 z-10 overflow-x-auto">
+      <button onclick="switchTab('summary')" id="btn-summary" class="flex-1 min-w-[140px] py-4 text-center font-bold text-slate-900 border-b-4 border-yellow-500 bg-yellow-50 transition-colors whitespace-nowrap">
+        <i class="fa-solid fa-book-open mr-2"></i> Formulas
+      </button>
+      <button onclick="switchTab('exam')" id="btn-exam" class="flex-1 min-w-[140px] py-4 text-center font-bold text-slate-500 border-b-4 border-transparent hover:bg-slate-50 hover:text-slate-600 transition-colors whitespace-nowrap">
+        <i class="fa-solid fa-pen-nib mr-2"></i> Exam Solution
+      </button>
+      <button onclick="switchTab('cookbook')" id="btn-cookbook" class="flex-1 min-w-[140px] py-4 text-center font-bold text-slate-500 border-b-4 border-transparent hover:bg-slate-50 hover:text-slate-600 transition-colors whitespace-nowrap">
+        <i class="fa-solid fa-code mr-2"></i> Cookbook
+      </button>
+      <button onclick="switchTab('quiz')" id="btn-quiz" class="flex-1 min-w-[140px] py-4 text-center font-bold text-slate-500 border-b-4 border-transparent hover:bg-slate-50 hover:text-slate-600 transition-colors whitespace-nowrap">
+        <i class="fa-solid fa-clipboard-question mr-2"></i> Grand Quiz
+      </button>
+    </div>
+
+    <!-- Content -->
+    <div class="flex-1 overflow-y-auto custom-scroll p-6 md:p-8 bg-slate-50">
+
+      <!-- SUMMARY TAB -->
+      <div id="summary" class="tab-content active fade-in space-y-12">
+
+        <!-- 1 The Theorem -->
+        <section class="space-y-4">
+          <div class="flex items-center gap-3">
+            <span class="bg-emerald-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">1</span>
+            <h2 class="text-2xl font-bold text-slate-800">The Theorem & Variables</h2>
+          </div>
+
+          <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+            <h3 class="font-bold text-emerald-700 mb-2"><i class="fa-solid fa-calculator mr-2"></i>Bayes' Formula</h3>
+            <div class="text-center text-lg py-4">
+              $$P(D|T) = \frac{P(D) \cdot P(T|D)}{P(T)}$$
+            </div>
+            <div class="grid md:grid-cols-2 gap-4 mt-4">
+              <div class="bg-slate-50 p-4 rounded-lg">
+                <strong class="text-slate-900">\(P(D)\) — Prior (Prevalence)</strong>
+                <p class="text-sm text-slate-600">The baseline probability of having the disease before any test is done.</p>
+              </div>
+              <div class="bg-slate-50 p-4 rounded-lg">
+                <strong class="text-slate-900">\(P(T|D)\) — Sensitivity (Likelihood)</strong>
+                <p class="text-sm text-slate-600">The probability of a positive test <em>given</em> the patient has the disease.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2 Cheat Sheet -->
+        <section class="space-y-4">
+          <div class="flex items-center gap-3">
+            <span class="bg-indigo-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">2</span>
+            <h2 class="text-2xl font-bold text-slate-800">Formula Cheat Sheet</h2>
+          </div>
+
+          <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse">
+                <thead class="bg-slate-800 text-white">
+                  <tr>
+                    <th class="p-4">Term</th>
+                    <th class="p-4">Probability Notation</th>
+                    <th class="p-4">Confusion Matrix Formula</th>
+                    <th class="p-4">Meaning</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100 text-sm">
+                  <tr class="hover:bg-slate-50">
+                    <td class="p-4 font-bold text-indigo-700">Prevalence (Prior)</td>
+                    <td class="p-4">\(P(D)\)</td>
+                    <td class="p-4">\(\frac{TP + FN}{\text{Total}}\)</td>
+                    <td class="p-4 text-slate-600">Fraction of population that is sick.</td>
+                  </tr>
+                  <tr class="hover:bg-slate-50">
+                    <td class="p-4 font-bold text-indigo-700">Sensitivity (Recall)</td>
+                    <td class="p-4">\(P(T|D)\)</td>
+                    <td class="p-4">\(\frac{TP}{TP + FN}\)</td>
+                    <td class="p-4 text-slate-600">How many sick people we correctly caught.</td>
+                  </tr>
+                  <tr class="hover:bg-slate-50">
+                    <td class="p-4 font-bold text-indigo-700">Specificity</td>
+                    <td class="p-4">\(P(\neg T | \neg D)\)</td>
+                    <td class="p-4">\(\frac{TN}{TN + FP}\)</td>
+                    <td class="p-4 text-slate-600">How many healthy people we correctly cleared.</td>
+                  </tr>
+                  <tr class="hover:bg-slate-50 bg-yellow-50">
+                    <td class="p-4 font-bold text-indigo-900">Precision (Posterior)</td>
+                    <td class="p-4">\(P(D|T)\)</td>
+                    <td class="p-4">\(\frac{TP}{TP + FP}\)</td>
+                    <td class="p-4 text-slate-800 font-medium">If test is positive, how likely are you sick?</td>
+                  </tr>
+                  <tr class="hover:bg-slate-50">
+                    <td class="p-4 font-bold text-indigo-700">False Positive Rate</td>
+                    <td class="p-4">\(P(T|\neg D)\)</td>
+                    <td class="p-4">\(\frac{FP}{TN + FP} = 1 - \text{Spec}\)</td>
+                    <td class="p-4 text-slate-600">Probability of a "False Alarm".</td>
+                  </tr>
+                  <tr class="hover:bg-slate-50">
+                    <td class="p-4 font-bold text-indigo-700">Total Probability</td>
+                    <td class="p-4">\(P(T)\)</td>
+                    <td class="p-4">\(\frac{TP + FP}{\text{Total}}\)</td>
+                    <td class="p-4 text-slate-600">Total fraction of tests that came back positive.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          
+          <div class="bg-indigo-50 border-l-4 border-indigo-500 p-4 text-sm text-indigo-900">
+            <strong>Key Distinction:</strong> <strong>Recall</strong> (Sensitivity) asks "Did we find all the sick people?" while <strong>Precision</strong> (Posterior) asks "Is this positive result trustworthy?"
+          </div>
+        </section>
+      </div>
+
+      <!-- EXAM SOLUTION TAB -->
+      <div id="exam" class="tab-content fade-in space-y-10">
+        <section class="bg-white p-8 rounded-xl shadow-lg border border-slate-200">
+          <div class="flex items-start justify-between mb-6">
+            <div>
+              <h2 class="text-2xl font-bold text-slate-800">Advanced Problem 1: Cancer Study</h2>
+              <p class="text-slate-500 mt-1">Full walkthrough of the uploaded exam problem.</p>
+            </div>
+            <span class="bg-red-100 text-red-800 text-xs font-bold px-3 py-1 rounded-full uppercase">42 Points</span>
+          </div>
+
+          <!-- Problem Context -->
+          <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 mb-8">
+            <h3 class="font-bold text-slate-700 mb-2">The Setup</h3>
+            <ul class="list-disc list-inside space-y-2 text-slate-700">
+              <li>Total Subjects: \(n = 1,000\)</li>
+              <li>Diagnosed with Cancer (Actual Sick): <strong>2</strong></li>
+              <li>Cancer + Symptoms (True Positive): <strong>2</strong></li>
+              <li>No Cancer + Symptoms (False Positive): <strong>8</strong></li>
+            </ul>
+          </div>
+
+          <!-- The Confusion Matrix for this Problem -->
+          <div class="mb-8">
+             <h3 class="font-bold text-slate-800 mb-4">Step 0: Map to Matrix</h3>
+             <table class="w-full text-center border-collapse text-sm md:text-base">
+                <thead>
+                  <tr>
+                    <th class="p-2 border border-slate-200"></th>
+                    <th class="p-2 border border-slate-200 bg-slate-100">Symptoms (T)</th>
+                    <th class="p-2 border border-slate-200 bg-slate-100">No Symptoms (¬T)</th>
+                    <th class="p-2 border border-slate-200 bg-slate-200">Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="p-2 border border-slate-200 font-bold bg-slate-100">Cancer (D)</td>
+                    <td class="p-3 border border-slate-200 bg-green-100 text-green-900 font-bold">2 (TP)</td>
+                    <td class="p-3 border border-slate-200 text-slate-400">0 (FN)</td>
+                    <td class="p-3 border border-slate-200 font-bold">2</td>
+                  </tr>
+                  <tr>
+                    <td class="p-2 border border-slate-200 font-bold bg-slate-100">Healthy (¬D)</td>
+                    <td class="p-3 border border-slate-200 bg-red-100 text-red-900 font-bold">8 (FP)</td>
+                    <td class="p-3 border border-slate-200 text-slate-600">990 (TN)</td>
+                    <td class="p-3 border border-slate-200 font-bold">998</td>
+                  </tr>
+                  <tr>
+                    <td class="p-2 border border-slate-200 font-bold bg-slate-200">Total</td>
+                    <td class="p-3 border border-slate-200 font-bold text-blue-800">10</td>
+                    <td class="p-3 border border-slate-200">990</td>
+                    <td class="p-3 border border-slate-200 font-bold">1000</td>
+                  </tr>
+                </tbody>
+              </table>
+          </div>
+
+          <!-- Questions & Answers -->
+          <div class="space-y-6">
+            
+            <!-- a) -->
+            <div class="border-l-4 border-slate-400 pl-4">
+              <h4 class="font-bold text-slate-900">a) How many subjects did NOT have cancer?</h4>
+              <p class="text-slate-600 mt-1">Total subjects - Sick subjects = \(1000 - 2 = \mathbf{998}\).</p>
+            </div>
+
+            <!-- b) -->
+            <div class="border-l-4 border-indigo-500 pl-4">
+              <h4 class="font-bold text-indigo-900">b) Calculate Prevalence (Prior)</h4>
+              <p class="text-slate-600 mt-1">Prevalence is the probability of having the disease.</p>
+              <div class="bg-indigo-50 p-2 rounded mt-2 inline-block font-mono text-indigo-800">
+                $$P(D) = \frac{2}{1000} = 0.002$$
+              </div>
+            </div>
+
+            <!-- c) -->
+            <div class="border-l-4 border-emerald-500 pl-4">
+              <h4 class="font-bold text-emerald-900">c) Calculate Sensitivity (P(Symptoms|Cancer))</h4>
+              <p class="text-slate-600 mt-1">Of the 2 sick people, how many had symptoms? All of them.</p>
+              <div class="bg-emerald-50 p-2 rounded mt-2 inline-block font-mono text-emerald-800">
+                $$P(T|D) = \frac{TP}{TP+FN} = \frac{2}{2} = 1.0$$
+              </div>
+            </div>
+
+            <!-- d) -->
+            <div class="border-l-4 border-amber-500 pl-4">
+              <h4 class="font-bold text-amber-900">d) Show that P(Symptoms) = 1%</h4>
+              <p class="text-slate-600 mt-1">This is the <strong>Total Probability</strong> (the denominator). We sum True Positives and False Positives.</p>
+              <div class="bg-amber-50 p-3 rounded mt-2 text-amber-900">
+                $$P(T) = \frac{TP + FP}{\text{Total}} = \frac{2 + 8}{1000} = \frac{10}{1000} = 0.01$$
+                <div class="text-xs mt-2 text-slate-500">Also derived via formula: \( (0.002 \times 1.0) + (0.998 \times \frac{8}{998}) = 0.01 \)</div>
+              </div>
+            </div>
+
+            <!-- e) -->
+            <div class="border-l-4 border-purple-500 pl-4">
+              <h4 class="font-bold text-purple-900">e) Calculate Posterior P(Cancer|Symptoms)</h4>
+              <p class="text-slate-600 mt-1">This is <strong>Precision</strong>. Of the 10 people with symptoms, how many actually had cancer?</p>
+              <div class="bg-purple-50 p-3 rounded mt-2 font-bold text-purple-900 text-lg">
+                $$P(D|T) = \frac{TP}{TP + FP} = \frac{2}{10} = 0.2 \text{ (or 20\%)}$$
+              </div>
+              <p class="text-xs text-slate-500 mt-2">Note the drastic drop from 100% Sensitivity to 20% Precision due to the low prevalence and false positives.</p>
+            </div>
+
+          </div>
+        </section>
+      </div>
+
+      <!-- COOKBOOK TAB -->
+      <div id="cookbook" class="tab-content fade-in space-y-10">
+        <section class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+          <h2 class="text-2xl font-bold text-slate-800 mb-2"><i class="fa-solid fa-wrench mr-2 text-slate-700"></i>Python Implementation</h2>
+          <p class="text-sm text-slate-600 mb-6">Use this code to solve the exercise questions regarding the probability curve.</p>
+
+          <div class="space-y-6">
+            <div>
+              <h3 class="font-bold text-emerald-700 mb-2">Step 1 — The Bayes Function</h3>
+              <div class="bg-slate-900 text-slate-100 p-4 rounded-xl code text-sm overflow-x-auto"><pre>def calculate_posterior(p_d, sensitivity, specificity):
+    """
+    Returns P(D|T) given Prior P(D), Sensitivity, and Specificity.
+    """
+    # Numerator: True Positives
+    true_pos = p_d * sensitivity
+    
+    # Denominator: Total Positives (TP + FP)
+    # FP rate is (1 - specificity)
+    false_pos = (1 - p_d) * (1 - specificity)
+    p_t = true_pos + false_pos
+    
+    return true_pos / p_t</pre></div>
+            </div>
+
+            <div>
+              <h3 class="font-bold text-sky-700 mb-2">Step 2 — Plotting Posterior vs. Prior</h3>
+              <p class="text-xs text-slate-500 mb-2">Generates the graph required in Exercise 2b.</p>
+              <div class="bg-slate-900 text-slate-100 p-4 rounded-xl code text-sm overflow-x-auto"><pre>import numpy as np
+import matplotlib.pyplot as plt
+
+# 1. Define Test Properties (Fixed)
+sens = 0.95  # 95% Sensitivity
+spec = 0.99  # 99% Specificity
+
+# 2. Define Range of Priors (0% to 100%)
+# Use logspace if you want to emphasize rare diseases
+priors = np.linspace(0.001, 1.0, 100)
+
+# 3. Calculate Posteriors
+posteriors = [calculate_posterior(p, sens, spec) for p in priors]
+
+# 4. Plot
+plt.figure(figsize=(8, 5))
+plt.plot(priors, posteriors, label=f"Sens={sens}, Spec={spec}", linewidth=2)
+plt.plot([0,1], [0,1], 'k--', alpha=0.3, label="No Information Line")
+plt.xlabel("Prior Probability P(D)")
+plt.ylabel("Posterior Probability P(D|T)")
+plt.title("Impact of Disease Prevalence on Diagnosis Confidence")
+plt.grid(True, alpha=0.3)
+plt.legend()
+plt.show()</pre></div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- QUIZ TAB -->
+      <div id="quiz" class="tab-content fade-in">
+        <div class="max-w-3xl mx-auto space-y-8">
+
+          <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 text-yellow-800 text-sm">
+            <i class="fa-solid fa-circle-info mr-2"></i>
+            Expanded Quiz (10 Questions): Covers exam mechanics, definitions, and specific calculations.
+          </div>
+
+          <form id="grand-quiz" onsubmit="return submitQuiz(event)">
+
+            <!-- Q1 -->
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+              <h3 class="font-bold text-lg text-slate-800 mb-4">1) What is \(P(D)\) called?</h3>
+              <div class="space-y-3">
+                <label class="flex items-center p-3 border rounded cursor-pointer hover:bg-slate-50 transition">
+                  <input type="radio" name="q1" value="correct" class="w-5 h-5 accent-emerald-600">
+                  <span class="ml-3 text-sm font-medium">Prior Probability (Prevalence)</span>
+                </label>
+                <label class="flex items-center p-3 border rounded cursor-pointer hover:bg-slate-50 transition">
+                  <input type="radio" name="q1" value="wrong" class="w-5 h-5 accent-emerald-600">
+                  <span class="ml-3 text-sm font-medium">Likelihood</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Q2 -->
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+              <h3 class="font-bold text-lg text-slate-800 mb-4">2) How do you calculate Recall (Sensitivity)?</h3>
+              <div class="space-y-3">
+                <label class="flex items-center p-3 border rounded cursor-pointer hover:bg-slate-50 transition">
+                  <input type="radio" name="q2" value="wrong" class="w-5 h-5 accent-indigo-600">
+                  <span class="ml-3 text-sm font-medium">\(TP / (TP + FP)\)</span>
+                </label>
+                <label class="flex items-center p-3 border rounded cursor-pointer hover:bg-slate-50 transition">
+                  <input type="radio" name="q2" value="correct" class="w-5 h-5 accent-indigo-600">
+                  <span class="ml-3 text-sm font-medium">\(TP / (TP + FN)\)</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Q3 -->
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+              <h3 class="font-bold text-lg text-slate-800 mb-4">3) False Positive Rate formula</h3>
+              <p class="text-slate-600 mb-4">If Specificity is 99%, what is the FPR?</p>
+              <div class="space-y-3">
+                <label class="flex items-center p-3 border rounded cursor-pointer hover:bg-slate-50 transition">
+                  <input type="radio" name="q3" value="wrong" class="w-5 h-5 accent-amber-600">
+                  <span class="ml-3 text-sm font-medium">99%</span>
+                </label>
+                <label class="flex items-center p-3 border rounded cursor-pointer hover:bg-slate-50 transition">
+                  <input type="radio" name="q3" value="correct" class="w-5 h-5 accent-amber-600">
+                  <span class="ml-3 text-sm font-medium">1%</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Q4 -->
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+              <h3 class="font-bold text-lg text-slate-800 mb-4">4) Rare Disease Paradox</h3>
+              <div class="space-y-3">
+                <label class="flex items-center p-3 border rounded cursor-pointer hover:bg-slate-50 transition">
+                  <input type="radio" name="q4" value="correct" class="w-5 h-5 accent-sky-600">
+                  <span class="ml-3 text-sm font-medium">False Positives from the healthy majority overwhelm True Positives.</span>
+                </label>
+                <label class="flex items-center p-3 border rounded cursor-pointer hover:bg-slate-50 transition">
+                  <input type="radio" name="q4" value="wrong" class="w-5 h-5 accent-sky-600">
+                  <span class="ml-3 text-sm font-medium">Sensitivity decreases when prevalence is low.</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Q5 -->
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+              <h3 class="font-bold text-lg text-slate-800 mb-4">5) Precision vs Recall</h3>
+              <p class="text-slate-600 mb-4">Which metric answers: "Of all the positive predictions I made, how many were correct?"</p>
+              <div class="space-y-3">
+                <label class="flex items-center p-3 border rounded cursor-pointer hover:bg-slate-50 transition">
+                  <input type="radio" name="q5" value="correct" class="w-5 h-5 accent-purple-600">
+                  <span class="ml-3 text-sm font-medium">Precision</span>
+                </label>
+                <label class="flex items-center p-3 border rounded cursor-pointer hover:bg-slate-50 transition">
+                  <input type="radio" name="q5" value="wrong" class="w-5 h-5 accent-purple-600">
+                  <span class="ml-3 text-sm font-medium">Recall</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Q6 -->
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+              <h3 class="font-bold text-lg text-slate-800 mb-4">6) Specificity Definition</h3>
+              <div class="space-y-3">
+                <label class="flex items-center p-3 border rounded cursor-pointer hover:bg-slate-50 transition">
+                  <input type="radio" name="q6" value="correct" class="w-5 h-5 accent-pink-600">
+                  <span class="ml-3 text-sm font-medium">\(TN / (TN + FP)\)</span>
+                </label>
+                <label class="flex items-center p-3 border rounded cursor-pointer hover:bg-slate-50 transition">
+                  <input type="radio" name="q6" value="wrong" class="w-5 h-5 accent-pink-600">
+                  <span class="ml-3 text-sm font-medium">\(TP / (TP + FN)\)</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Q7 -->
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+              <h3 class="font-bold text-lg text-slate-800 mb-4">7) Exam Check: Prevalence</h3>
+              <p class="text-slate-600 mb-4">In the exam problem (2 sick, 998 healthy), what was the prevalence?</p>
+              <div class="space-y-3">
+                <label class="flex items-center p-3 border rounded cursor-pointer hover:bg-slate-50 transition">
+                  <input type="radio" name="q7" value="correct" class="w-5 h-5 accent-emerald-600">
+                  <span class="ml-3 text-sm font-medium">0.2% (0.002)</span>
+                </label>
+                <label class="flex items-center p-3 border rounded cursor-pointer hover:bg-slate-50 transition">
+                  <input type="radio" name="q7" value="wrong" class="w-5 h-5 accent-emerald-600">
+                  <span class="ml-3 text-sm font-medium">2% (0.02)</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Q8 -->
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+              <h3 class="font-bold text-lg text-slate-800 mb-4">8) Exam Check: Precision</h3>
+              <p class="text-slate-600 mb-4">In the exam problem (2 TP, 8 FP), what was the Precision?</p>
+              <div class="space-y-3">
+                <label class="flex items-center p-3 border rounded cursor-pointer hover:bg-slate-50 transition">
+                  <input type="radio" name="q8" value="wrong" class="w-5 h-5 accent-indigo-600">
+                  <span class="ml-3 text-sm font-medium">100%</span>
+                </label>
+                <label class="flex items-center p-3 border rounded cursor-pointer hover:bg-slate-50 transition">
+                  <input type="radio" name="q8" value="correct" class="w-5 h-5 accent-indigo-600">
+                  <span class="ml-3 text-sm font-medium">20% (2/10)</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Q9 -->
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+              <h3 class="font-bold text-lg text-slate-800 mb-4">9) Total Probability P(T)</h3>
+              <p class="text-slate-600 mb-4">What does the denominator \(P(T)\) represent?</p>
+              <div class="space-y-3">
+                <label class="flex items-center p-3 border rounded cursor-pointer hover:bg-slate-50 transition">
+                  <input type="radio" name="q9" value="correct" class="w-5 h-5 accent-amber-600">
+                  <span class="ml-3 text-sm font-medium">Sum of True Positives + False Positives (weighted).</span>
+                </label>
+                <label class="flex items-center p-3 border rounded cursor-pointer hover:bg-slate-50 transition">
+                  <input type="radio" name="q9" value="wrong" class="w-5 h-5 accent-amber-600">
+                  <span class="ml-3 text-sm font-medium">Sum of Prior + Likelihood.</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Q10 -->
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+              <h3 class="font-bold text-lg text-slate-800 mb-4">10) Bayes Logic</h3>
+              <p class="text-slate-600 mb-4">If \(P(D|T) > P(D)\), what does that imply?</p>
+              <div class="space-y-3">
+                <label class="flex items-center p-3 border rounded cursor-pointer hover:bg-slate-50 transition">
+                  <input type="radio" name="q10" value="correct" class="w-5 h-5 accent-sky-600">
+                  <span class="ml-3 text-sm font-medium">The test result increased our belief that the patient is sick compared to the baseline.</span>
+                </label>
+                <label class="flex items-center p-3 border rounded cursor-pointer hover:bg-slate-50 transition">
+                  <input type="radio" name="q10" value="wrong" class="w-5 h-5 accent-sky-600">
+                  <span class="ml-3 text-sm font-medium">The test is broken.</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="text-center pt-6">
+              <button type="submit" class="bg-slate-900 text-white font-bold py-4 px-10 rounded-full shadow-lg hover:bg-slate-700 hover:scale-105 transition transform">
+                Check My Answers
+              </button>
+            </div>
+
+          </form>
+
+          <!-- Results -->
+          <div id="result-area" class="hidden text-center p-8 bg-white border border-slate-200 rounded-xl shadow-lg fade-in">
+            <div id="score-icon" class="text-5xl mb-4"></div>
+            <h2 class="text-3xl font-bold text-slate-800 mb-2">Quiz Complete</h2>
+            <p id="score-text" class="text-xl text-slate-600 font-medium"></p>
+            <p id="feedback-text" class="text-sm text-slate-500 mt-2"></p>
+            <button onclick="location.reload()" class="mt-6 text-blue-600 hover:text-blue-800 font-bold underline">Try Again</button>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    function setBtnState(active){
+      const buttons = ['summary', 'exam', 'cookbook', 'quiz'];
+      
+      buttons.forEach(id => {
+        const btn = document.getElementById('btn-' + id);
+        let baseClass = "flex-1 min-w-[140px] py-4 text-center font-bold border-b-4 transition-colors whitespace-nowrap";
+        
+        if(id === active) {
+           if(id === 'summary') baseClass += " text-slate-900 border-yellow-500 bg-yellow-50";
+           else if(id === 'exam') baseClass += " text-slate-900 border-red-500 bg-red-50";
+           else if(id === 'cookbook') baseClass += " text-slate-900 border-slate-900 bg-slate-50";
+           else baseClass += " text-slate-900 border-indigo-600 bg-indigo-50";
+        } else {
+           baseClass += " text-slate-500 border-transparent hover:bg-slate-50 hover:text-slate-600";
+        }
+        btn.className = baseClass;
+      });
+    }
+
+    function switchTab(tabId){
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+      setBtnState(tabId);
+    }
+
+    function submitQuiz(e){
+      e.preventDefault();
+      const form = e.target;
+      const total = 10;
+      let score = 0;
+
+      const answers = ['q1','q2','q3','q4','q5','q6','q7','q8','q9','q10'];
+      for(const q of answers){
+        const val = (form[q] && form[q].value) ? form[q].value : null;
+        if(val === 'correct') score++;
+      }
+
+      const resultArea = document.getElementById('result-area');
+      const scoreText = document.getElementById('score-text');
+      const icon = document.getElementById('score-icon');
+      const feedback = document.getElementById('feedback-text');
+
+      form.classList.add('hidden');
+      resultArea.classList.remove('hidden');
+
+      scoreText.innerText = `You scored ${score} out of ${total}`;
+
+      if(score === total){
+        icon.innerHTML = '<i class="fa-solid fa-trophy text-yellow-500 animate-bounce"></i>';
+        feedback.innerText = "Perfect! You have mastered Bayes' Theorem.";
+        resultArea.classList.add('border-emerald-300');
+      } else if(score >= 7){
+        icon.innerHTML = '<i class="fa-solid fa-thumbs-up text-indigo-600"></i>';
+        feedback.innerText = "Solid pass. You are ready for the exam.";
+      } else {
+        icon.innerHTML = '<i class="fa-solid fa-book-open text-red-400"></i>';
+        feedback.innerText = "Review the Formula Cheat Sheet and Exam Solution carefully.";
+      }
+      return false;
+    }
+  </script>
+</body>
+</html>

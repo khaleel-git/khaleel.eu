@@ -16,7 +16,6 @@
 </head>
 <body class="bg-gray-50 text-gray-800 h-screen flex flex-col md:flex-row overflow-hidden">
 
-    <!-- Sidebar Navigation -->
     <aside class="w-full md:w-64 bg-indigo-900 text-white flex-shrink-0 flex flex-col shadow-lg z-20">
         <div class="p-6 border-b border-indigo-800 flex items-center gap-3">
             <i class="fa-solid fa-plane-departure text-2xl text-indigo-300"></i>
@@ -44,6 +43,11 @@
                         <i class="fa-solid fa-4 w-5"></i> Exercise 4
                     </button>
                 </li>
+                <li>
+                    <button onclick="switchTab('ex5')" class="nav-btn w-full text-left px-6 py-3 hover:bg-indigo-800 transition-colors flex items-center gap-3 border-l-4 border-transparent text-indigo-100" id="btn-ex5">
+                        <i class="fa-solid fa-5 w-5"></i> Exercise 5
+                    </button>
+                </li>
             </ul>
         </nav>
         <div class="p-4 border-t border-indigo-800 text-xs text-indigo-300 text-center">
@@ -51,164 +55,77 @@
         </div>
     </aside>
 
-    <!-- Main Content -->
     <main class="flex-1 overflow-y-auto p-4 md:p-8 relative">
 
-        <!-- Home Section -->
         <div id="home" class="tab-content active fade-in max-w-4xl mx-auto">
             <header class="mb-8 text-center">
                 <h2 class="text-3xl font-bold text-gray-900 mb-2">Welcome to Interpretation Challenges</h2>
                 <p class="text-gray-600">Flight Delay Reduction Analysis & Modeling</p>
             </header>
 
-            <div class="flex flex-col items-center gap-6">
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow cursor-pointer w-full md:w-2/3 lg:w-1/2"
-                     onclick="switchTab('ex1-2')">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 justify-items-center">
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow cursor-pointer w-full" onclick="switchTab('ex1-2')">
                     <div class="h-12 w-12 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center mb-4 text-xl">
                         <i class="fa-solid fa-database"></i>
                     </div>
                     <h3 class="text-xl font-semibold mb-2">Exercises 1 & 2</h3>
-                    <p class="text-gray-500 text-sm mb-4">
-                        Data preparation, regression assumptions, and statistical testing.
-                    </p>
-                    <span class="text-blue-600 font-medium text-sm flex items-center gap-1">
-                        Start <i class="fa-solid fa-arrow-right"></i>
-                    </span>
+                    <p class="text-gray-500 text-sm mb-4">Data preparation, regression assumptions, and statistical testing.</p>
+                    <span class="text-blue-600 font-medium text-sm flex items-center gap-1">Start <i class="fa-solid fa-arrow-right"></i></span>
                 </div>
 
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow cursor-pointer w-full md:w-2/3 lg:w-1/2"
-                     onclick="switchTab('ex3')">
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow cursor-pointer w-full" onclick="switchTab('ex3')">
                     <div class="h-12 w-12 bg-purple-100 text-purple-600 rounded-lg flex items-center justify-center mb-4 text-xl">
                         <i class="fa-solid fa-chart-line"></i>
                     </div>
                     <h3 class="text-xl font-semibold mb-2">Exercise 3</h3>
-                    <p class="text-gray-500 text-sm mb-4">
-                        Explainable machine learning and interpretation of predictions.
-                    </p>
-                    <span class="text-purple-600 font-medium text-sm flex items-center gap-1">
-                        Start <i class="fa-solid fa-arrow-right"></i>
-                    </span>
+                    <p class="text-gray-500 text-sm mb-4">Explainable machine learning and interpretation of predictions.</p>
+                    <span class="text-purple-600 font-medium text-sm flex items-center gap-1">Start <i class="fa-solid fa-arrow-right"></i></span>
                 </div>
 
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow cursor-pointer w-full md:w-2/3 lg:w-1/2"
-                     onclick="switchTab('ex4')">
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow cursor-pointer w-full" onclick="switchTab('ex4')">
                     <div class="h-12 w-12 bg-amber-100 text-amber-700 rounded-lg flex items-center justify-center mb-4 text-xl">
                         <i class="fa-solid fa-clock-rotate-left"></i>
                     </div>
                     <h3 class="text-xl font-semibold mb-2">Exercise 4</h3>
-                    <p class="text-gray-500 text-sm mb-4">
-                        Time series: normalization, EBM feature importance, seasonality/trend, surrogate tree (2 classes).
-                    </p>
-                    <span class="text-amber-700 font-medium text-sm flex items-center gap-1">
-                        Start <i class="fa-solid fa-arrow-right"></i>
-                    </span>
+                    <p class="text-gray-500 text-sm mb-4">Time series: normalization, EBM, seasonality/trend, and surrogate trees.</p>
+                    <span class="text-amber-700 font-medium text-sm flex items-center gap-1">Start <i class="fa-solid fa-arrow-right"></i></span>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow cursor-pointer w-full" onclick="switchTab('ex5')">
+                    <div class="h-12 w-12 bg-emerald-100 text-emerald-700 rounded-lg flex items-center justify-center mb-4 text-xl">
+                        <i class="fa-solid fa-microchip"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Exercise 5</h3>
+                    <p class="text-gray-500 text-sm mb-4">Advanced Model Interpretation & Global/Local Explanations.</p>
+                    <span class="text-emerald-700 font-medium text-sm flex items-center gap-1">Start <i class="fa-solid fa-arrow-right"></i></span>
                 </div>
             </div>
         </div>
 
-        <!-- Exercise 1 & 2 Section -->
-        <div id="ex1-2" class="tab-content fade-in max-w-5xl mx-auto">
+        <div id="ex5" class="tab-content fade-in max-w-5xl mx-auto">
             <header class="mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h2 class="text-3xl font-bold text-gray-900">Exercises 1 & 2</h2>
-                    <p class="text-gray-500">Data Prep & Regression Analysis</p>
+                    <h2 class="text-3xl font-bold text-gray-900">Exercise 5</h2>
+                    <p class="text-gray-500">Advanced Interpretation Techniques</p>
                 </div>
-                <div class="flex gap-2">
-                    <button onclick="scrollToSection('ex1-content')" class="px-4 py-2 bg-white border border-gray-200 rounded-lg text-sm font-medium hover:bg-gray-50">
-                        <i class="fa-solid fa-book-open mr-1"></i> Study
-                    </button>
-
-                    <a href="https://khaleel.eu/BTU/Explainable/GrandQuiz_EX_1_2.html" target="_blank"
-                       class="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 shadow-sm flex items-center">
-                        <i class="fa-solid fa-question-circle mr-1"></i> Quiz
-                    </a>
-
-                    <a href="https://khaleel.eu/BTU/Explainable/Summary_EX_1_2.html" target="_blank"
-                       class="px-4 py-2 bg-green-600 text-white rounded-lg text-sm font-medium hover:bg-green-700 shadow-sm flex items-center">
-                        <i class="fa-solid fa-list-check mr-1"></i> Summary
-                    </a>
-                </div>
-            </header>
-
-            <div id="ex1-content" class="space-y-6">
-                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-                    <div class="p-6 border-b border-gray-100 bg-gray-50">
-                        <h3 class="font-bold text-lg text-gray-800">Part 1: Understanding the Problem</h3>
-                    </div>
-                    <div class="p-6 space-y-4 text-sm text-gray-600">
-                        <p><strong>Regression</strong> predicts continuous outcomes such as delay minutes.</p>
-                        <p><strong>Classification</strong> predicts discrete categories such as delayed vs on-time.</p>
-                        <p>
-                            The target variable is <code>ARR_DELAY</code> because arrival delays directly impact costs and passengers.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Exercise 3 Section -->
-        <div id="ex3" class="tab-content fade-in max-w-5xl mx-auto">
-            <header class="mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <div>
-                    <h2 class="text-3xl font-bold text-gray-900">Exercise 3</h2>
-                    <p class="text-gray-500">Explainable Machine Learning</p>
-                </div>
-                <a href="https://khaleel.eu/BTU/Explainable/EX_3.html" target="_blank"
-                   class="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 shadow-sm flex items-center">
+                <a href="EX_5.html" target="_blank"
+                   class="px-4 py-2 bg-emerald-600 text-white rounded-lg text-sm font-medium hover:bg-emerald-700 shadow-sm flex items-center">
                     <i class="fa-solid fa-book-open mr-1"></i> Study
                 </a>
             </header>
 
             <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
                 <div class="p-6 border-b border-gray-100 bg-gray-50">
-                    <h3 class="font-bold text-lg text-gray-800">
-                        Model Interpretation & Explainability
-                    </h3>
+                    <h3 class="font-bold text-lg text-gray-800">New Challenges & Methodologies</h3>
                 </div>
                 <div class="p-6 text-sm text-gray-600 space-y-3">
                     <ul class="list-disc list-inside space-y-2">
-                        <li>Why explainability is critical beyond accuracy.</li>
-                        <li>Feature importance and contribution analysis.</li>
-                        <li>Global vs local explanations.</li>
-                        <li>Model trust, bias, and limitations.</li>
+                        <li>Deep dive into SHAP and LIME applications.</li>
+                        <li>Robustness testing for explainability tools.</li>
+                        <li>Advanced feature engineering for better transparency.</li>
                     </ul>
-                    <div class="mt-4 p-4 bg-indigo-50 border border-indigo-100 rounded-lg">
-                        Use the <strong>Study</strong> button above to access the full interactive exercise.
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Exercise 4 Section -->
-        <div id="ex4" class="tab-content fade-in max-w-5xl mx-auto">
-            <header class="mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <div>
-                    <h2 class="text-3xl font-bold text-gray-900">Exercise 4</h2>
-                    <p class="text-gray-500">Time Series + EBM + Surrogate Tree</p>
-                </div>
-                <!-- IMPORTANT: local file name requested by you -->
-                <a href="EX_4.html" target="_blank"
-                   class="px-4 py-2 bg-amber-600 text-white rounded-lg text-sm font-medium hover:bg-amber-700 shadow-sm flex items-center">
-                    <i class="fa-solid fa-book-open mr-1"></i> Study
-                </a>
-            </header>
-
-            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-                <div class="p-6 border-b border-gray-100 bg-gray-50">
-                    <h3 class="font-bold text-lg text-gray-800">
-                        Normalization · EBM Explanations · Seasonality/Trend · Surrogate Tree
-                    </h3>
-                </div>
-                <div class="p-6 text-sm text-gray-600 space-y-3">
-                    <ul class="list-disc list-inside space-y-2">
-                        <li><strong>Normalize</strong> numeric features with train-only fit (avoid leakage).</li>
-                        <li><strong>Time series vs tabular/images:</strong> order and dependency matter (no shuffle).</li>
-                        <li><strong>EBM:</strong> global and local explanations using <code>explain_global()</code>.</li>
-                        <li><strong>Decomposition:</strong> trend + seasonality + residual.</li>
-                        <li><strong>Surrogate decision tree:</strong> 2 classes (low/high) with readable rules.</li>
-                    </ul>
-                    <div class="mt-4 p-4 bg-amber-50 border border-amber-100 rounded-lg">
-                        Use the <strong>Study</strong> button above to open <code>EX_4.html</code>.
+                    <div class="mt-4 p-4 bg-emerald-50 border border-emerald-100 rounded-lg">
+                        Click the <strong>Study</strong> button to access the interactive <code>EX_5.html</code>.
                     </div>
                 </div>
             </div>
