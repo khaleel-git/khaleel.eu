@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neurosignal Analysis: Comprehensive Quiz (Chapters 1 & 2)</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --accent: #3498db;
+            --success: #27ae60;
+            --error: #c0392b;
+            --light: #ecf0f1;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f7f6;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #ddd;
+        }
+        h1 { color: var(--primary); }
+        .quiz-container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .question-card {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        .question-text {
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+        .options-grid {
+            display: grid;
+            gap: 10px;
+        }
+        .option-btn {
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            background: white;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.2s;
+            font-size: 0.95em;
+        }
+        .option-btn:hover:not(:disabled) {
+            border-color: var(--accent);
+            background-color: #f0f8ff;
+        }
+        .option-btn.correct {
+            border-color: var(--success);
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .option-btn.incorrect {
+            border-color: var(--error);
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .feedback {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            display: none;
+        }
+        .feedback.show { display: block; }
+        .citation {
+            font-size: 0.8em;
+            color: #666;
+            font-style: italic;
+            margin-top: 5px;
+            display: block;
+        }
+        #score-display {
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-top: 20px;
+            padding: 15px;
+            background: var(--primary);
+            color: white;
+            border-radius: 6px;
+            display: none;
+        }
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        button.nav-btn {
+            padding: 10px 20px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button.nav-btn:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Neurosignal Analysis Prep</h1>
+    <p>Chapters 1 & 2: Physiology, Action Potentials, and EEG Origins</p>
+</header>
+
+<div class="quiz-container">
+    <div id="quiz-content">
+        </div>
+    <div class="controls">
+        <button id="reset-btn" class="nav-btn" onclick="resetQuiz()">Reset Quiz</button>
+        <span id="progress"></span>
+    </div>
+    <div id="score-display"></div>
+</div>
+
+<script>
+    const quizData = [
+        // --- CHAPTER 1: NEURON ANATOMY & GLIA ---
+        {
+            question: "Which cell type in the nervous system is primarily responsible for electrical signaling over long distances?",
+            options: [
+                "Glial cells",
+                "Neurons",
+                "Mitochondria",
+                "Stem cells"
+            ],
+            correct: 1,
+            rationale: "Neurons are responsible for electrical signaling over long distances, whereas glial cells support signaling, repair damage, and act as stem cells.",
+            [cite_start]citation: "Chapter 1 [cite: 407-415]"
+        },
+        {
+            question: "Which part of the neuron functions like a 'radio antenna' to receive signals from neighboring neurons?",
+            options: [
+                "Axon",
+                "Soma",
+                "Dendrites",
+                "Axon Terminal"
+            ],
+            correct: 2,
+            rationale: "Dendrites receive signals from neighboring neurons, acting like a radio antenna.",
+            [cite_start]citation: "Chapter 1 [cite: 406]"
+        },
+        // --- CHAPTER 1: MEMBRANE POTENTIALS ---
+        {
+            question: "What is the approximate resting membrane potential of a typical neuron?",
+            options: [
+                "-40 mV",
+                "0 mV",
+                "-65 mV",
+                "-80 mV"
+            ],
+            correct: 2,
+            rationale: "The measured resting membrane potential of a typical neuron is about -65 mV.",
+            [cite_start]citation: "Chapter 1 [cite: 711]"
+        },
+        {
+            question: "The resting membrane is most permeable to which ion?",
+            options: [
+                "Sodium (Na+)",
+                "Potassium (K+)",
+                "Calcium (Ca2+)",
+                "Chloride (Cl-)"
+            ],
+            correct: 1,
+            rationale: "The resting membrane ion permeability to K+ is 40 times greater than it is to Na+.",
+            [cite_start]citation: "Chapter 1 [cite: 714]"
+        },
+        {
+            question: "Which equation is used to calculate the equilibrium potential for a SINGLE ion (e.g., E_Na)?",
+            options: [
+                "Goldman Equation",
+                "Nernst Equation",
+                "Ohm's Law",
+                "Nyquist Theorem"
+            ],
+            correct: 1,
+            rationale: "The Nernst equation calculates the ionic equilibrium potential (E_ion) for a single ion type.",
+            [cite_start]citation: "Chapter 1 [cite: 654-655]"
+        },
+        {
+            question: "According to the provided table, what is the equilibrium potential for Calcium (Ca2+)?",
+            options: [
+                "62 mV",
+                "-80 mV",
+                "123 mV",
+                "-65 mV"
+            ],
+            correct: 2,
+            rationale: "The equilibrium potential for Ca2+ is listed as 123 mV.",
+            [cite_start]citation: "Chapter 1 [cite: 689]"
+        },
+        // --- CHAPTER 1: ACTION POTENTIALS ---
+        {
+            question: "During the 'Rising Phase' of an action potential, which ion rushes INTO the cell?",
+            options: [
+                "Potassium (K+)",
+                "Sodium (Na+)",
+                "Chloride (Cl-)",
+                "Proteins (A-)"
+            ],
+            correct: 1,
+            rationale: "During the rising phase, Na+ rushes into the cell through open sodium channels, causing rapid depolarization.",
+            [cite_start]citation: "Chapter 1 [cite: 900-901]"
+        },
+        {
+            question: "What causes the 'Undershoot' (hyperpolarization) at the end of an action potential?",
+            options: [
+                "Sodium channels staying open too long",
+                "Voltage-gated Potassium channels remaining open",
+                "Influx of Chloride ions",
+                "The sodium-potassium pump shutting down"
+            ],
+            correct: 1,
+            rationale: "The voltage-gated potassium channels remain open long enough for the potential to undershoot the resting value.",
+            [cite_start]citation: "Chapter 1 [cite: 851, 924]"
+        },
+        {
+            question: "What is the 'Absolute Refractory Period'?",
+            options: [
+                "When the neuron is hyperpolarized and needs a stronger stimulus",
+                "When Sodium channels are inactivated and no new AP can be generated",
+                "When the neuron is at resting potential",
+                "The time delay at a chemical synapse"
+            ],
+            correct: 1,
+            rationale: "During the absolute refractory period, sodium channels are inactivated and cannot be activated again until the membrane repolarizes.",
+            [cite_start]citation: "Chapter 1 [cite: 945]"
+        },
+        {
+            question: "What is 'Saltatory Conduction'?",
+            options: [
+                "The flow of current through gap junctions",
+                "The continuous flow of ions along an unmyelinated axon",
+                "Current jumping between Nodes of Ranvier in myelinated axons",
+                "The release of neurotransmitters at the synapse"
+            ],
+            correct: 2,
+            rationale: "In myelinated axons, current flows by jumping from one node to the next (Nodes of Ranvier), speeding up conduction.",
+            [cite_start]citation: "Chapter 1 [cite: 1092-1095]"
+        },
+        {
+            question: "Where is the 'Spike-initiation zone' (where APs typically start) in a cortical pyramidal neuron?",
+            options: [
+                "The dendritic spine",
+                "The soma",
+                "The axon hillock",
+                "The axon terminal"
+            ],
+            correct: 2,
+            rationale: "In CNS neurons, the spike-initiation zone is the axon hillock, where the axon originates from the soma.",
+            [cite_start]citation: "Chapter 1 [cite: 1107]"
+        },
+        // --- CHAPTER 1: SYNAPTIC TRANSMISSION ---
+        {
+            question: "Which type of synapse allows for direct, bidirectional transfer of ionic current?",
+            options: [
+                "Chemical Synapse",
+                "Electrical Synapse (Gap Junction)",
+                "Neuromuscular Junction",
+                "Glial Synapse"
+            ],
+            correct: 1,
+            rationale: "Electrical synapses (gap junctions) allow ions to pass directly and are bidirectional.",
+            [cite_start]citation: "Chapter 1 [cite: 1148, 1180]"
+        },
+        {
+            question: "An Excitatory Postsynaptic Potential (EPSP) is typically caused by the influx of which ion?",
+            options: [
+                "Potassium (K+)",
+                "Chloride (Cl-)",
+                "Sodium (Na+)",
+                "Proteins"
+            ],
+            correct: 2,
+            rationale: "If Na+ enters the postsynaptic cell through transmitter-gated channels, it causes depolarization (EPSP).",
+            [cite_start]citation: "Chapter 1 [cite: 1273]"
+        },
+        {
+            question: "An Inhibitory Postsynaptic Potential (IPSP) is typically caused by the influx of which ion?",
+            options: [
+                "Sodium (Na+)",
+                "Calcium (Ca2+)",
+                "Chloride (Cl-)",
+                "Potassium (K+)"
+            ],
+            correct: 2,
+            rationale: "If Cl- enters the postsynaptic cell, the membrane becomes hyperpolarized (IPSP).",
+            [cite_start]citation: "Chapter 1 [cite: 1304]"
+        },
+        {
+            question: "What is 'Temporal Summation'?",
+            options: [
+                "Adding signals from many different synapses at once",
+                "Adding signals from the same fiber firing in quick succession",
+                "Subtracting IPSPs from EPSPs",
+                "The delay between pre- and post-synaptic firing"
+            ],
+            correct: 1,
+            rationale: "Temporal summation occurs when the *same* presynaptic fiber fires action potentials in quick succession.",
+            [cite_start]citation: "Chapter 1 [cite: 1386]"
+        },
+        // --- CHAPTER 2: BRAIN ANATOMY ---
+        {
+            question: "Which cortical lobe is primarily responsible for voluntary movement?",
+            options: [
+                "Parietal Lobe",
+                "Occipital Lobe",
+                "Temporal Lobe",
+                "Frontal Lobe"
+            ],
+            correct: 3,
+            rationale: "The Frontal lobe (specifically the precentral gyrus) controls voluntary movement.",
+            [cite_start]citation: "Chapter 2 [cite: 58, 80-83]"
+        },
+        {
+            question: "Which cortical lobe contains the primary somatosensory cortex (touch)?",
+            options: [
+                "Frontal Lobe",
+                "Parietal Lobe",
+                "Temporal Lobe",
+                "Occipital Lobe"
+            ],
+            correct: 1,
+            rationale: "The Parietal lobe (postcentral gyrus) involves somatic sensation.",
+            [cite_start]citation: "Chapter 2 [cite: 58, 118-120]"
+        },
+        {
+            question: "Which cortical lobe is responsible for vision?",
+            options: [
+                "Frontal Lobe",
+                "Parietal Lobe",
+                "Occipital Lobe",
+                "Temporal Lobe"
+            ],
+            correct: 2,
+            rationale: "The Occipital lobe lies at the back of the cerebrum and contains the primary visual cortex.",
+            [cite_start]citation: "Chapter 2 [cite: 69, 135-137]"
+        },
+        // --- CHAPTER 2: ORIGIN OF EEG ---
+        {
+            question: "What is the primary cellular source of the EEG signal recorded on the scalp?",
+            options: [
+                "Action potentials in axons",
+                "Summed synaptic activity (PSPs) in pyramidal dendrites",
+                "Metabolic activity in glial cells",
+                "Blood flow changes"
+            ],
+            correct: 1,
+            rationale: "EEG mainly records extracellular currents from synaptic activity (PSPs) in the dendrites of pyramidal neurons.",
+            [cite_start]citation: "Chapter 2 [cite: 243, 246]"
+        },
+        {
+            question: "Which orientation of neural dipoles contributes most strongly to the scalp EEG?",
+            options: [
+                "Tangential dipoles (in sulci)",
+                "Radial dipoles (on gyri)",
+                "Randomly oriented dipoles",
+                "Horizontal dipoles"
+            ],
+            correct: 1,
+            rationale: "Radial dipoles contribute the strongest signal. Tangential dipoles on opposing sides of a sulcus tend to cancel each other.",
+            [cite_start]citation: "Chapter 2 [cite: 285-286]"
+        },
+        {
+            question: "Why is EEG considered advantageous compared to some other methods?",
+            options: [
+                "It has the highest spatial resolution",
+                "It measures deep brain structures better than MRI",
+                "It has high temporal resolution (speed of cognition)",
+                "It requires radiation exposure"
+            ],
+            correct: 2,
+            rationale: "EEG has high temporal resolution that matches the speed of cognition.",
+            [cite_start]citation: "Chapter 2 [cite: 354]"
+        }
+    ];
+
+    let userAnswers = new Array(quizData.length).fill(null);
+
+    function initQuiz() {
+        const quizContainer = document.getElementById('quiz-content');
+        quizContainer.innerHTML = '';
+
+        quizData.forEach((item, index) => {
+            const questionDiv = document.createElement('div');
+            questionDiv.className = 'question-card';
+            
+            let optionsHtml = '';
+            item.options.forEach((opt, optIndex) => {
+                optionsHtml += `<button class="option-btn" onclick="selectOption(${index}, ${optIndex}, this)">${opt}</button>`;
+            });
+
+            questionDiv.innerHTML = `
+                <div class="question-text">${index + 1}. ${item.question}</div>
+                <div class="options-grid" id="options-${index}">
+                    ${optionsHtml}
+                </div>
+                <div class="feedback" id="feedback-${index}"></div>
+            `;
+            quizContainer.appendChild(questionDiv);
+        });
+
+        updateProgress();
+    }
+
+    function selectOption(qIndex, optIndex, btnElement) {
+        // Prevent re-answering
+        if (userAnswers[qIndex] !== null) return;
+
+        userAnswers[qIndex] = optIndex;
+        const qData = quizData[qIndex];
+        const feedbackEl = document.getElementById(`feedback-${qIndex}`);
+        const optionBtns = document.getElementById(`options-${qIndex}`).getElementsByClassName('option-btn');
+
+        // Mark selected
+        if (optIndex === qData.correct) {
+            btnElement.classList.add('correct');
+            feedbackEl.innerHTML = `<span style="color:var(--success); font-weight:bold;">Correct!</span> ${qData.rationale} <br><span class="citation">Source: ${qData.citation}</span>`;
+            feedbackEl.style.backgroundColor = '#d4edda';
+            feedbackEl.style.border = '1px solid #c3e6cb';
+        } else {
+            btnElement.classList.add('incorrect');
+            // Highlight correct answer
+            optionBtns[qData.correct].classList.add('correct');
+            feedbackEl.innerHTML = `<span style="color:var(--error); font-weight:bold;">Incorrect.</span> ${qData.rationale} <br><span class="citation">Source: ${qData.citation}</span>`;
+            feedbackEl.style.backgroundColor = '#f8d7da';
+            feedbackEl.style.border = '1px solid #f5c6cb';
+        }
+
+        feedbackEl.classList.add('show');
+        updateProgress();
+        checkCompletion();
+    }
+
+    function updateProgress() {
+        const answered = userAnswers.filter(a => a !== null).length;
+        document.getElementById('progress').innerText = `Progress: ${answered} / ${quizData.length}`;
+    }
+
+    function checkCompletion() {
+        const answered = userAnswers.filter(a => a !== null).length;
+        if (answered === quizData.length) {
+            calculateScore();
+        }
+    }
+
+    function calculateScore() {
+        let score = 0;
+        userAnswers.forEach((ans, index) => {
+            if (ans === quizData[index].correct) score++;
+        });
+        
+        const scoreDisplay = document.getElementById('score-display');
+        scoreDisplay.style.display = 'block';
+        scoreDisplay.innerHTML = `Quiz Complete! You scored ${score} out of ${quizData.length} (${Math.round(score/quizData.length*100)}%)`;
+    }
+
+    function resetQuiz() {
+        userAnswers = new Array(quizData.length).fill(null);
+        document.getElementById('score-display').style.display = 'none';
+        initQuiz();
+    }
+
+    // Initialize on load
+    initQuiz();
+</script>
+
+</body>
+</html>s
