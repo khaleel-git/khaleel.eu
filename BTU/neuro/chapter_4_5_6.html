@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fourier Analysis Quiz (Ch. 4, 5, 6)</title>
+    <style>
+        :root {
+            --primary: #8e44ad;
+            --accent: #9b59b6;
+            --success: #27ae60;
+            --error: #c0392b;
+            --bg: #f3e5f5;
+            --card-bg: #ffffff;
+            --text: #2c3e50;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid var(--accent);
+        }
+
+        h1 {
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            padding: 30px;
+            margin-bottom: 20px;
+            transition: transform 0.2s;
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .topic-tag {
+            background: #e8daef;
+            color: var(--primary);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .question-text {
+            font-size: 1.2em;
+            font-weight: 600;
+            margin-bottom: 25px;
+            color: var(--text);
+        }
+
+        .options-grid {
+            display: grid;
+            gap: 12px;
+        }
+
+        .option-btn {
+            padding: 15px 20px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            text-align: left;
+            font-size: 1em;
+            transition: all 0.2s;
+            color: var(--text);
+            position: relative;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            border-color: var(--accent);
+            background-color: #f4ecf7;
+        }
+
+        .option-btn:disabled {
+            cursor: default;
+        }
+
+        .option-btn.correct {
+            border-color: var(--success);
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .option-btn.incorrect {
+            border-color: var(--error);
+            background-color: #f8d7da;
+            color: #721c24;
+            opacity: 0.7;
+        }
+
+        .feedback {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #f8f9fa;
+            border-left: 5px solid #ccc;
+            display: none;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        .feedback.correct {
+            border-left-color: var(--success);
+            background-color: #e8f5e9;
+        }
+
+        .feedback.incorrect {
+            border-left-color: var(--error);
+            background-color: #fce8e6;
+        }
+
+        .citation {
+            display: block;
+            margin-top: 8px;
+            font-size: 0.85em;
+            color: #666;
+            font-style: italic;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1em;
+            transition: background 0.2s;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #7d3c98;
+        }
+
+        .btn-secondary {
+            background-color: #95a5a6;
+            color: white;
+        }
+
+        #score-board {
+            text-align: center;
+            background: var(--primary);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 30px;
+            display: none;
+        }
+
+        .score-circle {
+            width: 120px;
+            height: 120px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5em;
+            font-weight: bold;
+            margin: 20px auto;
+            border: 4px solid #ffffff;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Mobile Optimization */
+        @media (max-width: 600px) {
+            .card { padding: 20px; }
+            .question-text { font-size: 1.1em; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Fourier Analysis Quiz</h1>
+        <div class="subtitle">Chapters 4, 5 & 6: Fourier Series, DFT/FFT, and Applications</div>
+    </header>
+
+    <div id="quiz-area">
+        <!-- Questions injected via JS -->
+    </div>
+
+    <div id="score-board">
+        <h2>Quiz Complete!</h2>
+        <div class="score-circle" id="final-score">0%</div>
+        <p id="final-text"></p>
+        <button class="btn btn-secondary" onclick="location.reload()">Retake Quiz</button>
+    </div>
+
+    <div class="controls" id="quiz-controls">
+        <div id="progress-text" style="font-weight: bold; color: var(--primary);">Question 1 of 20</div>
+    </div>
+</div>
+
+<script>
+    const questions = [
+        // --- CHAPTER 4: FOURIER SERIES ---
+        {
+            topic: "Ch.4: Concept",
+            question: "What is the fundamental principle of the Fourier Series?",
+            options: [
+                "It represents any periodic function as a sum of sine and cosine waves",
+                "It converts digital signals into analog signals",
+                "It filters out noise from a signal",
+                "It amplifies the signal amplitude"
+            ],
+            correct: 0,
+            rationale: "The Fourier series is a technique to represent arbitrary periodic functions as a summation of sine and cosine waves with different frequencies and amplitudes.",
+            citation: "Chapter 4: Introduction"
+        },
+        {
+            topic: "Ch.4: Decomposition",
+            question: "When decomposing a square wave using Fourier Series, what happens as you add more sine wave components?",
+            options: [
+                "The approximation becomes less accurate",
+                "The amplitude of the wave decreases to zero",
+                "The approximation closer resembles the perfect square wave",
+                "The frequency of the fundamental component changes"
+            ],
+            correct: 2,
+            rationale: "As illustrated in the course notes, summing more sine waves (harmonics) results in a waveform that increasingly approximates the sharp edges of a square wave.",
+            citation: "Chapter 4: Square Wave Example"
+        },
+        {
+            topic: "Ch.4: Orthogonality",
+            question: "What mathematical property allows sines and cosines to be used as basis functions for decomposition?",
+            options: [
+                "Linearity",
+                "Orthogonality",
+                "Periodicity",
+                "Duality"
+            ],
+            correct: 1,
+            rationale: "The orthogonality of sine and cosine functions (the integral of their product over a period is zero unless frequencies match) is the key property that allows this decomposition.",
+            citation: "Chapter 4: Fourier Analysis"
+        },
+        
+        // --- CHAPTER 5: CONTINUOUS, DISCRETE, FFT ---
+        {
+            topic: "Ch.5: Transform Pairs",
+            question: "What is the Fourier Transform of a Dirac impulse function δ(t) in the time domain?",
+            options: [
+                "A Dirac impulse in the frequency domain",
+                "A constant value (1) across all frequencies",
+                "A sine wave",
+                "Zero"
+            ],
+            correct: 1,
+            rationale: "A Dirac impulse in time contains all frequencies equally; thus, its representation in the frequency domain is a constant value of 1.",
+            citation: "Chapter 5: Continuous Fourier Transform Pairs"
+        },
+        {
+            topic: "Ch.5: Transform Pairs",
+            question: "Conversely, what is the Fourier Transform of a constant DC signal in the time domain?",
+            options: [
+                "A constant value in the frequency domain",
+                "A sine wave",
+                "A Dirac impulse at 0 Hz",
+                "Noise"
+            ],
+            correct: 2,
+            rationale: "A constant signal has no oscillation (0 Hz), so all its energy is concentrated at 0 Hz, represented by an impulse function at f=0.",
+            citation: "Chapter 5: Continuous Fourier Transform Pairs"
+        },
+        {
+            topic: "Ch.5: DFT vs FFT",
+            question: "What is the primary advantage of the Fast Fourier Transform (FFT) over the standard Discrete Fourier Transform (DFT)?",
+            options: [
+                "It is more accurate",
+                "It can handle non-periodic signals better",
+                "It significantly reduces the number of computational steps",
+                "It increases the frequency resolution"
+            ],
+            correct: 2,
+            rationale: "The FFT optimizes the algorithm to reduce operations from N² (standard DFT) to N log2 N, making it much faster.",
+            citation: "Chapter 5: Fast Fourier Transform"
+        },
+        {
+            topic: "Ch.5: Computational Cost",
+            question: "For a time series with N points, how many multiplications does the standard DFT require compared to the FFT?",
+            options: [
+                "DFT: N, FFT: log N",
+                "DFT: N^2, FFT: N log2 N",
+                "DFT: N^3, FFT: N^2",
+                "DFT: 2N, FFT: N"
+            ],
+            correct: 1,
+            rationale: "The standard DFT requires N² multiplications, whereas the FFT exploits periodicity to require only N log2 N multiplications.",
+            citation: "Chapter 5: FFT Efficiency"
+        },
+        {
+            topic: "Ch.5: Twiddle Factor",
+            question: "The 'Twiddle Factor' (W_N) used in DFT and FFT algorithms is fundamentally:",
+            options: [
+                "A real integer",
+                "A complex exponential (root of unity)",
+                "A random variable",
+                "A constant equal to pi"
+            ],
+            correct: 1,
+            rationale: "The twiddle factor W_N is e^(-j2π/N), which represents complex roots of unity on the unit circle.",
+            citation: "Chapter 5: DFT Definition"
+        },
+
+        // --- CHAPTER 6: APPLICATIONS & SPECTRAL ANALYSIS ---
+        {
+            topic: "Ch.6: Frequency Resolution",
+            question: "If you record an EEG signal for a duration (epoch) of T = 10 seconds, what is the frequency resolution (Δf) of the resulting spectrum?",
+            options: [
+                "10 Hz",
+                "1 Hz",
+                "0.1 Hz",
+                "0.01 Hz"
+            ],
+            correct: 2,
+            rationale: "The frequency resolution is the inverse of the epoch length: Δf = 1/T. So, 1/10s = 0.1 Hz.",
+            citation: "Chapter 6: Spectral Resolution"
+        },
+        {
+            topic: "Ch.6: Amplitude Spectrum",
+            question: "To convert the raw DFT output magnitude to the correct Amplitude Spectrum for a sine wave, you typically normalize by:",
+            options: [
+                "Multiplying by N",
+                "Dividing by N",
+                "Multiplying by 2/N",
+                "Taking the square root"
+            ],
+            correct: 2,
+            rationale: "To match the amplitude of the original time-domain sine wave, the magnitude of the DFT output is usually normalized by 2/N.",
+            citation: "Chapter 6: Amplitude Spectrum"
+        },
+        {
+            topic: "Ch.6: Phase Spectrum",
+            question: "How is the Phase Spectrum (φ) calculated from the real (Re) and imaginary (Im) parts of the Fourier output?",
+            options: [
+                "φ = Re / Im",
+                "φ = arctan(Im / Re)",
+                "φ = (Re^2 + Im^2)",
+                "φ = Re * Im"
+            ],
+            correct: 1,
+            rationale: "The phase angle is calculated using the arctangent of the ratio of the imaginary part to the real part.",
+            citation: "Chapter 6: Phase Spectrum"
+        },
+        {
+            topic: "Ch.6: Spectral Leakage",
+            question: "What causes 'Spectral Leakage' (energy leaking to adjacent frequencies) in Fourier analysis?",
+            options: [
+                "Sampling at a rate lower than Nyquist",
+                "Analyzing a finite duration of a signal that is not an integer number of periods",
+                "Using an FFT instead of a DFT",
+                "High impedance electrodes"
+            ],
+            correct: 1,
+            rationale: "Leakage occurs when the analysis window (epoch) cuts off the signal such that it doesn't complete a full cycle, creating discontinuities that look like other frequencies.",
+            citation: "Chapter 6: Spectral Analysis issues"
+        },
+        {
+            topic: "Ch.6: Windowing",
+            question: "What is the primary purpose of applying a 'Window function' (e.g., Hanning, Hamming) before FFT?",
+            options: [
+                "To increase the amplitude of the signal",
+                "To reduce spectral leakage by smoothing the edges of the epoch to zero",
+                "To increase the sampling rate",
+                "To remove the DC offset"
+            ],
+            correct: 1,
+            rationale: "Window functions taper the signal to zero at the boundaries of the epoch, reducing the discontinuities that cause spectral leakage.",
+            citation: "Chapter 6: Windowing"
+        },
+        {
+            topic: "Ch.6: Physiological Signals",
+            question: "Why must interpretation of physiological signal spectra (like EEG) be done with caution compared to pure sine waves?",
+            options: [
+                "Physiological signals are always stationary",
+                "Physiological signals are often non-stationary and contain non-periodic components",
+                "Physiological signals have no frequency content",
+                "Physiological signals are perfectly sinusoidal"
+            ],
+            correct: 1,
+            rationale: "EEG signals change over time (non-stationary) and are not pure sine waves, which complicates standard Fourier interpretation.",
+            citation: "Chapter 6: Physiological Signals"
+        },
+        {
+            topic: "Ch.6: Harmonics",
+            question: "If a physiological signal is periodic but not a perfect sine wave (e.g., a respiratory rhythm), what will appear in the spectrum?",
+            options: [
+                "Only the main fundamental frequency",
+                "A single peak at 0 Hz",
+                "The fundamental frequency plus Harmonic peaks at multiples of that frequency",
+                "White noise"
+            ],
+            correct: 2,
+            rationale: "Non-sinusoidal periodic signals decompose into a fundamental frequency and a series of harmonics at integer multiples of the fundamental.",
+            citation: "Chapter 6: Harmonics"
+        },
+        {
+            topic: "Ch.6: Spectrogram",
+            question: "What does a Spectrogram display?",
+            options: [
+                "Amplitude vs. Time only",
+                "Amplitude vs. Frequency only",
+                "Changes in the Frequency Spectrum over Time (Time-Frequency-Power)",
+                "Phase vs. Frequency"
+            ],
+            correct: 2,
+            rationale: "A spectrogram is a 3D representation (often using color for power) showing how the frequency content of a signal changes over time.",
+            citation: "Chapter 6: Time-Frequency Analysis"
+        },
+        {
+            topic: "Ch.6: Power Spectrum",
+            question: "The Power Spectrum is related to the magnitude of the Fourier coefficients by:",
+            options: [
+                "Taking the square root",
+                "Squaring the magnitude",
+                "Dividing by time",
+                "Taking the logarithm"
+            ],
+            correct: 1,
+            rationale: "Power is proportional to the square of the amplitude (Magnitude^2).",
+            citation: "Chapter 6: Power Spectrum"
+        },
+        {
+            topic: "Ch.6: Nyquist Range",
+            question: "If sampling rate is Fs = 500 Hz, what is the valid frequency range shown in the spectrum?",
+            options: [
+                "0 to 500 Hz",
+                "0 to 1000 Hz",
+                "0 to 250 Hz (Fs/2)",
+                "-500 to +500 Hz"
+            ],
+            correct: 2,
+            rationale: "The spectrum is valid only up to the Nyquist frequency, which is half the sampling rate (Fs/2).",
+            citation: "Chapter 6: Nyquist Frequency"
+        },
+        {
+            topic: "Ch.6: Epoch vs Time",
+            question: "If you shorten the analysis epoch (T) to improve temporal resolution in a spectrogram, what happens to the frequency resolution?",
+            options: [
+                "It improves (becomes finer)",
+                "It stays the same",
+                "It degrades (becomes coarser/wider)",
+                "It becomes infinite"
+            ],
+            correct: 2,
+            rationale: "There is a trade-off (Heisenberg uncertainty): Shortening time T (to see fast changes) increases Δf (1/T), making frequency resolution worse.",
+            citation: "Chapter 6: Time-Frequency Trade-off"
+        },
+        {
+            topic: "Ch.6: DC Component",
+            question: "How does a DC offset (non-zero average) in the time signal appear in the frequency spectrum?",
+            options: [
+                "As a peak at the Nyquist frequency",
+                "As a peak at 0 Hz",
+                "As broad white noise",
+                "It does not appear in the spectrum"
+            ],
+            correct: 1,
+            rationale: "The DC component represents the average value of the signal, which corresponds to a frequency of 0 Hz.",
+            citation: "Chapter 6: DC Component"
+        }
+    ];
+
+    let currentScore = 0;
+    let answeredCount = 0;
+
+    function initQuiz() {
+        const quizArea = document.getElementById('quiz-area');
+        quizArea.innerHTML = ""; 
+
+        questions.forEach((q, index) => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.id = `card-${index}`;
+
+            let optionsHtml = '';
+            q.options.forEach((opt, optIndex) => {
+                optionsHtml += `<button class="option-btn" onclick="checkAnswer(${index}, ${optIndex}, this)">${opt}</button>`;
+            });
+
+            card.innerHTML = `
+                <div class="question-header">
+                    <span class="topic-tag">${q.topic}</span>
+                    <span style="color:#aaa">#${index + 1}</span>
+                </div>
+                <div class="question-text">${q.question}</div>
+                <div class="options-grid" id="options-${index}">
+                    ${optionsHtml}
+                </div>
+                <div class="feedback" id="feedback-${index}"></div>
+            `;
+            quizArea.appendChild(card);
+        });
+    }
+
+    function checkAnswer(qIndex, optIndex, btn) {
+        const optionsDiv = document.getElementById(`options-${qIndex}`);
+        if (optionsDiv.classList.contains('answered')) return;
+        
+        optionsDiv.classList.add('answered');
+        const buttons = optionsDiv.getElementsByClassName('option-btn');
+        
+        for (let b of buttons) {
+            b.disabled = true;
+        }
+
+        const qData = questions[qIndex];
+        const feedbackDiv = document.getElementById(`feedback-${qIndex}`);
+        
+        answeredCount++;
+        updateProgress();
+
+        if (optIndex === qData.correct) {
+            btn.classList.add('correct');
+            feedbackDiv.classList.add('correct');
+            feedbackDiv.innerHTML = `<strong>Correct!</strong><br>${qData.rationale}<br><span class="citation">${qData.citation}</span>`;
+            currentScore++;
+        } else {
+            btn.classList.add('incorrect');
+            buttons[qData.correct].classList.add('correct'); 
+            feedbackDiv.classList.add('incorrect');
+            feedbackDiv.innerHTML = `<strong>Incorrect.</strong><br>${qData.rationale}<br><span class="citation">${qData.citation}</span>`;
+        }
+        
+        feedbackDiv.style.display = 'block';
+
+        if (answeredCount === questions.length) {
+            showFinalScore();
+        }
+    }
+
+    function updateProgress() {
+        document.getElementById('progress-text').innerText = `Progress: ${answeredCount} / ${questions.length} answered`;
+    }
+
+    function showFinalScore() {
+        document.getElementById('quiz-controls').style.display = 'none';
+        const scoreBoard = document.getElementById('score-board');
+        const scoreCircle = document.getElementById('final-score');
+        const finalText = document.getElementById('final-text');
+        
+        scoreBoard.style.display = 'block';
+        scoreBoard.scrollIntoView({behavior: "smooth"});
+        
+        const percentage = Math.round((currentScore / questions.length) * 100);
+        scoreCircle.innerText = `${percentage}%`;
+        
+        if (percentage >= 80) {
+            finalText.innerText = "Excellent! You have a strong grasp of Fourier Analysis.";
+        } else if (percentage >= 60) {
+            finalText.innerText = "Good job. Review the logic behind FFT efficiency and Spectral Leakage.";
+        } else {
+            finalText.innerText = "Keep studying. Focus on the relationship between Time and Frequency domains.";
+        }
+    }
+
+    // Start
+    initQuiz();
+</script>
+
+</body>
+</html>
