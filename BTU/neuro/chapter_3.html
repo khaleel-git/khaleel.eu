@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 3: EEG Recording Quiz</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --accent: #3498db;
+            --success: #27ae60;
+            --error: #e74c3c;
+            --bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --text: #333333;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid var(--accent);
+        }
+
+        h1 {
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            padding: 30px;
+            margin-bottom: 20px;
+            transition: transform 0.2s;
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .topic-tag {
+            background: #e1f0fa;
+            color: var(--accent);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .question-text {
+            font-size: 1.2em;
+            font-weight: 600;
+            margin-bottom: 25px;
+            color: var(--primary);
+        }
+
+        .options-grid {
+            display: grid;
+            gap: 12px;
+        }
+
+        .option-btn {
+            padding: 15px 20px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            text-align: left;
+            font-size: 1em;
+            transition: all 0.2s;
+            color: var(--text);
+            position: relative;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            border-color: var(--accent);
+            background-color: #f8fbff;
+        }
+
+        .option-btn:disabled {
+            cursor: default;
+        }
+
+        .option-btn.correct {
+            border-color: var(--success);
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .option-btn.incorrect {
+            border-color: var(--error);
+            background-color: #f8d7da;
+            color: #721c24;
+            opacity: 0.7;
+        }
+
+        .feedback {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #f8f9fa;
+            border-left: 5px solid #ccc;
+            display: none;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        .feedback.correct {
+            border-left-color: var(--success);
+            background-color: #e8f5e9;
+        }
+
+        .feedback.incorrect {
+            border-left-color: var(--error);
+            background-color: #fce8e6;
+        }
+
+        .citation {
+            display: block;
+            margin-top: 8px;
+            font-size: 0.85em;
+            color: #666;
+            font-style: italic;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1em;
+            transition: background 0.2s;
+        }
+
+        .btn-primary {
+            background-color: var(--accent);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #2980b9;
+        }
+
+        .btn-secondary {
+            background-color: #95a5a6;
+            color: white;
+        }
+
+        #score-board {
+            text-align: center;
+            background: var(--primary);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 30px;
+            display: none;
+        }
+
+        .score-circle {
+            width: 120px;
+            height: 120px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5em;
+            font-weight: bold;
+            margin: 20px auto;
+            border: 4px solid var(--accent);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Mobile Optimization */
+        @media (max-width: 600px) {
+            .card { padding: 20px; }
+            .question-text { font-size: 1.1em; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Neurosignal Analysis Quiz</h1>
+        <div class="subtitle">Chapter 3: EEG Recording & Acquisition</div>
+    </header>
+
+    <div id="quiz-area">
+        <!-- Questions injected via JS -->
+    </div>
+
+    <div id="score-board">
+        <h2>Quiz Complete!</h2>
+        <div class="score-circle" id="final-score">0%</div>
+        <p id="final-text"></p>
+        <button class="btn btn-secondary" onclick="location.reload()">Retake Quiz</button>
+    </div>
+
+    <div class="controls" id="quiz-controls">
+        <div id="progress-text" style="font-weight: bold; color: var(--primary);">Question 1 of 10</div>
+    </div>
+</div>
+
+<script>
+    const questions = [
+        {
+            topic: "Ch.3: Filters",
+            question: "In the EEG data acquisition chain, what is the primary function of the Anti-Aliasing filter located before the ADC?",
+            options: [
+                "To remove power line interference (50/60 Hz)",
+                "To attenuate frequencies higher than the Nyquist frequency",
+                "To amplify the microvolt-level EEG signal",
+                "To hold the analog signal constant during conversion"
+            ],
+            correct: 1,
+            rationale: "The anti-aliasing filter removes high-frequency components that cannot be correctly sampled, preventing them from appearing as distorted low-frequency signals (aliasing).",
+            citation: "Chapter 3: Data Acquisition"
+        },
+        {
+            topic: "Ch.3: Sampling",
+            question: "According to the Nyquist theorem, if the highest frequency component in an EEG signal is 40 Hz, what is the minimum sampling rate required?",
+            options: [
+                "20 Hz",
+                "40 Hz",
+                "80 Hz",
+                "1000 Hz"
+            ],
+            correct: 2,
+            rationale: "The Nyquist rate must be at least twice the maximum frequency present in the signal (2 * 40 = 80 Hz).",
+            citation: "Chapter 3: Analog to Digital Conversion"
+        },
+        {
+            topic: "Ch.3: 10-20 System",
+            question: "In the International 10-20 System, what does an ODD number in the electrode name (e.g., C3, T3, O1) indicate?",
+            options: [
+                "Placement on the Right Hemisphere",
+                "Placement on the Midline",
+                "Placement on the Left Hemisphere",
+                "Placement on the Frontal Lobe"
+            ],
+            correct: 2,
+            rationale: "In the 10-20 system, odd numbers always denote the left side, even numbers the right, and 'z' the midline.",
+            citation: "Chapter 3: EEG Acquisition (10-20 System)"
+        },
+        {
+            topic: "Ch.3: Landmarks",
+            question: "Which two anatomical landmarks are used to define the anterior-posterior midline length for the 10-20 electrode system?",
+            options: [
+                "Left and Right Preauricular points",
+                "Nasion and Inion",
+                "Vertex and Mastoid",
+                "Glabella and Occiput"
+            ],
+            correct: 1,
+            rationale: "The distance is measured from the Nasion (bridge of the nose) to the Inion (bump at the back of the skull).",
+            citation: "Chapter 3: EEG Acquisition"
+        },
+        {
+            topic: "Ch.3: Electrodes",
+            question: "Why are Silver/Silver Chloride (Ag/AgCl) electrodes widely used in EEG recording?",
+            options: [
+                "They act as non-polarizable electrodes to reduce low-frequency noise",
+                "They have infinite impedance",
+                "They act as perfectly capacitive electrodes",
+                "They do not require conductive gel"
+            ],
+            correct: 0,
+            rationale: "They facilitate the transition from ionic to electronic conduction, reducing electrode potential and low-frequency noise.",
+            citation: "Chapter 3: Electrodes"
+        },
+        {
+            topic: "Ch.3: Amplifiers",
+            question: "In a differential amplifier, what is the purpose of the ground electrode?",
+            options: [
+                "To measure the absolute potential",
+                "To act as the active electrode",
+                "To reject common mode noise",
+                "To increase the sampling rate"
+            ],
+            correct: 2,
+            rationale: "The differential amplifier subtracts the potential common to both inputs, effectively cancelling out noise present in the ground (Common Mode Rejection).",
+            citation: "Chapter 3: EEG Acquisition"
+        },
+        {
+            topic: "Ch.3: References",
+            question: "Which EEG reference method subtracts the average of ALL active electrodes from a specific electrode's potential?",
+            options: [
+                "Bipolar Reference Method",
+                "Unipolar (Ear) Reference Method",
+                "Common Average Reference (CAR)",
+                "Biauricular Reference Method"
+            ],
+            correct: 2,
+            rationale: "CAR creates a virtual reference by averaging the signals from all electrodes.",
+            citation: "Chapter 3: Reference Methods"
+        },
+        {
+            topic: "Ch.3: DSP",
+            question: "What is 'aliasing'?",
+            options: [
+                "High frequencies appearing as lower frequencies due to low sampling rate",
+                "Rounding error during amplitude quantization",
+                "Loss of signal due to high impedance",
+                "Delay introduced by the amplifier"
+            ],
+            correct: 0,
+            rationale: "If the sampling rate is too low (< 2*Fmax), high-frequency components 'fold' back and appear as incorrect low frequencies.",
+            citation: "Chapter 3: Analog to Digital Conversion"
+        },
+        {
+            topic: "Ch.3: ADC",
+            question: "What characteristic of the Analog-to-Digital Converter (ADC) determines the amplitude resolution (precision)?",
+            options: [
+                "Sampling rate",
+                "Number of bits (e.g., 12-bit, 16-bit)",
+                "Nyquist frequency",
+                "Input impedance"
+            ],
+            correct: 1,
+            rationale: "The number of bits determines how many discrete levels the voltage range is divided into (e.g., 2^12 levels).",
+            citation: "Chapter 3: Analog to Digital Conversion"
+        },
+        {
+            topic: "Ch.3: Montages",
+            question: "In a 'Bipolar' montage, what does the resulting signal represent?",
+            options: [
+                "Potential relative to ground",
+                "Potential relative to the ear",
+                "The difference in potential between two adjacent active electrodes",
+                "The average potential of the scalp"
+            ],
+            correct: 2,
+            rationale: "Bipolar derivations measure the local gradient between two active sites (e.g., F3 - C3).",
+            citation: "Chapter 3: EEG Acquisition"
+        }
+    ];
+
+    let currentScore = 0;
+    let answeredCount = 0;
+
+    function initQuiz() {
+        const quizArea = document.getElementById('quiz-area');
+        quizArea.innerHTML = ""; 
+
+        questions.forEach((q, index) => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.id = `card-${index}`;
+
+            let optionsHtml = '';
+            q.options.forEach((opt, optIndex) => {
+                optionsHtml += `<button class="option-btn" onclick="checkAnswer(${index}, ${optIndex}, this)">${opt}</button>`;
+            });
+
+            card.innerHTML = `
+                <div class="question-header">
+                    <span class="topic-tag">${q.topic}</span>
+                    <span style="color:#aaa">#${index + 1}</span>
+                </div>
+                <div class="question-text">${q.question}</div>
+                <div class="options-grid" id="options-${index}">
+                    ${optionsHtml}
+                </div>
+                <div class="feedback" id="feedback-${index}"></div>
+            `;
+            quizArea.appendChild(card);
+        });
+    }
+
+    function checkAnswer(qIndex, optIndex, btn) {
+        const optionsDiv = document.getElementById(`options-${qIndex}`);
+        if (optionsDiv.classList.contains('answered')) return;
+        
+        optionsDiv.classList.add('answered');
+        const buttons = optionsDiv.getElementsByClassName('option-btn');
+        
+        for (let b of buttons) {
+            b.disabled = true;
+        }
+
+        const qData = questions[qIndex];
+        const feedbackDiv = document.getElementById(`feedback-${qIndex}`);
+        
+        answeredCount++;
+        updateProgress();
+
+        if (optIndex === qData.correct) {
+            btn.classList.add('correct');
+            feedbackDiv.classList.add('correct');
+            feedbackDiv.innerHTML = `<strong>Correct!</strong><br>${qData.rationale}<br><span class="citation">${qData.citation}</span>`;
+            currentScore++;
+        } else {
+            btn.classList.add('incorrect');
+            buttons[qData.correct].classList.add('correct'); 
+            feedbackDiv.classList.add('incorrect');
+            feedbackDiv.innerHTML = `<strong>Incorrect.</strong><br>${qData.rationale}<br><span class="citation">${qData.citation}</span>`;
+        }
+        
+        feedbackDiv.style.display = 'block';
+
+        if (answeredCount === questions.length) {
+            showFinalScore();
+        }
+    }
+
+    function updateProgress() {
+        document.getElementById('progress-text').innerText = `Progress: ${answeredCount} / ${questions.length} answered`;
+    }
+
+    function showFinalScore() {
+        document.getElementById('quiz-controls').style.display = 'none';
+        const scoreBoard = document.getElementById('score-board');
+        const scoreCircle = document.getElementById('final-score');
+        const finalText = document.getElementById('final-text');
+        
+        scoreBoard.style.display = 'block';
+        scoreBoard.scrollIntoView({behavior: "smooth"});
+        
+        const percentage = Math.round((currentScore / questions.length) * 100);
+        scoreCircle.innerText = `${percentage}%`;
+        
+        if (percentage >= 80) {
+            finalText.innerText = "Excellent! You have mastered Chapter 3.";
+        } else if (percentage >= 60) {
+            finalText.innerText = "Good job. Review the sections on Filters and Sampling.";
+        } else {
+            finalText.innerText = "Keep studying. Focus on the 10-20 system and Amplifier basics.";
+        }
+    }
+
+    // Start
+    initQuiz();
+</script>
+
+</body>
+</html>
