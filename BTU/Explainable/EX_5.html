@@ -23,7 +23,7 @@
 </head>
 <body class="bg-slate-100 text-slate-800 min-h-screen py-8 px-4 flex justify-center">
 
-  <div class="max-w-6xl w-full bg-white shadow-2xl rounded-2xl overflow-hidden flex flex-col min-h-[90vh]">
+  <div class="max-w-7xl w-full bg-white shadow-2xl rounded-2xl overflow-hidden flex flex-col min-h-[90vh]">
 
     <!-- Header -->
     <header class="bg-gradient-to-r from-slate-900 to-slate-800 text-white p-6 shadow-md shrink-0">
@@ -46,8 +46,11 @@
       <button onclick="switchTab('summary')" id="btn-summary" class="flex-1 min-w-[140px] py-4 text-center font-bold text-slate-900 border-b-4 border-yellow-500 bg-yellow-50 transition-colors whitespace-nowrap">
         <i class="fa-solid fa-book-open mr-2"></i> Formulas
       </button>
+      <button onclick="switchTab('exercise')" id="btn-exercise" class="flex-1 min-w-[140px] py-4 text-center font-bold text-slate-500 border-b-4 border-transparent hover:bg-slate-50 hover:text-slate-600 transition-colors whitespace-nowrap">
+        <i class="fa-solid fa-dumbbell mr-2"></i> Exercise Sol.
+      </button>
       <button onclick="switchTab('exam')" id="btn-exam" class="flex-1 min-w-[140px] py-4 text-center font-bold text-slate-500 border-b-4 border-transparent hover:bg-slate-50 hover:text-slate-600 transition-colors whitespace-nowrap">
-        <i class="fa-solid fa-pen-nib mr-2"></i> Exam Solution
+        <i class="fa-solid fa-pen-nib mr-2"></i> Exam Sol.
       </button>
       <button onclick="switchTab('cookbook')" id="btn-cookbook" class="flex-1 min-w-[140px] py-4 text-center font-bold text-slate-500 border-b-4 border-transparent hover:bg-slate-50 hover:text-slate-600 transition-colors whitespace-nowrap">
         <i class="fa-solid fa-code mr-2"></i> Cookbook
@@ -60,7 +63,7 @@
     <!-- Content -->
     <div class="flex-1 overflow-y-auto custom-scroll p-6 md:p-8 bg-slate-50">
 
-      <!-- SUMMARY TAB -->
+      <!-- SUMMARY TAB (Formulas) -->
       <div id="summary" class="tab-content active fade-in space-y-12">
 
         <!-- 1 The Theorem -->
@@ -94,6 +97,11 @@
             <span class="bg-indigo-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">2</span>
             <h2 class="text-2xl font-bold text-slate-800">Formula Cheat Sheet</h2>
           </div>
+          
+          <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 text-sm text-yellow-900 mb-4">
+            <i class="fa-solid fa-pen-fancy mr-2"></i>
+            <strong>Handwritten Notes Insight:</strong> Remember that <strong>Sensitivity</strong> is the model's ability to identify positive cases (TPR), while <strong>Specificity</strong> is the ability to identify negative cases (TNR).
+          </div>
 
           <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
             <div class="overflow-x-auto">
@@ -101,56 +109,128 @@
                 <thead class="bg-slate-800 text-white">
                   <tr>
                     <th class="p-4">Term</th>
-                    <th class="p-4">Probability Notation</th>
-                    <th class="p-4">Confusion Matrix Formula</th>
-                    <th class="p-4">Meaning</th>
+                    <th class="p-4">Common Aliases</th>
+                    <th class="p-4">Formula (Confusion Matrix)</th>
+                    <th class="p-4">Definition</th>
                   </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100 text-sm">
                   <tr class="hover:bg-slate-50">
-                    <td class="p-4 font-bold text-indigo-700">Prevalence (Prior)</td>
-                    <td class="p-4">\(P(D)\)</td>
+                    <td class="p-4 font-bold text-indigo-700">Prevalence</td>
+                    <td class="p-4">Prior Probability, \(P(D)\)</td>
                     <td class="p-4">\(\frac{TP + FN}{\text{Total}}\)</td>
-                    <td class="p-4 text-slate-600">Fraction of population that is sick.</td>
+                    <td class="p-4 text-slate-600">The portion of the population that actually has the condition.</td>
                   </tr>
                   <tr class="hover:bg-slate-50">
-                    <td class="p-4 font-bold text-indigo-700">Sensitivity (Recall)</td>
-                    <td class="p-4">\(P(T|D)\)</td>
+                    <td class="p-4 font-bold text-indigo-700">Recall</td>
+                    <td class="p-4">Sensitivity, <strong>TPR</strong> (True Positive Rate), \(P(T|D)\)</td>
                     <td class="p-4">\(\frac{TP}{TP + FN}\)</td>
-                    <td class="p-4 text-slate-600">How many sick people we correctly caught.</td>
+                    <td class="p-4 text-slate-600">Out of all <strong>Actual Positives</strong>, how many did we predict correctly?</td>
                   </tr>
                   <tr class="hover:bg-slate-50">
                     <td class="p-4 font-bold text-indigo-700">Specificity</td>
-                    <td class="p-4">\(P(\neg T | \neg D)\)</td>
+                    <td class="p-4"><strong>TNR</strong> (True Negative Rate), \(P(\neg T | \neg D)\)</td>
                     <td class="p-4">\(\frac{TN}{TN + FP}\)</td>
-                    <td class="p-4 text-slate-600">How many healthy people we correctly cleared.</td>
+                    <td class="p-4 text-slate-600">Out of all <strong>Actual Negatives</strong>, how many did we predict correctly?</td>
                   </tr>
                   <tr class="hover:bg-slate-50 bg-yellow-50">
-                    <td class="p-4 font-bold text-indigo-900">Precision (Posterior)</td>
-                    <td class="p-4">\(P(D|T)\)</td>
+                    <td class="p-4 font-bold text-indigo-900">Precision</td>
+                    <td class="p-4">Posterior, \(P(D|T)\)</td>
                     <td class="p-4">\(\frac{TP}{TP + FP}\)</td>
-                    <td class="p-4 text-slate-800 font-medium">If test is positive, how likely are you sick?</td>
+                    <td class="p-4 text-slate-800 font-medium">Out of all <strong>Predicted Positives</strong>, how many are actually positive?</td>
                   </tr>
                   <tr class="hover:bg-slate-50">
                     <td class="p-4 font-bold text-indigo-700">False Positive Rate</td>
-                    <td class="p-4">\(P(T|\neg D)\)</td>
-                    <td class="p-4">\(\frac{FP}{TN + FP} = 1 - \text{Spec}\)</td>
-                    <td class="p-4 text-slate-600">Probability of a "False Alarm".</td>
+                    <td class="p-4">FPR, \(P(T|\neg D)\)</td>
+                    <td class="p-4">\(\frac{FP}{TN + FP} = 1 - \text{Specificity}\)</td>
+                    <td class="p-4 text-slate-600">Probability of a "False Alarm" (Type I Error).</td>
                   </tr>
                   <tr class="hover:bg-slate-50">
-                    <td class="p-4 font-bold text-indigo-700">Total Probability</td>
-                    <td class="p-4">\(P(T)\)</td>
+                    <td class="p-4 font-bold text-indigo-700">Marginal Probability</td>
+                    <td class="p-4">\(P(T)\), Evidence</td>
                     <td class="p-4">\(\frac{TP + FP}{\text{Total}}\)</td>
-                    <td class="p-4 text-slate-600">Total fraction of tests that came back positive.</td>
+                    <td class="p-4 text-slate-600">The total probability of observing the evidence (positive test).</td>
                   </tr>
                 </tbody>
               </table>
             </div>
           </div>
-          
-          <div class="bg-indigo-50 border-l-4 border-indigo-500 p-4 text-sm text-indigo-900">
-            <strong>Key Distinction:</strong> <strong>Recall</strong> (Sensitivity) asks "Did we find all the sick people?" while <strong>Precision</strong> (Posterior) asks "Is this positive result trustworthy?"
-          </div>
+        </section>
+      </div>
+
+      <!-- EXERCISE SOLUTION TAB (New) -->
+      <div id="exercise" class="tab-content fade-in space-y-10">
+        <section class="bg-white p-8 rounded-xl shadow-lg border border-slate-200">
+           <div class="flex items-center gap-3 mb-6">
+            <span class="bg-blue-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">E</span>
+            <h2 class="text-2xl font-bold text-slate-800">Exercise 1 & 2 Solution</h2>
+           </div>
+           
+           <div class="space-y-8">
+             <!-- Part 1 -->
+             <div>
+               <h3 class="font-bold text-xl text-slate-700 mb-4 border-b border-slate-200 pb-2">Part 1: Definitions & Matrix Derivations</h3>
+               
+               <div class="space-y-4">
+                 <div class="bg-slate-50 p-4 rounded-lg">
+                   <p class="font-bold text-slate-900 mb-1">1a) What is \(p(D)\)?</p>
+                   <p class="text-slate-600">\(p(D)\) is the <strong>Prior Probability</strong> (or Prevalence). It is the probability of the disease occurring in the population before conducting a test.</p>
+                 </div>
+                 
+                 <div class="bg-slate-50 p-4 rounded-lg">
+                   <p class="font-bold text-slate-900 mb-1">1b) What is \(p(T|D)\)?</p>
+                   <p class="text-slate-600">\(p(T|D)\) is the <strong>Likelihood</strong> (or Sensitivity). It is the probability of testing positive given that the patient has the disease.</p>
+                 </div>
+
+                 <div class="bg-slate-50 p-4 rounded-lg">
+                   <p class="font-bold text-slate-900 mb-1">1c) Express \(p(D)\) from entries in the confusion matrix.</p>
+                   <div class="text-slate-600">
+                     $$P(D) = \frac{TP + FN}{TP + FP + FN + TN} = \frac{\text{Actual Positives}}{\text{Total Population}}$$
+                   </div>
+                 </div>
+
+                 <div class="bg-slate-50 p-4 rounded-lg">
+                   <p class="font-bold text-slate-900 mb-1">1d) Express \(p(T|D)\) from entries in the confusion matrix.</p>
+                   <div class="text-slate-600">
+                     $$P(T|D) = \frac{TP}{TP + FN} = \frac{\text{True Positives}}{\text{Actual Positives}}$$
+                   </div>
+                 </div>
+
+                 <div class="bg-slate-50 p-4 rounded-lg">
+                   <p class="font-bold text-slate-900 mb-1">1e) What would you call \(p(T|D)\) in the context of the confusion matrix?</p>
+                   <p class="text-slate-600">It is called the <strong>Sensitivity</strong>, <strong>Recall</strong>, or <strong>True Positive Rate (TPR)</strong>.</p>
+                 </div>
+
+                 <div class="bg-slate-50 p-4 rounded-lg">
+                   <p class="font-bold text-slate-900 mb-1">1f) Specificity in Bayes' Theorem.</p>
+                   <p class="text-slate-600 italic mb-2">Hint: Evaluate \(p(T)\) by expressing it as the probability of all ways of observing a positive test.</p>
+                   <p class="text-slate-800">Specificity is \(P(\neg T | \neg D)\). Therefore, the False Positive Rate is \(P(T|\neg D) = 1 - \text{Specificity}\).</p>
+                   <p class="text-slate-800 mt-2">We substitute this into the denominator (Total Probability) of Bayes' Theorem:</p>
+                   <div class="overflow-x-auto py-2">
+                     $$P(D|T) = \frac{P(D)P(T|D)}{P(D)P(T|D) + P(\neg D)\mathbf{(1 - \text{Specificity})}}$$
+                   </div>
+                 </div>
+               </div>
+             </div>
+
+             <!-- Part 2 -->
+             <div>
+               <h3 class="font-bold text-xl text-slate-700 mb-4 border-b border-slate-200 pb-2">Part 2: Python & Analysis</h3>
+               
+               <div class="space-y-4">
+                 <div class="bg-slate-50 p-4 rounded-lg">
+                    <p class="font-bold text-slate-900 mb-1">2a & 2b) Python Implementation</p>
+                    <p class="text-slate-600">Please refer to the <a href="#" onclick="switchTab('cookbook')" class="text-blue-600 underline font-bold">Cookbook Tab</a> for the complete Python code implementing the function and generating the graph.</p>
+                 </div>
+
+                 <div class="bg-slate-50 p-4 rounded-lg">
+                   <p class="font-bold text-slate-900 mb-1">2c & 2d) Discussion: Is this test appropriate for a rare disease?</p>
+                   <p class="text-slate-600 mb-2"><strong>Answer: Not as a standalone diagnostic tool.</strong></p>
+                   <p class="text-slate-600">Even with high Sensitivity (95%) and Specificity (99%), if the disease is rare (e.g., \(P(D)=0.1\%\)), the Posterior Probability \(P(D|T)\) will be very low (often <10%). This is because the absolute number of False Positives from the massive healthy population overwhelms the few True Positives.</p>
+                 </div>
+               </div>
+             </div>
+           </div>
         </section>
       </div>
 
@@ -159,103 +239,75 @@
         <section class="bg-white p-8 rounded-xl shadow-lg border border-slate-200">
           <div class="flex items-start justify-between mb-6">
             <div>
-              <h2 class="text-2xl font-bold text-slate-800">Advanced Problem 1: Cancer Study</h2>
-              <p class="text-slate-500 mt-1">Full walkthrough of the uploaded exam problem.</p>
+              <h2 class="text-2xl font-bold text-slate-800">Advanced Problems: Bayes' Theorem</h2>
+              <p class="text-slate-500 mt-1">Full transcription and solution of the uploaded exam document.</p>
             </div>
             <span class="bg-red-100 text-red-800 text-xs font-bold px-3 py-1 rounded-full uppercase">42 Points</span>
           </div>
 
-          <!-- Problem Context -->
-          <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 mb-8">
-            <h3 class="font-bold text-slate-700 mb-2">The Setup</h3>
-            <ul class="list-disc list-inside space-y-2 text-slate-700">
-              <li>Total Subjects: \(n = 1,000\)</li>
-              <li>Diagnosed with Cancer (Actual Sick): <strong>2</strong></li>
-              <li>Cancer + Symptoms (True Positive): <strong>2</strong></li>
-              <li>No Cancer + Symptoms (False Positive): <strong>8</strong></li>
-            </ul>
+          <!-- Exact Exam Transcription -->
+          <div class="bg-slate-50 p-6 rounded-xl border border-slate-300 mb-8 font-serif">
+            <h3 class="font-bold text-slate-900 mb-4 border-b border-slate-300 pb-2">Original Exam Text</h3>
+            <p class="mb-4 text-slate-800 leading-relaxed">
+              Bayes' theorem states that \(P(A|B)P(B) = P(B|A)P(A)\), which we want to use to determine the posterior probability of having cancer, given that cancer-related symptoms have been diagnosed. For this purpose, a study was enrolled and \(n=1,000\) subjects included. Two subjects were diagnosed with cancer. Both cancer-diagnosed subjects presented cancer-related symptoms. Of the study cohort, 8 subjects presented with cancer-related symptoms but did not have cancer. The remaining 990 subjects did not have symptoms and did not have cancer.
+            </p>
+            <ol class="list-[lower-alpha] pl-5 space-y-3 text-slate-800">
+              <li><strong>a)</strong> How many subjects included in this study did NOT have cancer? (1 point)</li>
+              <li><strong>b)</strong> Calculate the prevalence of having cancer based on this study. Note: The Prevalence is called the prior in terms of Bayes' theorem (2 points)</li>
+              <li><strong>c)</strong> What is the probability of having symptoms given that a subject has cancer, \(P(Symptoms|Cancer)\), which is also called the "Sensitivity" in this context? (2 points)</li>
+              <li><strong>d)</strong> Show that the probability for subject to have symptoms is \(P(Symptoms) = 1\%\). Hint: This probability is also called the marginal probability which is given by \(P(B) = P(A)P(B|A) + P(\neg A)P(B|\neg A)\) with the complement \(P(\neg A) = 1 - P(A)\). (4 points)</li>
+              <li><strong>e)</strong> Now we have calculated all the probabilities that are required to calculate the posterior probability \(P(Cancer|Symptoms)\). What is the probability of having cancer, given that cancer-related symptoms have been diagnosed? (3 points)</li>
+            </ol>
           </div>
 
-          <!-- The Confusion Matrix for this Problem -->
-          <div class="mb-8">
-             <h3 class="font-bold text-slate-800 mb-4">Step 0: Map to Matrix</h3>
-             <table class="w-full text-center border-collapse text-sm md:text-base">
-                <thead>
-                  <tr>
-                    <th class="p-2 border border-slate-200"></th>
-                    <th class="p-2 border border-slate-200 bg-slate-100">Symptoms (T)</th>
-                    <th class="p-2 border border-slate-200 bg-slate-100">No Symptoms (¬T)</th>
-                    <th class="p-2 border border-slate-200 bg-slate-200">Total</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td class="p-2 border border-slate-200 font-bold bg-slate-100">Cancer (D)</td>
-                    <td class="p-3 border border-slate-200 bg-green-100 text-green-900 font-bold">2 (TP)</td>
-                    <td class="p-3 border border-slate-200 text-slate-400">0 (FN)</td>
-                    <td class="p-3 border border-slate-200 font-bold">2</td>
-                  </tr>
-                  <tr>
-                    <td class="p-2 border border-slate-200 font-bold bg-slate-100">Healthy (¬D)</td>
-                    <td class="p-3 border border-slate-200 bg-red-100 text-red-900 font-bold">8 (FP)</td>
-                    <td class="p-3 border border-slate-200 text-slate-600">990 (TN)</td>
-                    <td class="p-3 border border-slate-200 font-bold">998</td>
-                  </tr>
-                  <tr>
-                    <td class="p-2 border border-slate-200 font-bold bg-slate-200">Total</td>
-                    <td class="p-3 border border-slate-200 font-bold text-blue-800">10</td>
-                    <td class="p-3 border border-slate-200">990</td>
-                    <td class="p-3 border border-slate-200 font-bold">1000</td>
-                  </tr>
-                </tbody>
-              </table>
-          </div>
-
-          <!-- Questions & Answers -->
+          <!-- Step-by-Step Solution -->
           <div class="space-y-6">
-            
+            <h3 class="font-bold text-xl text-slate-800">Solution</h3>
+
             <!-- a) -->
             <div class="border-l-4 border-slate-400 pl-4">
-              <h4 class="font-bold text-slate-900">a) How many subjects did NOT have cancer?</h4>
+              <h4 class="font-bold text-slate-900">a) Healthy Subjects</h4>
               <p class="text-slate-600 mt-1">Total subjects - Sick subjects = \(1000 - 2 = \mathbf{998}\).</p>
             </div>
 
             <!-- b) -->
             <div class="border-l-4 border-indigo-500 pl-4">
-              <h4 class="font-bold text-indigo-900">b) Calculate Prevalence (Prior)</h4>
+              <h4 class="font-bold text-indigo-900">b) Prevalence (Prior)</h4>
               <p class="text-slate-600 mt-1">Prevalence is the probability of having the disease.</p>
               <div class="bg-indigo-50 p-2 rounded mt-2 inline-block font-mono text-indigo-800">
-                $$P(D) = \frac{2}{1000} = 0.002$$
+                $$P(A) = \frac{2}{1000} = 0.002$$
               </div>
             </div>
 
             <!-- c) -->
             <div class="border-l-4 border-emerald-500 pl-4">
-              <h4 class="font-bold text-emerald-900">c) Calculate Sensitivity (P(Symptoms|Cancer))</h4>
+              <h4 class="font-bold text-emerald-900">c) Sensitivity (Likelihood)</h4>
               <p class="text-slate-600 mt-1">Of the 2 sick people, how many had symptoms? All of them.</p>
               <div class="bg-emerald-50 p-2 rounded mt-2 inline-block font-mono text-emerald-800">
-                $$P(T|D) = \frac{TP}{TP+FN} = \frac{2}{2} = 1.0$$
+                $$P(B|A) = \frac{2}{2} = 1.0$$
               </div>
             </div>
 
             <!-- d) -->
             <div class="border-l-4 border-amber-500 pl-4">
-              <h4 class="font-bold text-amber-900">d) Show that P(Symptoms) = 1%</h4>
-              <p class="text-slate-600 mt-1">This is the <strong>Total Probability</strong> (the denominator). We sum True Positives and False Positives.</p>
+              <h4 class="font-bold text-amber-900">d) Marginal Probability P(Symptoms)</h4>
+              <p class="text-slate-600 mt-1">We sum True Positives (Sick & Symptoms) and False Positives (Healthy & Symptoms).</p>
+              <ul class="text-sm text-slate-500 list-disc list-inside my-2">
+                <li>True Positives: 2</li>
+                <li>False Positives: 8</li>
+              </ul>
               <div class="bg-amber-50 p-3 rounded mt-2 text-amber-900">
-                $$P(T) = \frac{TP + FP}{\text{Total}} = \frac{2 + 8}{1000} = \frac{10}{1000} = 0.01$$
-                <div class="text-xs mt-2 text-slate-500">Also derived via formula: \( (0.002 \times 1.0) + (0.998 \times \frac{8}{998}) = 0.01 \)</div>
+                $$P(B) = \frac{2 + 8}{1000} = \frac{10}{1000} = 0.01 \text{ (1\%)}$$
               </div>
             </div>
 
             <!-- e) -->
             <div class="border-l-4 border-purple-500 pl-4">
-              <h4 class="font-bold text-purple-900">e) Calculate Posterior P(Cancer|Symptoms)</h4>
-              <p class="text-slate-600 mt-1">This is <strong>Precision</strong>. Of the 10 people with symptoms, how many actually had cancer?</p>
+              <h4 class="font-bold text-purple-900">e) Posterior Probability</h4>
+              <p class="text-slate-600 mt-1">Using Bayes' Theorem (or simply Precision: TP / Total Positives).</p>
               <div class="bg-purple-50 p-3 rounded mt-2 font-bold text-purple-900 text-lg">
-                $$P(D|T) = \frac{TP}{TP + FP} = \frac{2}{10} = 0.2 \text{ (or 20\%)}$$
+                $$P(A|B) = \frac{P(A)P(B|A)}{P(B)} = \frac{0.002 \times 1.0}{0.01} = 0.2 \text{ (or 20\%)}$$
               </div>
-              <p class="text-xs text-slate-500 mt-2">Note the drastic drop from 100% Sensitivity to 20% Precision due to the low prevalence and false positives.</p>
             </div>
 
           </div>
@@ -265,7 +317,7 @@
       <!-- COOKBOOK TAB -->
       <div id="cookbook" class="tab-content fade-in space-y-10">
         <section class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-          <h2 class="text-2xl font-bold text-slate-800 mb-2"><i class="fa-solid fa-wrench mr-2 text-slate-700"></i>Python Implementation</h2>
+          <h2 class="text-2xl font-bold text-slate-800 mb-2"><i class="fa-solid fa-wrench mr-2 text-slate-700"></i>Python Implementation (Question 2)</h2>
           <p class="text-sm text-slate-600 mb-6">Use this code to solve the exercise questions regarding the probability curve.</p>
 
           <div class="space-y-6">
@@ -510,7 +562,7 @@ plt.show()</pre></div>
 
   <script>
     function setBtnState(active){
-      const buttons = ['summary', 'exam', 'cookbook', 'quiz'];
+      const buttons = ['summary', 'exercise', 'exam', 'cookbook', 'quiz'];
       
       buttons.forEach(id => {
         const btn = document.getElementById('btn-' + id);
@@ -518,6 +570,7 @@ plt.show()</pre></div>
         
         if(id === active) {
            if(id === 'summary') baseClass += " text-slate-900 border-yellow-500 bg-yellow-50";
+           else if(id === 'exercise') baseClass += " text-slate-900 border-blue-500 bg-blue-50";
            else if(id === 'exam') baseClass += " text-slate-900 border-red-500 bg-red-50";
            else if(id === 'cookbook') baseClass += " text-slate-900 border-slate-900 bg-slate-50";
            else baseClass += " text-slate-900 border-indigo-600 bg-indigo-50";
