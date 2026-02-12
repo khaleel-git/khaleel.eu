@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chapter 8: Signal Averaging</title>
+    <title>Chapter 9: Time & Spectral Analysis</title>
     <style>
         :root {
-            --primary: #16a085;
-            --accent: #1abc9c;
+            --primary: #8e44ad;
+            --accent: #9b59b6;
             --success: #27ae60;
             --error: #c0392b;
-            --bg: #e8f8f5;
+            --bg: #f4ecf7;
             --card-bg: #ffffff;
             --text: #2c3e50;
         }
@@ -63,7 +63,7 @@
         }
 
         .topic-tag {
-            background: #d1f2eb;
+            background: #e8daef;
             color: var(--primary);
             padding: 4px 10px;
             border-radius: 20px;
@@ -99,7 +99,7 @@
 
         .option-btn:hover:not(:disabled) {
             border-color: var(--accent);
-            background-color: #e0f2f1;
+            background-color: #f5eef8;
         }
 
         .option-btn:disabled {
@@ -170,307 +170,8 @@
         }
         
         .btn-primary:hover {
-            background-color: #0e6655;
+            background-color: #76358f;
         }
 
         .btn-secondary {
-            background-color: #95a5a6;
-            color: white;
-        }
-
-        #score-board {
-            text-align: center;
-            background: var(--primary);
-            color: white;
-            padding: 20px;
-            border-radius: 12px;
-            margin-top: 30px;
-            display: none;
-        }
-
-        .score-circle {
-            width: 120px;
-            height: 120px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.5em;
-            font-weight: bold;
-            margin: 20px auto;
-            border: 4px solid #ffffff;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Mobile Optimization */
-        @media (max-width: 600px) {
-            .card { padding: 20px; }
-            .question-text { font-size: 1.1em; }
-        }
-    </style>
-</head>
-<body>
-
-<div class="container">
-    <header>
-        <h1>Signal Averaging Quiz</h1>
-        <div class="subtitle">Chapter 8: Signal Averaging & Bad Channel Detection</div>
-    </header>
-
-    <div id="quiz-area">
-        <!-- Questions injected via JS -->
-    </div>
-
-    <div id="score-board">
-        <h2>Quiz Complete!</h2>
-        <div class="score-circle" id="final-score">0%</div>
-        <p id="final-text"></p>
-        <button class="btn btn-secondary" onclick="location.reload()">Retake Quiz</button>
-    </div>
-
-    <div class="controls" id="quiz-controls">
-        <div id="progress-text" style="font-weight: bold; color: var(--primary);">Question 1 of 10</div>
-    </div>
-</div>
-
-<script>
-    const questions = [
-        // --- SIGNAL AVERAGING BASICS ---
-        {
-            topic: "Ch.8: Concept",
-            question: "What is the primary purpose of signal averaging in neurosignal analysis?",
-            options: [
-                "To increase the frequency of the signal",
-                "To estimate low-amplitude signals buried in noise",
-                "To remove the DC component",
-                "To uncorrelated the signal from the timing"
-            ],
-            correct: 1,
-            rationale: "Signal averaging is used to reveal low-amplitude biological signals (like ERPs) that are otherwise hidden within larger background noise.",
-            citation: "Chapter 8: Introduction"
-        },
-        {
-            topic: "Ch.8: Assumptions",
-            question: "Which of the following is NOT a standard assumption made for signal averaging?",
-            options: [
-                "Signal and noise are uncorrelated",
-                "The noise is random with zero mean",
-                "The signal timing is known (time-locked)",
-                "The signal amplitude varies randomly between trials"
-            ],
-            correct: 3,
-            rationale: "The technique assumes the signal component is CONSISTENT (stable) across repeated measurements, not random.",
-            citation: "Chapter 8: Introduction (Assumptions)"
-        },
-        {
-            topic: "Ch.8: Noise Properties",
-            question: "For signal averaging to effectively reduce noise, what characteristic must the noise possess?",
-            options: [
-                "It must be perfectly sinusoidal",
-                "It must be time-locked to the stimulus",
-                "It must be random with a zero mean",
-                "It must have a higher amplitude than the signal"
-            ],
-            correct: 2,
-            rationale: "If noise is random with a zero mean, summing many trials causes the noise to cancel out (tend toward zero), revealing the signal.",
-            citation: "Chapter 8: Introduction"
-        },
-        {
-            topic: "Ch.8: Time-Locking",
-            question: "What does it mean for a signal to be 'time-locked'?",
-            options: [
-                "The signal occurs at a fixed time relative to a trigger or stimulus",
-                "The signal is recorded for a fixed duration",
-                "The signal has a constant frequency",
-                "The signal is encrypted"
-            ],
-            correct: 0,
-            rationale: "Time-locking means the brain response happens at the exact same latency after the stimulus in every trial.",
-            citation: "Chapter 8: Time-locked signals"
-        },
-        {
-            topic: "Ch.8: Odd/Even Averaging",
-            question: "In the context of evaluating averaging quality, what does the difference between Odd and Even averages (Odd - Even) represent?",
-            options: [
-                "The pure biological signal",
-                "An estimate of the residual noise level",
-                "The sum of all trials",
-                "The correlation between trials"
-            ],
-            correct: 1,
-            rationale: "Subtracting the Even average from the Odd average removes the consistent signal, leaving behind an estimate of the remaining noise.",
-            citation: "Chapter 8: Figure Example"
-        },
-        // --- BAD CHANNEL DETECTION ---
-        {
-            topic: "Ch.8: Bad Channel Detection",
-            question: "Which of the following is NOT listed as a method for detecting bad channels in Chapter 8?",
-            options: [
-                "Identifying channels with excessively large amplitudes (z-score)",
-                "Correlation-based detection with other channels",
-                "Frequency-based detection (High/Low power ratio)",
-                "Manually measuring skin impedance"
-            ],
-            correct: 3,
-            rationale: "While impedance is measured during setup, the computational methods listed for analysis are Amplitude, Correlation, and Frequency based.",
-            citation: "Chapter 8: Bad Channel Detection"
-        },
-        {
-            topic: "Ch.8: Frequency Detection",
-            question: "How does 'Frequency-based' bad channel detection work according to the notes?",
-            options: [
-                "It detects channels that have 0 Hz frequency",
-                "It measures the ratio of high-frequency power to low-frequency power",
-                "It counts the number of zero crossings",
-                "It uses a notch filter to find 50Hz hum"
-            ],
-            correct: 1,
-            rationale: "Bad channels often have excessive high-frequency noise (EMG/instability), so a high ratio of high-to-low frequency power is a detector.",
-            citation: "Chapter 8: Frequency-based Detection"
-        },
-        {
-            topic: "Ch.8: Correlation Detection",
-            question: "What is the logic behind 'Correlation-based' bad channel detection?",
-            options: [
-                "Bad channels are always perfectly correlated with the ground",
-                "Normal EEG shows low-frequency correlations across neighbors; a bad channel lacks this",
-                "Bad channels have high correlation with the trigger signal",
-                "It correlates the signal with a sine wave"
-            ],
-            correct: 1,
-            rationale: "Real EEG signals are volume conducted and thus correlated between neighbors; a channel that is uncorrelated is likely noise/detached.",
-            citation: "Chapter 8: Correlation-based Detection"
-        },
-        // --- INTERPOLATION ---
-        {
-            topic: "Ch.8: Fixing Bad Channels",
-            question: "Once a bad channel is detected, what is a common method to handle it mentioned in the text?",
-            options: [
-                "Delete the entire dataset",
-                "Set the channel values to zero",
-                "Replace it using interpolation schemes like Spherical Splines",
-                "Amplify it to match the others"
-            ],
-            correct: 2,
-            rationale: "Bad channels are replaced by virtual channels calculated from neighbors using interpolation (e.g., Splines).",
-            citation: "Chapter 8: Replacement of Bad Channels"
-        },
-        {
-            topic: "Ch.8: Interpolation Types",
-            question: "According to the text, what is an advantage of using 'Spherical Splines' for interpolation?",
-            options: [
-                "They are the fastest method",
-                "They provide accurate scalp potential estimation with dense electrode mapping",
-                "They do not require any computation",
-                "They work best with only 2 electrodes"
-            ],
-            correct: 1,
-            rationale: "Spherical splines model the head shape and provide accurate estimation of the potential distribution.",
-            citation: "Chapter 8: Advantages of Interpolation Methods"
-        }
-    ];
-
-    let currentScore = 0;
-    let answeredCount = 0;
-
-    function initQuiz() {
-        const quizArea = document.getElementById('quiz-area');
-        quizArea.innerHTML = ""; 
-
-        questions.forEach((q, index) => {
-            const card = document.createElement('div');
-            card.className = 'card';
-            card.id = `card-${index}`;
-
-            let optionsHtml = '';
-            q.options.forEach((opt, optIndex) => {
-                optionsHtml += `<button class="option-btn" onclick="checkAnswer(${index}, ${optIndex}, this)">${opt}</button>`;
-            });
-
-            card.innerHTML = `
-                <div class="question-header">
-                    <span class="topic-tag">${q.topic}</span>
-                    <span style="color:#aaa">#${index + 1}</span>
-                </div>
-                <div class="question-text">${q.question}</div>
-                <div class="options-grid" id="options-${index}">
-                    ${optionsHtml}
-                </div>
-                <div class="feedback" id="feedback-${index}"></div>
-            `;
-            quizArea.appendChild(card);
-        });
-    }
-
-    function checkAnswer(qIndex, optIndex, btn) {
-        const optionsDiv = document.getElementById(`options-${qIndex}`);
-        if (optionsDiv.classList.contains('answered')) return;
-        
-        optionsDiv.classList.add('answered');
-        const buttons = optionsDiv.getElementsByClassName('option-btn');
-        
-        for (let b of buttons) {
-            b.disabled = true;
-        }
-
-        const qData = questions[qIndex];
-        const feedbackDiv = document.getElementById(`feedback-${qIndex}`);
-        
-        answeredCount++;
-        updateProgress();
-
-        if (optIndex === qData.correct) {
-            btn.classList.add('correct');
-            feedbackDiv.classList.add('correct');
-            feedbackDiv.innerHTML = `<strong>Correct!</strong><br>${qData.rationale}<br><span class="citation">${qData.citation}</span>`;
-            currentScore++;
-        } else {
-            btn.classList.add('incorrect');
-            buttons[qData.correct].classList.add('correct'); 
-            feedbackDiv.classList.add('incorrect');
-            feedbackDiv.innerHTML = `<strong>Incorrect.</strong><br>${qData.rationale}<br><span class="citation">${qData.citation}</span>`;
-        }
-        
-        feedbackDiv.style.display = 'block';
-
-        if (answeredCount === questions.length) {
-            showFinalScore();
-        }
-    }
-
-    function updateProgress() {
-        document.getElementById('progress-text').innerText = `Progress: ${answeredCount} / ${questions.length} answered`;
-    }
-
-    function showFinalScore() {
-        document.getElementById('quiz-controls').style.display = 'none';
-        const scoreBoard = document.getElementById('score-board');
-        const scoreCircle = document.getElementById('final-score');
-        const finalText = document.getElementById('final-text');
-        
-        scoreBoard.style.display = 'block';
-        scoreBoard.scrollIntoView({behavior: "smooth"});
-        
-        const percentage = Math.round((currentScore / questions.length) * 100);
-        scoreCircle.innerText = `${percentage}%`;
-        
-        if (percentage >= 80) {
-            finalText.innerText = "Excellent! You understand the principles of Signal Averaging.";
-        } else if (percentage >= 60) {
-            finalText.innerText = "Good job. Review the bad channel detection methods.";
-        } else {
-            finalText.innerText = "Keep studying. Focus on the assumptions and interpolation.";
-        }
-    }
-
-    // Start
-    initQuiz();
-</script>
-
-</body>
-</html>
+            background-color: #95a5a6
