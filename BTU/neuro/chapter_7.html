@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 7: Noise in Neurosignals</title>
+    <style>
+        :root {
+            --primary: #c0392b;
+            --accent: #e74c3c;
+            --success: #27ae60;
+            --error: #8e44ad; /* Changing error color to purple to distinguish */
+            --bg: #fdf2e9;
+            --card-bg: #ffffff;
+            --text: #2c3e50;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid var(--accent);
+        }
+
+        h1 {
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            padding: 30px;
+            margin-bottom: 20px;
+            transition: transform 0.2s;
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .topic-tag {
+            background: #fadbd8;
+            color: var(--primary);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .question-text {
+            font-size: 1.2em;
+            font-weight: 600;
+            margin-bottom: 25px;
+            color: var(--text);
+        }
+
+        .options-grid {
+            display: grid;
+            gap: 12px;
+        }
+
+        .option-btn {
+            padding: 15px 20px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            text-align: left;
+            font-size: 1em;
+            transition: all 0.2s;
+            color: var(--text);
+            position: relative;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            border-color: var(--accent);
+            background-color: #fdedec;
+        }
+
+        .option-btn:disabled {
+            cursor: default;
+        }
+
+        .option-btn.correct {
+            border-color: var(--success);
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .option-btn.incorrect {
+            border-color: var(--error);
+            background-color: #f4ecf7;
+            color: #8e44ad;
+            opacity: 0.7;
+        }
+
+        .feedback {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #f8f9fa;
+            border-left: 5px solid #ccc;
+            display: none;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        .feedback.correct {
+            border-left-color: var(--success);
+            background-color: #e8f5e9;
+        }
+
+        .feedback.incorrect {
+            border-left-color: var(--error);
+            background-color: #f3e5f5;
+        }
+
+        .citation {
+            display: block;
+            margin-top: 8px;
+            font-size: 0.85em;
+            color: #666;
+            font-style: italic;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1em;
+            transition: background 0.2s;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #922b21;
+        }
+
+        .btn-secondary {
+            background-color: #95a5a6;
+            color: white;
+        }
+
+        #score-board {
+            text-align: center;
+            background: var(--primary);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 30px;
+            display: none;
+        }
+
+        .score-circle {
+            width: 120px;
+            height: 120px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5em;
+            font-weight: bold;
+            margin: 20px auto;
+            border: 4px solid #ffffff;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Mobile Optimization */
+        @media (max-width: 600px) {
+            .card { padding: 20px; }
+            .question-text { font-size: 1.1em; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Neurosignal Noise Quiz</h1>
+        <div class="subtitle">Chapter 7: Noise Sources, Types, and SNR</div>
+    </header>
+
+    <div id="quiz-area">
+        <!-- Questions injected via JS -->
+    </div>
+
+    <div id="score-board">
+        <h2>Quiz Complete!</h2>
+        <div class="score-circle" id="final-score">0%</div>
+        <p id="final-text"></p>
+        <button class="btn btn-secondary" onclick="location.reload()">Retake Quiz</button>
+    </div>
+
+    <div class="controls" id="quiz-controls">
+        <div id="progress-text" style="font-weight: bold; color: var(--primary);">Question 1 of 12</div>
+    </div>
+</div>
+
+<script>
+    const questions = [
+        // --- BASIC DEFINITIONS ---
+        {
+            topic: "Ch.7: Noise Basics",
+            question: "In the basic measurement model M_i = x_i + N_i, what does 'N_i' represent?",
+            options: [
+                "The actual biological signal",
+                "The independent additive noise",
+                "The signal amplification factor",
+                "The sampling rate"
+            ],
+            correct: 1,
+            rationale: "N_i represents the additive noise component that is added to the true signal x_i during the measurement process.",
+            citation: "Chapter 7: Eq. (1)"
+        },
+        {
+            topic: "Ch.7: Noise Types",
+            question: "How is 'Dynamical Noise' different from standard additive measurement noise?",
+            options: [
+                "It is always louder than the signal",
+                "It only occurs at 50 Hz",
+                "It is intrinsic to the process and physically influences the state of the system",
+                "It comes from the amplifier"
+            ],
+            correct: 2,
+            rationale: "Dynamical noise (e.g., temperature fluctuations affecting membrane potential) interacts with the biological process itself, rather than just being added on top of the measurement.",
+            citation: "Chapter 7: Noise definition"
+        },
+        // --- NOISE SOURCES ---
+        {
+            topic: "Ch.7: Hum",
+            question: "What is described as 'Enemy #1' in the recording of biopotentials?",
+            options: [
+                "Thermal noise",
+                "Quantization noise",
+                "Hum (50-60 Hz)",
+                "Heartbeat artifacts"
+            ],
+            correct: 2,
+            rationale: "Hum from power lines (50-60 Hz) is a major nonrandom noise source that can spoil recordings.",
+            citation: "Chapter 7: Noise sources"
+        },
+        {
+            topic: "Ch.7: Sources",
+            question: "Which of the following is an example of a 'Man-made' noise source?",
+            options: [
+                "Thermal noise from resistors",
+                "Artifacts from switching instruments",
+                "Spontaneous neural firing",
+                "Brownian motion"
+            ],
+            correct: 1,
+            rationale: "Artifacts from switching instruments or power lines are classified as man-made noise, whereas thermal noise is random/physical.",
+            citation: "Chapter 7: Noise sources"
+        },
+        {
+            topic: "Ch.7: Quantization",
+            question: "Where does 'Quantization Noise' originate?",
+            options: [
+                "In the electrodes",
+                "In the biological tissue",
+                "During the Analog-to-Digital Conversion (ADC) process",
+                "From the power supply"
+            ],
+            correct: 2,
+            rationale: "Quantization noise is the error introduced when mapping a continuous analog signal to discrete digital steps during ADC.",
+            citation: "Chapter 7: Figure 3.5"
+        },
+        // --- SNR ---
+        {
+            topic: "Ch.7: SNR Calculation",
+            question: "According to the slides, how is the Signal-to-Noise Ratio (SNR) in decibels (dB) calculated using Mean Square (ms) values?",
+            options: [
+                "SNR = ms_signal / ms_noise",
+                "SNR = 10 * log10(ms_signal / ms_noise)",
+                "SNR = 20 * log10(ms_signal * ms_noise)",
+                "SNR = ms_signal - ms_noise"
+            ],
+            correct: 1,
+            rationale: "The formula provided is SNR(dB) = 10 * log10(ms_signal / ms_noise).",
+            citation: "Chapter 7: Signal-to-Noise Ratio"
+        },
+        {
+            topic: "Ch.7: SNR Value",
+            question: "If the SNR ratio (without log) is close to 1, what does this indicate?",
+            options: [
+                "The signal is much stronger than the noise",
+                "The noise is much stronger than the signal",
+                "The signal amplitude is comparable to the noise amplitude",
+                "The recording is perfect"
+            ],
+            correct: 2,
+            rationale: "An SNR close to 1 means the signal power is roughly equal to the noise power, often requiring signal processing to extract meaningful data.",
+            citation: "Chapter 7: SNR"
+        },
+        // --- AMPLITUDES ---
+        {
+            topic: "Ch.7: Amplitudes",
+            question: "What is the typical amplitude range for EEG signals?",
+            options: [
+                "1 - 10 Volts",
+                "10^-5 to 10^-4 Volts (10-100 microvolts)",
+                "10^-3 Volts (millivolts)",
+                "10^-1 Volts"
+            ],
+            correct: 1,
+            rationale: "EEG signals are very weak, typically in the range of 10^-5 to 10^-4 V, which makes them susceptible to noise.",
+            citation: "Chapter 7: Figure 3.5"
+        },
+        {
+            topic: "Ch.7: Comparison",
+            question: "How does the amplitude of 'Hum' compare to biopotentials like EEG?",
+            options: [
+                "Hum is always negligible",
+                "Hum amplitude can be comparable to biopotentials",
+                "Hum is only present in ECG, not EEG",
+                "Hum is always 1000x stronger"
+            ],
+            correct: 1,
+            rationale: "The slides note that 'often the amplitude of the noise (hum) is comparable to the amplitude of different types of biopotentials'.",
+            citation: "Chapter 7: Noise sources"
+        },
+        // --- RANDOM NOISE ---
+        {
+            topic: "Ch.7: Random Noise",
+            question: "Which statement best describes 'Random Noise' (e.g., thermal noise)?",
+            options: [
+                "It is perfectly predictable",
+                "It can be removed by a notch filter",
+                "It is intrinsically unpredictable but can be described by statistics",
+                "It only occurs at high temperatures"
+            ],
+            correct: 2,
+            rationale: "Random noise cannot be predicted exactly for any given moment, but its average properties (statistics) are known.",
+            citation: "Chapter 7: Random noise"
+        },
+        {
+            topic: "Ch.7: Measurement Bias",
+            question: "Measuring appetite only after dinner is an example of:",
+            options: [
+                "Random measurement noise",
+                "Systematic bias",
+                "Thermal noise",
+                "Dynamical noise"
+            ],
+            correct: 1,
+            rationale: "This introduces a systematic error (bias) rather than a random fluctuation.",
+            citation: "Chapter 7: Measurement procedure"
+        },
+        {
+            topic: "Ch.7: Signal Processing",
+            question: "Which technique is mentioned as a strategy to increase SNR when noise is random?",
+            options: [
+                "Signal Amplification",
+                "Signal Averaging",
+                "Decreasing sampling rate",
+                "Using smaller electrodes"
+            ],
+            correct: 1,
+            rationale: "Averaging multiple trials reduces random noise (which sums to zero over time) while preserving the time-locked signal.",
+            citation: "Chapter 7: Noise reduction strategies"
+        }
+    ];
+
+    let currentScore = 0;
+    let answeredCount = 0;
+
+    function initQuiz() {
+        const quizArea = document.getElementById('quiz-area');
+        quizArea.innerHTML = ""; 
+
+        questions.forEach((q, index) => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.id = `card-${index}`;
+
+            let optionsHtml = '';
+            q.options.forEach((opt, optIndex) => {
+                optionsHtml += `<button class="option-btn" onclick="checkAnswer(${index}, ${optIndex}, this)">${opt}</button>`;
+            });
+
+            card.innerHTML = `
+                <div class="question-header">
+                    <span class="topic-tag">${q.topic}</span>
+                    <span style="color:#aaa">#${index + 1}</span>
+                </div>
+                <div class="question-text">${q.question}</div>
+                <div class="options-grid" id="options-${index}">
+                    ${optionsHtml}
+                </div>
+                <div class="feedback" id="feedback-${index}"></div>
+            `;
+            quizArea.appendChild(card);
+        });
+    }
+
+    function checkAnswer(qIndex, optIndex, btn) {
+        const optionsDiv = document.getElementById(`options-${qIndex}`);
+        if (optionsDiv.classList.contains('answered')) return;
+        
+        optionsDiv.classList.add('answered');
+        const buttons = optionsDiv.getElementsByClassName('option-btn');
+        
+        for (let b of buttons) {
+            b.disabled = true;
+        }
+
+        const qData = questions[qIndex];
+        const feedbackDiv = document.getElementById(`feedback-${qIndex}`);
+        
+        answeredCount++;
+        updateProgress();
+
+        if (optIndex === qData.correct) {
+            btn.classList.add('correct');
+            feedbackDiv.classList.add('correct');
+            feedbackDiv.innerHTML = `<strong>Correct!</strong><br>${qData.rationale}<br><span class="citation">${qData.citation}</span>`;
+            currentScore++;
+        } else {
+            btn.classList.add('incorrect');
+            buttons[qData.correct].classList.add('correct'); 
+            feedbackDiv.classList.add('incorrect');
+            feedbackDiv.innerHTML = `<strong>Incorrect.</strong><br>${qData.rationale}<br><span class="citation">${qData.citation}</span>`;
+        }
+        
+        feedbackDiv.style.display = 'block';
+
+        if (answeredCount === questions.length) {
+            showFinalScore();
+        }
+    }
+
+    function updateProgress() {
+        document.getElementById('progress-text').innerText = `Progress: ${answeredCount} / ${questions.length} answered`;
+    }
+
+    function showFinalScore() {
+        document.getElementById('quiz-controls').style.display = 'none';
+        const scoreBoard = document.getElementById('score-board');
+        const scoreCircle = document.getElementById('final-score');
+        const finalText = document.getElementById('final-text');
+        
+        scoreBoard.style.display = 'block';
+        scoreBoard.scrollIntoView({behavior: "smooth"});
+        
+        const percentage = Math.round((currentScore / questions.length) * 100);
+        scoreCircle.innerText = `${percentage}%`;
+        
+        if (percentage >= 80) {
+            finalText.innerText = "Excellent! You understand the sources and definitions of noise.";
+        } else if (percentage >= 60) {
+            finalText.innerText = "Good job. Review the difference between additive and dynamical noise.";
+        } else {
+            finalText.innerText = "Keep studying. Focus on the SNR formulas and noise types.";
+        }
+    }
+
+    // Start
+    initQuiz();
+</script>
+
+</body>
+</html>
